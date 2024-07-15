@@ -1,0 +1,67 @@
+---
+title: '分享一下我的blog迁移过程'
+date: '2024-07-15'
+# lastmod: '1900-01-01'
+tags: ['next.js']
+draft: false
+summary: '从 hexo 到 hugo 到现在的 next.js, 作为一名前端开发, 自然还是更习惯 next.js, 想要修改什么东西方便得多了, 选择了一个使用 tailwindss 的模板, 就很舒服.'
+images: []
+layout: PostLayout
+---
+
+### 缘起
+
+某天, 在地铁上打开 V 站看到了这个帖子: [成功将 Hugo 博客迁移到 Next.js,很清爽的一个博客主题](https://cn.v2ex.com/t/1044137). 
+
+本来没觉得有什么, 但是点进去他的博客后, 有一点打动我的是, 访问速度真的很快, 并且试了下关闭🪜后, 打开也很丝滑.
+我之前的博客是用hugo + github pages部署的, 经常就访问速度很慢或者说访问不到, 这是引发我迁移博客的最大原因. 
+其次就是这位兄弟的模版使用了 `next.js+tailwindcss`, 作为一名前端, 不要太熟悉了, 用这套开发模板后续自己魔改肯定体验拉满, 废话不多说, 那么咱就开干!
+
+### 模板
+
+[tailwind-css-starter-blog](https://vercel.com/templates/next.js/tailwind-css-starter-blog). 模板中有详细教程, 就不赘述.
+
+```sh
+# 下载模板
+npx degit 'timlrx/tailwind-nextjs-starter-blog'
+# 安装
+yarn
+# 启动
+yarn start
+```
+
+### 部署
+
+因为我们是使用的是 vercel 提供的 next.js 博客模板, 所以它的部署就异常简单了. 你可以直接点击模板页的 `Deploy` 按钮或者 `README.md` 文件中提供的部署按钮, 然后按照步骤一步一步来即可, 过程简单不再赘述.
+
+部署完成后, vercel 会提供一个域名, 大概长这样 `blog-seven-fawn-22.vercel.app`.
+
+### 配置域名&cloudfare
+
+默认你已经购买了一个域名, 我这里使用的是腾讯云的域名. 更详细的配置过程可参考这篇文章[^1]
+
+#### cloudfare
+
+1. [cloudflare 主页](https://dash.cloudflare.com/). 进入主页后, 点击右侧的 `添加站点` 按钮.
+2. 输入域名, 点击继续
+3. 选择白嫖计划 `Free $0` 😂, 点击继续
+4. **🌟关键点:**, cloudfare 会自动分配 `Cloudflare 名称服务器`, 共有两个, 将用来替换腾讯云的域名解析
+5. 进入[腾讯云域名控制台](https://console.cloud.tencent.com/), 进入需要配置的域名, 点击 `修改DNS服务器`, 然后把第4步产生的 DNS服务器 复制进去即可.
+
+<div className='flex gap-2'>
+    <img src='/static/images/tencent-dns.png'/>
+    <img src='/static/images/tencent-dns-add.png'/>
+</div>
+
+#### 为 Vercel 部署的应用使用自己的域名
+
+打开到模板页, 右上角有一个 `Domains` 按钮, 点击后替换为自己的域名即可.
+
+#### cloudfare 添加域名解析
+
+再回到 cloudfare 的 `DNS->记录` 下, 点击添加记录, 把 `www` 和 `你的域名` 分别添加进去, 剩下的就是等待了, 一般一个小时以内就可以使用你的域名进行流畅地访问了🎉.
+
+![cloudfare cname](/static/images/cloudfare-cname.png)
+
+
+[^1]: [如何在国内访问vercel部署应用?](https://juejin.cn/post/7301193497247727652)
