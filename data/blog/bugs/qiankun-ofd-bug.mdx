@@ -73,4 +73,10 @@ var onGlobalMessage = function(event) {
 
 **纸上得来终觉浅, 绝知此事要躬行.** 说一百遍沙箱, 都不如实实在在的改一次 bug 😂.
 
+额外分享两个打补丁的经验:
+
+- 对于 `Vite`, 打完补丁后重启去要添加 `--force` 命令, 因为 **Vite 预构建**, `node_modules` 下的`.vite` 文件会把加载的依赖做一个缓存.
+- 撤销补丁仅仅删除 `patches` 文件夹是没有用的, 需要 `npx patch-package <pkgName@x>` 再重启.
+{/* - 注意一下 `package.json` 中的入口文件指向main module browser是否是要修改的文件. */}
+
 [^1]: [qiankun 2.x 运行时沙箱源码分析](https://www.cnblogs.com/liyongning/p/15867403.html)
