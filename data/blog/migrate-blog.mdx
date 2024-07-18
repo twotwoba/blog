@@ -36,20 +36,20 @@ yarn start
 
 部署完成后, vercel 会提供一个域名, 大概长这样 `blog-seven-fawn-22.vercel.app`.
 
-### 配置域名&cloudfare
+### 配置域名&cloudflare
 
 默认你已经购买了一个域名, 我这里使用的是腾讯云的域名. 更详细的配置过程可参考这篇文章[^1]
 
-#### cloudfare
+#### cloudflare
 
 1. [cloudflare 主页](https://dash.cloudflare.com/). 进入主页后, 点击右侧的 `添加站点` 按钮.
 2. 输入域名, 点击继续
 3. 选择白嫖计划 `Free $0` 😂, 点击继续
-4. **🌟关键点:**, cloudfare 会自动分配 `Cloudflare 名称服务器`, 共有两个, 将用来替换腾讯云的域名解析
+4. **🌟关键点:**, cloudflare 会自动分配 `Cloudflare 名称服务器`, 共有两个, 将用来替换腾讯云的域名解析
 5. 进入[腾讯云域名控制台](https://console.cloud.tencent.com/), 进入需要配置的域名, 点击 `修改DNS服务器`, 然后把第4步产生的 DNS服务器 复制进去即可.
 
 <div className='flex gap-2 flex-wrap xl:flex-nowrap'>
-    <img src='/static/images/tencent-dns.png'/>
+    <img src='/static/images/tencent-dns.png' className="w-1/2"/>
     <img src='/static/images/tencent-dns-add.png'/>
 </div>
 
@@ -57,11 +57,11 @@ yarn start
 
 打开到模板页, 右上角有一个 `Domains` 按钮, 点击后替换为自己的域名即可.
 
-#### cloudfare 添加域名解析
+#### cloudflare 添加域名解析
 
-再回到 cloudfare 的 `DNS->记录` 下, 点击添加记录, 把 `www` 和 `你的域名` 分别添加进去, 剩下的就是等待了, 一般一个小时以内就可以使用你的域名进行流畅地访问了🎉.
+再回到 cloudflare 的 `DNS->记录` 下, 点击添加记录, 把 `www` 和 `你的域名` 分别添加进去, 剩下的就是等待了, 一般一个小时以内就可以使用你的域名进行流畅地访问了🎉.
 
-![cloudfare cname](/static/images/cloudfare-cname.png)
+![cloudflare cname](/static/images/cloudflare-cname.png)
 
 
 [^1]: [如何在国内访问vercel部署应用?](https://juejin.cn/post/7301193497247727652)
