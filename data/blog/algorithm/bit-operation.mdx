@@ -82,8 +82,8 @@ const C = 1 << 2; // 0b00000100
 
 const ABC = A | B | C; // 0b00000111 增加属性
 const AB = ABC & ~C;   // 0b00000011 删除属性
-(AB & B) === B         // true
-(AB & C) === 0         // true
+(AB & B) === B         // true, 意味着 AB 包含 B
+(AB & C) === 0         // true，意味着 AB 不包含 C
 ```
 
 ### 推荐阅读
