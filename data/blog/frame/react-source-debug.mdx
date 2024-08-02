@@ -136,7 +136,7 @@ pnpm link -g react react-dom
 
 ---
 
-说了这么多，我踩的坑呢🐶？坑在这篇文章 - [全网最优雅的 React 源码调试方式](https://juejin.cn/post/7126501202866470949)，如果是基于 Vite 的项目，是行不通的，直接把编译后的源文件放到项目里，会出现各种报错，
+说了这么多，我踩的坑呢🐶？坑在这篇文章 - [全网最优雅的 React 源码调试方式](https://juejin.cn/post/7126501202866470949)，如果是基于 Vite 的项目，直接把编译后的源文件放到项目里，是行不通的，会出现各种报错，
 我想是因为React编译出来 `cjs` 模块和 `vite` 的预构建产生了这些问题吧。但是这篇文章里关于 sourcemap 如何定位到 vscode 里的源码文件的原理点醒了我，于是才有了我写的这篇文章，还是得感谢各路大佬的分享，瑞思拜👮🏻！
 
 [^1]: `cloneb` 是配置的别名，其他 git 操作参考这篇文章 [Git manual book (自用)](https://www.twotwoba.site/blog/git-manual-book)
