@@ -1,6 +1,6 @@
 ---
 title: 'React 源码（基于 v18.2.0）'
-date: '2024-07-30 19:23:18'
+date: '2024-07-31 18:23:18'
 # lastmod: '1900-01-01'
 tags: ['react']
 draft: true
@@ -19,39 +19,7 @@ layout: PostLayout
 
 - [位运算](https://www.twotwoba.site/blog/algorithm/bit-operation#%E8%BF%9B%E9%98%B6%E6%8A%80%E5%B7%A7)，React 源码中存在大量位运算，建议先看看
 - [优先队列](https://www.twotwoba.site/blog/algorithm/priority-queue)，React 调度算法中使用了小顶堆
-- vscode 读源码推荐插件:
-  - `Bookmarks`，书签，方便多个文件之间跳转
-  - `flow language support`，对 Flow 支持
-- 下载源码并编译 （懒得折腾就直接用俺编译好的文件[百度网盘](https://pan.baidu.com/s/11hFl6ZRRaP0fWRjrsHtsLQ\?pwd\=ttba)）
-    1. `g cloneb v18.2.0 https://github.com/facebook/react.git`[^1]
-    2.  在安装依赖时大概率会碰到以下问题🐶：
-        - `gifsicle: Command failed`
-        ```sh
-        # React 的依赖包中依赖了 autoconf 这个包，先使用 homebrew 安装（macos）
-        brew install autoconf automake libtool
-        ```
-        - `electron: Command failed.`
-            ```sh
-            # 需要设置镜像源，注意淘宝的镜像已经过时了，我也没找到最新的，华为的好用
-            yarn config set electron_mirror https://mirrors.huaweicloud.com/electron/
-            ```
-        - 然后需要修改一下打包的配置 `/scripts/rollup/build.js`，防止报错：
-            ```ts
-            // sourcemap 改为 true，方便看源码映射
-            sourcemap: true
-            // 由于 sourcemap 改为了 true，需要把几个插件注释掉，否则会报错
-            // 1. transform 移除文件的 use strict 
-            // 2. closure 生产环境压缩代码
-            // 3. prettier 格式化美化
-            // 4. renderChunk 头部代码 license 之类
-            // 5. stripUnusedImports 出去无用 import
-            ```
-    3. `yarn build --type=NODE`，开始编异，注意加上 `--type=NODE` 而不是 UMD。
-    4. 把打包几个关键文件应用到项目[^2]中
-       - react.development.js、react.development.js.map
-       - react-dom.development.js、react-dom.development.js.map
-       - react-reconciler.development.js、react-reconciler.development.js.map
-       - scheduler.development.js、scheduler.development.js.map
+- [React 调试源码技巧](https://www.twotwoba.site/blog/frame/react-source-debug)
 
 ---
 
@@ -61,5 +29,3 @@ layout: PostLayout
 - [React 技术揭秘](https://react.iamkasong.com/)
 - [图解 React](https://7km.top/)
 
-[^1]: `cloneb` 是配置的别名，其他 git 操作参考这篇文章 [Git manual book (自用)](https://www.twotwoba.site/blog/git-manual-book)
-[^2]: 在这里我使用了自己开发的脚手架和模板 [@twotwoba/mk-app-cli](https://github.com/twotwoba/mk-app-cli)

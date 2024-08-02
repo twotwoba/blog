@@ -1,0 +1,143 @@
+---
+title: 'React 源码调试技巧'
+date: '2024-07-30 19:23:18'
+# lastmod: '1900-01-01'
+tags: ['react','vite']
+draft: false
+summary: "可能是最简单最优雅的基于 Vite 的 React 调试源码技巧了，保姆级教程不看看？👻"
+images: []
+layout: PostLayout
+---
+
+为什么写这篇文章，因为我不想用基于 `cra` 创建的项目而是基于 `vite` 创建的项目去调试 React 源码，网上没搜到这种组合的，自己开干，结果就踩坑了，因此记录一下踩坑记录，希望能帮助到你😄。
+
+## 下载源码
+
+目标是 `React v18.2.0` 版本，直接下载对应的 tag 即可。[^1]
+
+```sh
+g cloneb v18.2.0 https://github.com/facebook/react.git
+```
+
+## 安装依赖
+
+在安装依赖时大概率会碰到以下问题🐞：
+
+ - `gifsicle: Command failed`，因为 React 的依赖包中依赖了 `autoconf` 这个包，先使用 `homebrew` 安装（macos,win我就不清楚了）
+    ```sh
+    brew install autoconf automake libtool
+    ```
+- `electron: Command failed`，electron 镜像源问题，需要设置一个可用的镜像源，网上搜到的淘宝的镜像已经过时了(我也没找到最新的)，发现了华为的好用
+    ```sh
+    yarn config set electron_mirror https://mirrors.huaweicloud.com/electron/
+    ```
+
+## 编译准备
+
+需要修改一下打包的配置 `react/scripts/rollup/build.js/getRollupOutputOptions`，一是开启 `sourcemap` 便于追踪源码，二是注销几个插件防止编译报错：
+
+```ts
+// 核心：源码映射
+sourcemap: true
+// 以下把几个插件注释掉，否则编译会报错
+// 1. transform 移除文件的 use strict 
+// 2. closure 生产环境压缩代码
+// 3. prettier 格式化美化
+// 4. renderChunk 头部代码 license 之类
+// 5. stripUnusedImports 去除无用 import
+```
+
+## 开始编译
+
+```sh
+yarn build --type=NODE
+# 当然你也可以选择只编译这几个部分
+yarn build react/index,react/jsx,react-dom/index,scheduler --type=NODE
+```
+
+编译完成后，创建全局软链，等着给后面项目中引用，分别进入 `build/react` 和 `build/react-dom` 下：
+```sh
+pnpm link -g
+# 查看 pnpm 全局创建的软链
+pnpm list -g --depth 0
+```
+
+## 关联项目
+
+项目我是使用的 `@twotwoba/mk-app-cli`[^2] 创建的，使用 `pnpm link` 的方式把编译后的 `react` 和 `react-dom` 引入项目之前，先修改一下项目的配置：
+- `package.json`
+    ```diff
+    {
+        "dependencies": {
+    -    "react": "^18.2.0",
+    -    "react-dom": "^18.2.0",
+        }
+    }
+    ```
+
+- `vite.config.ts`
+    ```diff
+    build: {
+        rollupOptions: {
+    +       external: ['react', 'react-dom']
+            output: {
+    +            globals: {
+    +                react: 'React',
+    +                'react-dom': 'ReactDOM'
+    +            }
+            }
+        }
+    }
+    ```
+
+接着给项目安装完依赖后，再用 pnpm 引用全局的软链：
+```sh
+pnpm i
+pnpm link -g react react-dom
+```
+
+## 启动 debug 模式
+
+详细的见 [vscode 官网调试](https://code.visualstudio.com/docs/editor/debugging)，不多赘述。
+
+1. 先启动项目 `pnpm run dev`
+2. 进入 vscode 的调试面板，创建 `launch.json`, 如下：
+    ```json
+    {
+        "type": "chrome",
+        "request": "launch",
+        "name": "调试 React 源码",
+        "url": "http://localhost:7788", // 端口根据项目自行配置
+        "webRoot": "${workspaceFolder}"
+    }
+    ```
+    配置完成后，`F5` 或者点击开始按钮，进入调试模式，然后就可以自由地在 vscode 里打断点，根据调用栈追踪源码了😄。
+
+## 锦上添花
+
+实际上做到以上步骤，就已经可以可以在 vscode 内畅快地调试 React 源码了，但是有两个不足：
+1. 通过调用栈定位到的源码文件并不是我们 clone 下来的 React 源文件
+2. 不能在定位到的源码里通过 `Bookmarks` 插件打书签🔖
+
+为了解决这两个问题，需要对上述步骤略加修改。
+
+- 把 clone 的`React 源码`和`用来调试的项目`放到同一个文件夹下，这样做的目的是让它们处于同一个 `workspace`
+- 在这个目录下，创建新的 `launch.json`，修改如下
+   ```diff
+   {
+   -     "webRoot": "${workspaceFolder}"
+   +     "webRoot": "${workspaceFolder}/YourProject"
+   }
+   ```
+
+最后让我们再启动项目，打开调试模式看看，不出意外的话，此时点击调用栈后就可以直接定位到 React 的源码文件了，大功告成🎉
+
+> 原理也很简单：只要 sourcemap 生效，并且 map 到的文件是在当前 workspace 下，vscode 就会打开对应的文件
+
+---
+
+说了这么多，我踩的坑呢🐶？坑在这篇文章 - [全网最优雅的 React 源码调试方式](https://juejin.cn/post/7126501202866470949)，如果是基于 Vite 的项目，是行不通的，直接把编译后的源文件放到项目里，会出现各种报错，
+我想是因为React编译出来 `cjs` 模块和 `vite` 的预构建产生了这些问题吧。但是这篇文章里关于 sourcemap 如何定位到 vscode 里的源码文件的原理点醒了我，于是才有了我写的这篇文章，还是得感谢各路大佬的分享，瑞思拜👮🏻！
+
+[^1]: `cloneb` 是配置的别名，其他 git 操作参考这篇文章 [Git manual book (自用)](https://www.twotwoba.site/blog/git-manual-book)
+[^2]: 一个可以简单快速生成基于 `vite、react、ts、tailwindcss、zustand` 的脚手架：[@twotwoba/mk-app-cli](https://github.com/twotwoba/mk-app-cli)
