@@ -26,7 +26,7 @@ pnpm create vite my-vue-app --template react-ts
 
 - 配置 `preset.css`, 最简单的 css 预设
 - 配置 `prettier` 和 `eslint`, 规范代码提交
-- 配置 `tailwindcss`, 修改 `.vscode/settings.json/tailwindCSS.experimental.classRegex`, 使得在变量中也能给出 `tailwindcss` 提示
+- 配置 `tailwindcss`, 在`settings.json`中添加 `tailwindCSS.experimental.classRegex`, 使得在变量中也能给出 `tailwindcss` 提示
 - 配置 `zustand`, 进行状态管理, 内置了 loading 处理 store 和函数(启发于 Rematch 的 loading 插件).
     ```ts
     import till from '@/utils' // 把 await-to-js 搬运到项目中了, 因为我觉得 till 与这个方法的作用更匹配
