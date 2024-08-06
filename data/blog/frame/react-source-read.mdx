@@ -21,7 +21,37 @@ layout: PostLayout
 - [优先队列](https://www.twotwoba.site/blog/algorithm/priority-queue)，React 调度算法中使用了小顶堆
 - [React 调试源码技巧](https://www.twotwoba.site/blog/frame/react-source-debug)，亲自调试，才能印象深刻哦
 
+## 宏观基础概念
+
+四个关键包：
+- `react`，对外暴露 API，只提供定义 react 组件的必要函数，如 `ReactElement`
+- `react-dom`，渲染器，承担`启动 react 渲染流程`和`把 reconciler 构造出来的 fiber 树表现出来的`作用（生成 dom 节点(浏览器中), 生成字符串(ssr)）
+- `react-reconciler`，综合协调另外三个包
+    - 接收 `react-dom` （初次 render） 和 `react` （后续 setState） 引起的更新
+    - 把构造 fiber 树的过程包装在一个回调函数中，并将此回调函数传入 `scheduler` 等待调度。回调函数：`performSyncWorkOnRoot/performConcurrentWorkOnRoot`
+- `scheduler`，顾名思义这个包起到了调度的作用，控制着从 `reconciler` 传入的回调函数的执行时机，`concurrent` 模式下可以实现任务分片
+
 ---
+
+## 启动过程
+
+![createRoot](/static/images/react/ReactDomRoot.png)
+
+上图是一个 React 项目启动的基本流程，通过调试源码，理解起来相对较容易。
+
+- `createRoot`，主要使命创建了 `FiberRoot` 和 `HostFiberRoot`，两者的连接见图
+    - `FiberRoot` 主要存储了构建 `Fiber` 过程中的全局状态
+    - `HostRootFiber` 是第一个 `Fiber` 节点，`markContainerAsRoot` 将它和 `container` 关联起来了
+- `render`，是 `ReactDOMRoot` 对象原型上的方法，内部调用了 `updateContainer` 进入 `reconciler` 流程
+
+
+目前，我们清楚的知道 `react-dom` 包作为**渲染器**初始启动的大体流程。
+
+## 协调过程
+
+`scheduler`
+
+## 调度过程
 
 ## 推荐博文
 
