@@ -13,63 +13,64 @@ JavaScript 中没有内置优先队列这个数据结构，需要自己来实现
 
 ```javascript
 class PriorityQueue {
-    constructor(data, cmp) {
-        this.data = data
-        this.cmp = cmp
-        for (let i = data.length >> 1; i >= 0; --i) {
-            this.down(i)
-        }
-    }
-    down(i) {
-        let left = 2 * i + 1
-        while (left < this.data.length) {
-            let temp
-            if (left + 1) {
-                temp = this.cmp(this.data[left + 1], this.data[i]) ? left + 1 : i
-            }
-            temp = this.cmp(this.data[temp], this.data[left]) ? temp : left
-            if (temp === i) {
-                break
-            }
-            this.swap(this.data, temp, i)
-            i = temp
-            left = 2 * i + 1
-        }
+    constructor(data = [], compare) {
+        this.queue = data
+        this.compare = compare
+        for (let i = this.queue.length >> 1; i >= 0; --i) this.down(i)
     }
     up(i) {
-        while (i >= 0) {
+        while (i > 0) {
             const parent = (i - 1) >> 1
-            if (this.cmp(this.data[i], this.data[parent])) {
-                this.swap(this.data, parent, i)
+            if (this.compare(this.queue[parent], this.queue[i])) {
+                this.swap(i, parent)
                 i = parent
             } else {
                 break
             }
         }
     }
-    push(val) {
-        this.up(this.data.push(val) - 1)
+    down(i) {
+        while (i < this.size() >> 1) {
+            let leftIndex = 2 * i + 1
+            let rightIndex = leftIndex + 1
+
+            let temp = i
+            if (this.compare(this.queue[temp], this.queue[leftIndex])) {
+                temp = leftIndex
+            }
+            if (this.compare(this.queue[temp], this.queue[rightIndex])) {
+                temp = rightIndex
+            }
+            if (i !== temp) {
+                this.swap(i, temp)
+                i = temp
+            } else {
+                break
+            }
+        }
     }
-    poll() {
-        this.swap(this.data, 0, this.data.length - 1)
-        const top = this.data.pop()
+    peek() {
+        return this.queue[0]
+    }
+    push(val) {
+        this.up(this.queue.push(val) - 1)
+    }
+    pop() {
+        this.swap(0, this.size() - 1)
+        const top = this.queue.pop()
         this.down(0)
         return top
     }
-
-    swap(data, i, j) {
-        const temp = data[i]
-        data[i] = data[j]
-        data[j] = temp
+    size() {
+        return this.queue.length
+    }
+    swap(i, j) {
+        const temp = this.queue[i]
+        this.queue[i] = this.queue[j]
+        this.queue[j] = temp
     }
 }
 ```
-
-{/* <!--
-之前的版本 过于精炼，今天重新写个语义比较简单的
-自己重新写的时候，差点就写成递归版本了，请记住，迭代一版是要使用 while 的，通过 while 条件来控制循环
-第二点就是 比较器内，down i 在后，那么 up 里 i 就在前，一般互斥
---> */}
 
 测试：
 
