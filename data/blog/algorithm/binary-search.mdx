@@ -97,7 +97,8 @@ var search = function (nums, target) {
         } else {
             // 右半边有序的情况
             /**
-             * 这里需要格外注意!!!，因为右边界是开区间，所以比较的是 nums[r - 1]
+             * 这里需要格外注意!!!，因为右边界是开区间，所以比较的应是 < nums[r],
+             * 但是 nums[r] 存在越界，所以是 <= nums[r-1]
              */
             if (nums[mid] < target && target <= nums[r - 1]) {
                 l = mid + 1

@@ -41,11 +41,11 @@ g cg alias.pl pull
 g cg alias.plo 'pull origin'
 
 # 当最新 commit 还未推到远程仓库前的三种常用操作:
-# 1. 修改这个 commit message
+# 1. 修改本次 commit message
 g cg alias.cam 'commit --amend -m'
-# 2. 在这个 commit 上新增变动
+# 2. 在本次 commit 上新增变动
 g cg alias.can 'commit --amend --no-edit'
-# 3. 这个 commit 有些许问题, 放弃回退到 staged
+# 3. 本次 commit 有些许问题, 放弃提交并将修改回退到 staged
 g cg alias.back 'reset --soft HEAD^'
 
 # 分支管理 (多一嘴,对于新手需要认知到的是: 分支名只是一个特殊的commit指针而已, tag 也一样❕)
@@ -53,7 +53,7 @@ g cg alias.cb 'checkout -b'           # 增
 g cg alias.db 'branch -d'             # 删 本地
 g cg alias.fdb 'branch -D'            # 删 本地(强制)
 g cg alias.drb 'push origin --delete' # 删 远程
-g cg alias.rename 'branch --move'     # 改
+g cg alias.move 'branch --move'       # 改
 g cg alias.br branch                  # 查
 # ⭐️ checkout 作用就是带着 HEAD 指针到处跑~（g ck - 快速切至上一个分支，同理 g merge -）
 g cg alias.ck checkout
