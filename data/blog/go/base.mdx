@@ -1,0 +1,52 @@
+---
+title: 'Go base'
+date: '2024-07-30 19:23:18'
+# lastmod: '1900-01-01'
+tags: ['go']
+draft: true
+summary: 'go基础知识'
+images: []
+layout: PostLayout
+---
+
+> [菜鸟教程 go](https://www.runoob.com/go/go-program-structure.html)
+
+## 基础必知必会
+
+1. 源文件必须有 `package` 声明，指定当前源文件所属的包。`package main` 表示可独立执行程序，`main` 包必须有 `main` 函数，第一个执行。
+2. 数据类型
+   - 布尔型 bool
+   - 字符串 string
+   - 数字型- 整型 int、uint、uintptr - 浮点型 float32、float64、 complex64、complex128 等~
+   - 派生类型
+     - 数组 array
+     - 切片 slice
+     - 字典 map
+     - 通道 channel
+     - 指针 pointer
+     - 函数 function
+     - 接口 interface
+     - 结构体 struct
+       > 布尔字符串数字类型是基本类型，也就是值类型，派生类型都是引用类型。需要注意，局部变量的值类型在函数作用域之外使用时，会被分配到堆内存中。
+3. 变/常量声明
+   - `var` 声明变量，`var a int = 10`。`*变量` 表示指针类型, `&变量` 获取变量的指针，。
+     ```go
+     // 这种因式分解关键字的写法一般用于声明全局变量
+     var (
+        a int
+        b bool
+     )
+     ```
+   - := 简化声明变量，`a,b := 10, 'hello'` （可以自动推断类型，只能在函数中使用）
+   - `const` 声明常量，`go 的常量只能是基本类型`
+     ```go
+     // 常量表达式中只能使用内置函数！
+     const (
+        a = "abc"
+        b = len(a)
+        c = unsafe.Sizeof(a)
+     )
+     ```
+4. 运算符
+   - `&`，&a，取变量 a 的物理地址
+   - `*`，*a，取地址 a 所指的变量的值
