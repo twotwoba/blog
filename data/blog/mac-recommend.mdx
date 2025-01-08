@@ -90,6 +90,7 @@ DISABLE_AUTO_TITLE="true"
 - Port Manager, 管理端口进程
 - Antd, 方便直接搜索 antd 的组件
 - change case, 快捷切换蛇形、驼峰等命名
+- json2ts, 自动转换 json 对象到 typescript 类型
 
 ### Karabiner Elements [官网下载](https://karabiner-elements.pqrs.org/)
 
@@ -120,6 +121,21 @@ DISABLE_AUTO_TITLE="true"
 ```sh
 brew tap homebrew/cask-fonts
 brew install --cask font-fira-code
+```
+
+## tldr 命令提示工具
+
+这个还是挺好用的，因为经常会忘记某个命令的用法，可以用 `tldr` 来快速查看。
+
+```sh
+# mac 安装
+brew install tlrc
+
+# vim ~/.zshrc, 我习惯把 tldr 改为 how，方便使用
+export TLDR_LANGUAGE="ZH"
+export TLDR_CACHE_ENABLE=1
+
+alias how=tldr
 ```
 
 ## vim 配置
