@@ -13,6 +13,33 @@ layout: PostLayout
 
 _说明: 全是个人的使用习惯, 不一定适合每个人, 如你有更好的提效工具或技巧, 欢迎留言 👏🏻_
 
+## 必改设置
+
+1. 键盘，设置成和hhkb一样，cap 键位改成 ctrl，这样用起来顺手点，不用把小拇指歪过去。
+2. 触摸板，三指拖移，让你的触摸板比鼠标更好用
+3. vim 配置
+
+个人习惯了 mac 快捷键 `ctrl + f/b/a/e/n/p`, `vim` 在插入模式下, 鼠标光标的控制`hjkl`不适合我, 好在可以修改配置解决：
+
+```sh
+# vim ~/.vimrc
+syntax on      "语法高亮"
+set number     "显示行号"
+set cursorline "高亮光标所在行"
+set autoindent "回车缩进跟随上一行"
+set showmatch  "高亮显示匹配的括号([{和}])"
+
+"配置插入模式快捷键"
+inoremap <C-f> <Right>
+inoremap <C-b> <Left>
+inoremap <C-a> <Home>
+inoremap <C-e> <End>
+inoremap <C-k> <Up>
+inoremap <C-l> <Down>
+inoremap <C-q> <PageUp>
+inoremap <C-z> <PageDown>
+```
+
 ## 软件推荐
 
 ### Homebrew [官网地址](https://brew.sh/)
@@ -91,12 +118,16 @@ DISABLE_AUTO_TITLE="true"
 - Antd, 方便直接搜索 antd 的组件
 - change case, 快捷切换蛇形、驼峰等命名
 - json2ts, 自动转换 json 对象到 typescript 类型
+- ollama，如果你本地部署了大模型的话，可以直接调用（俺的m1只能带得动1.5b的模型😭）
 
 ### Karabiner Elements [官网下载](https://karabiner-elements.pqrs.org/)
 
-用这个软件我是为了使用 F19 键,来丰富我的快捷键操作, 真的大爱💘
+用这个软件我是为了使用 F19 键,来丰富我的快捷键操作, 真的大爱💘，另外因为很多语言比如 go 的字符串使用的是双引号，我不想每次都 `shift+'` 去更改，所以也通过 KE 找到了一个规则可以实现这个功能。
 
-点击 [Change right_command to F19](https://ke-complex-modifications.pqrs.org/?q=F19)。进入页面后, 直接 `import`, 然后到 `Karabiner Elements` 的 `complex modifications` 内添加规则即可。
+1. 点击 [Change right_command to F19](https://ke-complex-modifications.pqrs.org/?q=F19)。
+2. 点击 [Exchange single and double quote](https://ke-complex-modifications.pqrs.org/?q=quote)。
+
+进入上述两个对应的规则页面后, 直接 `import`, 然后到 `Karabiner Elements` 的 `complex modifications` 内添加规则即可。
 
 不得不说体验真的完美啊~~~ 🥳
 
@@ -140,7 +171,7 @@ alias how=tldr
 
 ## bat & fd
 
-另外两个比较好用的 shell 小工具, bat 替代 cat，查看会有样式语法高亮，fd 快速搜索文件。
+另外两个比较好用的 shell 小工具, bat 替代 cat，查看会有样式语法高亮，fd 快速高性能地搜索文件，比 find 好用多了。
 
 ```sh
 # https://github.com/sharkdp/bat
@@ -148,29 +179,6 @@ brew install bat
 
 # https://github.com/sharkdp/fd
 brew install fd
-```
-
-## vim 配置
-
-个人习惯了 mac 快捷键 `ctrl + f/b/a/e/n/p`, `vim` 在插入模式下, 鼠标光标的控制`hjkl`不适合我, 好在可以修改配置解决：
-
-```sh
-# vim ~/.vimrc
-syntax on      "语法高亮"
-set number     "显示行号"
-set cursorline "高亮光标所在行"
-set autoindent "回车缩进跟随上一行"
-set showmatch  "高亮显示匹配的括号([{和}])"
-
-"配置插入模式快捷键"
-inoremap <C-f> <Right>
-inoremap <C-b> <Left>
-inoremap <C-a> <Home>
-inoremap <C-e> <End>
-inoremap <C-k> <Up>
-inoremap <C-l> <Down>
-inoremap <C-q> <PageUp>
-inoremap <C-z> <PageDown>
 ```
 
 ## 前端开发环境配置
