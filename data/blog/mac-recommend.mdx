@@ -126,10 +126,120 @@ DISABLE_AUTO_TITLE="true"
 
 我用的主要是这几个:
 
-- 右 `command -> F19`，来丰富我的快捷键操作，真的大爱💘
+- 右 `command -> F19`，来丰富我的快捷键操作，配合raycast改键很香，真的大爱💘
+- 左 `shift -> right_option + space`，用来切换输入法，注意需要同步修改mac切换输入法的快捷键，因为默认的 `ctrl+space` 是不少编辑器的提示快捷键
 - 交换单双引号的输入方式，因为双引号使用的更加频繁，js还好，尤其是 go 语言、json 之类的
-- 左 `shift -> cmd + space`，用来切换输入法
 
+```json
+{
+    "description": "F19, right_command key to command+control+option+shift.",
+    "manipulators": [
+        {
+            "from": {
+                "key_code": "right_command",
+                "modifiers": {
+                    "optional": [
+                        "any"
+                    ]
+                }
+            },
+            "to": [
+                {
+                    "key_code": "left_shift",
+                    "modifiers": [
+                        "left_command",
+                        "left_control",
+                        "left_option"
+                    ]
+                }
+            ],
+            "to_if_alone": [
+                {
+                    "key_code": "f19"
+                }
+            ],
+            "type": "basic"
+        }
+    ]
+}
+```
+```json
+{
+    "description": "left Shift to Cmd+Space if alone",
+    "manipulators": [
+        {
+            "from": {
+                "key_code": "left_shift",
+                "modifiers": {
+                    "optional": [
+                        "any"
+                    ]
+                }
+            },
+            "to": [
+                {
+                    "key_code": "left_shift",
+                    "lazy": true
+                }
+            ],
+            "to_if_alone": [
+                {
+                    "key_code": "spacebar",
+                    "modifiers": [
+                        "right_option"
+                    ]
+                }
+            ],
+            "type": "basic"
+        }
+    ]
+}
+```
+```json
+{
+    "description": "Exchange single and double quote",
+    "manipulators": [
+        {
+            "from": {
+                "key_code": "quote",
+                "modifiers": {
+                    "optional": [
+                        "caps_lock"
+                    ]
+                }
+            },
+            "to": [
+                {
+                    "key_code": "quote",
+                    "modifiers": [
+                        "left_shift"
+                    ]
+                }
+            ],
+            "type": "basic"
+        },
+        {
+            "from": {
+                "key_code": "quote",
+                "modifiers": {
+                    "mandatory": [
+                        "shift"
+                    ],
+                    "optional": [
+                        "caps_lock"
+                    ]
+                }
+            },
+            "to": [
+                {
+                    "key_code": "quote"
+                }
+            ],
+            "type": "basic"
+        }
+    ]
+}
+```
 不得不说体验真的完美啊~~~ 🥳
 
 ### 其他软件
