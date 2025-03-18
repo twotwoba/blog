@@ -112,114 +112,99 @@ DISABLE_AUTO_TITLE="true"
 
 ```json
 {
-    "description": "F19, right_command key to command+control+option+shift.",
-    "manipulators": [
-        {
-            "from": {
-                "key_code": "right_command",
-                "modifiers": {
-                    "optional": [
-                        "any"
-                    ]
-                }
-            },
-            "to": [
-                {
-                    "key_code": "left_shift",
-                    "modifiers": [
-                        "left_command",
-                        "left_control",
-                        "left_option"
-                    ]
-                }
-            ],
-            "to_if_alone": [
-                {
-                    "key_code": "f19"
-                }
-            ],
-            "type": "basic"
+  "description": "F19, right_command key to command+control+option+shift.",
+  "manipulators": [
+    {
+      "from": {
+        "key_code": "right_command",
+        "modifiers": {
+          "optional": ["any"]
         }
-    ]
+      },
+      "to": [
+        {
+          "key_code": "left_shift",
+          "modifiers": ["left_command", "left_control", "left_option"]
+        }
+      ],
+      "to_if_alone": [
+        {
+          "key_code": "f19"
+        }
+      ],
+      "type": "basic"
+    }
+  ]
 }
 ```
+
 ```json
 {
-    "description": "left Shift to Cmd+Space if alone",
-    "manipulators": [
-        {
-            "from": {
-                "key_code": "left_shift",
-                "modifiers": {
-                    "optional": [
-                        "any"
-                    ]
-                }
-            },
-            "to": [
-                {
-                    "key_code": "left_shift",
-                    "lazy": true
-                }
-            ],
-            "to_if_alone": [
-                {
-                    "key_code": "spacebar",
-                    "modifiers": [
-                        "right_option"
-                    ]
-                }
-            ],
-            "type": "basic"
+  "description": "left Shift to Cmd+Space if alone",
+  "manipulators": [
+    {
+      "from": {
+        "key_code": "left_shift",
+        "modifiers": {
+          "optional": ["any"]
         }
-    ]
+      },
+      "to": [
+        {
+          "key_code": "left_shift",
+          "lazy": true
+        }
+      ],
+      "to_if_alone": [
+        {
+          "key_code": "spacebar",
+          "modifiers": ["right_option"]
+        }
+      ],
+      "type": "basic"
+    }
+  ]
 }
 ```
+
 ```json
 {
-    "description": "Exchange single and double quote",
-    "manipulators": [
-        {
-            "from": {
-                "key_code": "quote",
-                "modifiers": {
-                    "optional": [
-                        "caps_lock"
-                    ]
-                }
-            },
-            "to": [
-                {
-                    "key_code": "quote",
-                    "modifiers": [
-                        "left_shift"
-                    ]
-                }
-            ],
-            "type": "basic"
-        },
-        {
-            "from": {
-                "key_code": "quote",
-                "modifiers": {
-                    "mandatory": [
-                        "shift"
-                    ],
-                    "optional": [
-                        "caps_lock"
-                    ]
-                }
-            },
-            "to": [
-                {
-                    "key_code": "quote"
-                }
-            ],
-            "type": "basic"
+  "description": "Exchange single and double quote",
+  "manipulators": [
+    {
+      "from": {
+        "key_code": "quote",
+        "modifiers": {
+          "optional": ["caps_lock"]
         }
-    ]
+      },
+      "to": [
+        {
+          "key_code": "quote",
+          "modifiers": ["left_shift"]
+        }
+      ],
+      "type": "basic"
+    },
+    {
+      "from": {
+        "key_code": "quote",
+        "modifiers": {
+          "mandatory": ["shift"],
+          "optional": ["caps_lock"]
+        }
+      },
+      "to": [
+        {
+          "key_code": "quote"
+        }
+      ],
+      "type": "basic"
+    }
+  ]
 }
 ```
+
 不得不说体验真的完美啊~~~ 🥳
 
 ### 其他软件
@@ -239,7 +224,11 @@ DISABLE_AUTO_TITLE="true"
 
 ## 字体
 
-强迫症, 个人目前最喜欢的字体是 `inconsolata`, 可以保证两个英文和一个汉字对齐.  
+> update: 2025-03-17
+>
+> 发现一个更好看的mono连体字体 `Maple mono`, 推荐给大家, https://font.subf.dev/zh-cn/
+
+强迫症, 个人目前最喜欢的字体是 `inconsolata`, 可以保证两个英文和一个汉字对齐.
 [点击下载 inconsolata](https://fonts.google.com/specimen/Inconsolata), 拖进 mac 的 Font Book 即可.
 
 喜欢连体字的可以使用比较热门的 `Fira Code`, [下载安装 github](https://github.com/tonsky/FiraCode) 或:
