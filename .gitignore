@@ -4,10 +4,6 @@
 /node_modules
 /.pnp
 .pnp.js
-/.yarn/*
-!/.yarn/releases
-!/.yarn/plugins
-!/.yarn/sdks
 
 # testing
 /coverage
@@ -15,18 +11,19 @@
 # next.js
 /.next/
 /out/
-public/sitemap.xml
 .vercel
 
 # production
 /build
 *.xml
 
+
+
 # rss feed
 /public/feed.xml
-
 # search
 /public/search.json
+public/sitemap.xml
 
 # misc
 .DS_Store

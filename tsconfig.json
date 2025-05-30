@@ -19,8 +19,7 @@
         "paths": {
             "@/components/*": ["components/*"],
             "@/data/*": ["data/*"],
-            "@/layouts/*": ["layouts/*"],
-            "@/css/*": ["css/*"],
+            "@/layouts/*": ["app/layouts/*"],
             "contentlayer/generated": ["./.contentlayer/generated"]
         },
         "plugins": [
@@ -41,5 +40,5 @@
         ".contentlayer/generated/**/*.json",
         ".next/types/**/*.ts"
     ],
-    "exclude": ["node_modules"]
+    "exclude": ["dist", "node_modules", "public"]
 }

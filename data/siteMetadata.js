@@ -2,13 +2,13 @@
 const siteMetadata = {
     title: '二二八',
     author: 'EricYuan',
-    headerTitle: 'EricYuan',
+    headerTitle: '',
     description: '',
     language: 'en-us',
     theme: 'system',
     siteUrl: 'https://www.twotwoba.site',
-    siteRepo: 'https://github.com/twotwoba/blog', // TODO
-    siteLogo: '/static/images/logo.png',
+    siteRepo: 'https://github.com/twotwoba/blog',
+    siteLogo: '/static/images/logo.svg',
     // socialBanner: '/static/images/cloudflare-cname.png',
     // mastodon: 'https://mastodon.social/@mastodonuser',
     email: 'ericyuanovo@gmail.com',

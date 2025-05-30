@@ -11,5 +11,6 @@
     "tailwindCSS.experimental.classRegex": [
         ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"], // clsx('xxx')
         ["\\/\\* tw \\*\\/\\s+`([^`]*)"] // /* tw */ `xxx`
-    ]
+    ],
+    "css.lint.unknownAtRules": "ignore"
 }
