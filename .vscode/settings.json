@@ -1,4 +1,15 @@
 {
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+    "editor.tabSize": 4,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit",
+        "source.fixAll.stylelint": "explicit"
+    },
+    "tailwindCSS.experimental.classRegex": [
+        ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"], // clsx('xxx')
+        ["\\/\\* tw \\*\\/\\s+`([^`]*)"] // /* tw */ `xxx`
+    ]
 }

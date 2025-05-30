@@ -91,20 +91,19 @@ DISABLE_AUTO_TITLE="true"
 
 插件推荐（直接 store 里搜即可）：
 
-- Visual Studio Code, 快速打开访问过的项目
-- Easy Dictionary, 目前用过最好用的翻译了(可以看见音标)
-- View 2FA Codes, 快捷填入验证码
-- IP-Geolocation, 查询 IP
-- Github, 都懂
-- Port Manager, 管理端口进程
-- change case, 快捷切换蛇形、驼峰等命名
-- json2ts, 自动转换 json 对象到 typescript 类型
-- ollama, 如果你本地部署了大模型的话, 可以直接调用（俺的m1只能带得动1.5b的模型😭）
-- color pick, 取色
-- brew
-- base64, encode/decode
-- search packages, 查找 go 包
-
+-   Visual Studio Code, 快速打开访问过的项目
+-   Easy Dictionary, 目前用过最好用的翻译了(可以看见音标)
+-   View 2FA Codes, 快捷填入验证码
+-   IP-Geolocation, 查询 IP
+-   Github, 都懂
+-   Port Manager, 管理端口进程
+-   change case, 快捷切换蛇形、驼峰等命名
+-   json2ts, 自动转换 json 对象到 typescript 类型
+-   ollama, 如果你本地部署了大模型的话, 可以直接调用（俺的m1只能带得动1.5b的模型😭）
+-   color pick, 取色
+-   brew
+-   base64, encode/decode
+-   search packages, 查找 go 包
 
 ### Karabiner Elements [官网下载](https://karabiner-elements.pqrs.org/)
 
@@ -112,102 +111,102 @@ DISABLE_AUTO_TITLE="true"
 
 我用的主要是这几个:
 
-- 右 `command -> F19`，来丰富我的快捷键操作，配合raycast改键很香，真的大爱💘
-- 左 `shift -> right_option + space`，用来切换输入法，注意需要同步修改mac切换输入法的快捷键，因为默认的 `ctrl+space` 是不少编辑器的提示快捷键
-- 交换单双引号的输入方式，因为双引号使用的更加频繁，js还好，尤其是 go 语言、json 之类的
+-   右 `command -> F19`，来丰富我的快捷键操作，配合raycast改键很香，真的大爱💘
+-   左 `shift -> right_option + space`，用来切换输入法，注意需要同步修改mac切换输入法的快捷键，因为默认的 `ctrl+space` 是不少编辑器的提示快捷键
+-   交换单双引号的输入方式，因为双引号使用的更加频繁，js还好，尤其是 go 语言、json 之类的
 
 ```json
 {
-  "description": "F19, right_command key to command+control+option+shift.",
-  "manipulators": [
-    {
-      "from": {
-        "key_code": "right_command",
-        "modifiers": {
-          "optional": ["any"]
-        }
-      },
-      "to": [
+    "description": "F19, right_command key to command+control+option+shift.",
+    "manipulators": [
         {
-          "key_code": "left_shift",
-          "modifiers": ["left_command", "left_control", "left_option"]
+            "from": {
+                "key_code": "right_command",
+                "modifiers": {
+                    "optional": ["any"]
+                }
+            },
+            "to": [
+                {
+                    "key_code": "left_shift",
+                    "modifiers": ["left_command", "left_control", "left_option"]
+                }
+            ],
+            "to_if_alone": [
+                {
+                    "key_code": "f19"
+                }
+            ],
+            "type": "basic"
         }
-      ],
-      "to_if_alone": [
-        {
-          "key_code": "f19"
-        }
-      ],
-      "type": "basic"
-    }
-  ]
+    ]
 }
 ```
 
 ```json
 {
-  "description": "left Shift to Cmd+Space if alone",
-  "manipulators": [
-    {
-      "from": {
-        "key_code": "left_shift",
-        "modifiers": {
-          "optional": ["any"]
-        }
-      },
-      "to": [
+    "description": "left Shift to Cmd+Space if alone",
+    "manipulators": [
         {
-          "key_code": "left_shift",
-          "lazy": true
+            "from": {
+                "key_code": "left_shift",
+                "modifiers": {
+                    "optional": ["any"]
+                }
+            },
+            "to": [
+                {
+                    "key_code": "left_shift",
+                    "lazy": true
+                }
+            ],
+            "to_if_alone": [
+                {
+                    "key_code": "spacebar",
+                    "modifiers": ["right_option"]
+                }
+            ],
+            "type": "basic"
         }
-      ],
-      "to_if_alone": [
-        {
-          "key_code": "spacebar",
-          "modifiers": ["right_option"]
-        }
-      ],
-      "type": "basic"
-    }
-  ]
+    ]
 }
 ```
 
 ```json
 {
-  "description": "Exchange single and double quote",
-  "manipulators": [
-    {
-      "from": {
-        "key_code": "quote",
-        "modifiers": {
-          "optional": ["caps_lock"]
-        }
-      },
-      "to": [
+    "description": "Exchange single and double quote",
+    "manipulators": [
         {
-          "key_code": "quote",
-          "modifiers": ["left_shift"]
-        }
-      ],
-      "type": "basic"
-    },
-    {
-      "from": {
-        "key_code": "quote",
-        "modifiers": {
-          "mandatory": ["shift"],
-          "optional": ["caps_lock"]
-        }
-      },
-      "to": [
+            "from": {
+                "key_code": "quote",
+                "modifiers": {
+                    "optional": ["caps_lock"]
+                }
+            },
+            "to": [
+                {
+                    "key_code": "quote",
+                    "modifiers": ["left_shift"]
+                }
+            ],
+            "type": "basic"
+        },
         {
-          "key_code": "quote"
+            "from": {
+                "key_code": "quote",
+                "modifiers": {
+                    "mandatory": ["shift"],
+                    "optional": ["caps_lock"]
+                }
+            },
+            "to": [
+                {
+                    "key_code": "quote"
+                }
+            ],
+            "type": "basic"
         }
-      ],
-      "type": "basic"
-    }
-  ]
+    ]
 }
 ```
 
@@ -215,20 +214,20 @@ DISABLE_AUTO_TITLE="true"
 
 ### 其他软件
 
-- `clashX pro`, 🪜, 由于不可知原因, github 仓库已经无了~自行谷歌下载吧(别存云盘, 也会被和谐😭)
-- `iShot Pro`, 截图、贴图软件, 功能较全, 目前为止很好用,
-- `keka`, 目前用过的 mac 上最好用的解压缩软件, [官网下载](https://www.keka.io/en/)(免费), AppStore 下载(付费)
-- `IINA`, 干净好用的播放器, [下载地址](https://iina.io/)
-- `Downie 4`, 下载视频神器, [下载地址](https://software.charliemonroe.net/downie/), 这个我支持了正版~
-- `PicGo`, 图床工具 [github 地址](https://github.com/Molunerfinn/PicGo)
-- `Dash`, 汇集了计算机的各种文档, 配合 raycast 查起来特别方便, [下载地址](https://kapeli.com/dash), 这个我也支持了正版~
-- `AppCleaner`, 干净卸载软件, 这个更较小, 支持 M1（推荐）, [下载地址](https://freemacsoft.net/appcleaner/)。（更新：用了 raycast 后, 此软件好像有点多余了哈哈）
-- `Tiny RDM`，开源好用的 redis 客户端
-- `MindNode`，思维导图软件, 目前用过最好用的, [下载地址](https://mindnode.com/)
-- `Proxyman`，http 请求拦截，抓包神器, [下载地址](https://proxyman.com/)
-- `Input source pro`，输入法切换神器, [下载地址](https://inputsource.pro/)
-- `only switch`，切换神器
-- `pronotes`，让mac自带的备忘录更加好用～
+-   `clashX pro`, 🪜, 由于不可知原因, github 仓库已经无了~自行谷歌下载吧(别存云盘, 也会被和谐😭)
+-   `iShot Pro`, 截图、贴图软件, 功能较全, 目前为止很好用,
+-   `keka`, 目前用过的 mac 上最好用的解压缩软件, [官网下载](https://www.keka.io/en/)(免费), AppStore 下载(付费)
+-   `IINA`, 干净好用的播放器, [下载地址](https://iina.io/)
+-   `Downie 4`, 下载视频神器, [下载地址](https://software.charliemonroe.net/downie/), 这个我支持了正版~
+-   `PicGo`, 图床工具 [github 地址](https://github.com/Molunerfinn/PicGo)
+-   `Dash`, 汇集了计算机的各种文档, 配合 raycast 查起来特别方便, [下载地址](https://kapeli.com/dash), 这个我也支持了正版~
+-   `AppCleaner`, 干净卸载软件, 这个更较小, 支持 M1（推荐）, [下载地址](https://freemacsoft.net/appcleaner/)。（更新：用了 raycast 后, 此软件好像有点多余了哈哈）
+-   `Tiny RDM`，开源好用的 redis 客户端
+-   `MindNode`，思维导图软件, 目前用过最好用的, [下载地址](https://mindnode.com/)
+-   `Proxyman`，http 请求拦截，抓包神器, [下载地址](https://proxyman.com/)
+-   `Input source pro`，输入法切换神器, [下载地址](https://inputsource.pro/)
+-   `only switch`，切换神器
+-   `pronotes`，让mac自带的备忘录更加好用～
 
 ## 字体
 

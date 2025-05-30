@@ -108,16 +108,16 @@ g cg user.email 'yourmail@xx.com'
 
 说一下基础认知：
 
-- 所有的 commit 组成了一颗多叉树
-- branchName 是多叉树的某个分支指针, 指向这条分支上最新的 commit
-- tagName 可以看成是对应 commit 的别名
+-   所有的 commit 组成了一颗多叉树
+-   branchName 是多叉树的某个分支指针, 指向这条分支上最新的 commit
+-   tagName 可以看成是对应 commit 的别名
 
 而 `HEAD` 是特殊的指针，指向的是当前工作台所处的 commit。
 
 常用的 HEAD 简写 `HEAD^n` 与 `HEAD~n`：
 
-- HEAD^^^ 等价于 HEAD~3 表示父父父提交
-- HEAD^3 表示的是父提交的第三个提交，即合并进来的其他提交
+-   HEAD^^^ 等价于 HEAD~3 表示父父父提交
+-   HEAD^3 表示的是父提交的第三个提交，即合并进来的其他提交
 
 ---
 
@@ -152,7 +152,7 @@ g remote prune origin
 
 ### 参考
 
-- [Pro Git 2nd Edition](https://git-scm.com)
-- [“纸上谈兵”之 Git 原理](https://mp.weixin.qq.com/s/FSBEM2GqhpVJ6yw9FkxnGA)
-- [Git Tools - Submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
-- [Git submodule 子模块的管理和使用](https://www.jianshu.com/p/9000cd49822c)
+-   [Pro Git 2nd Edition](https://git-scm.com)
+-   [“纸上谈兵”之 Git 原理](https://mp.weixin.qq.com/s/FSBEM2GqhpVJ6yw9FkxnGA)
+-   [Git Tools - Submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
+-   [Git submodule 子模块的管理和使用](https://www.jianshu.com/p/9000cd49822c)

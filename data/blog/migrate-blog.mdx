@@ -11,10 +11,10 @@ layout: PostLayout
 
 ### 缘起
 
-某天, 在地铁上打开 V 站看到了这个帖子: [成功将 Hugo 博客迁移到 Next.js,很清爽的一个博客主题](https://cn.v2ex.com/t/1044137). 
+某天, 在地铁上打开 V 站看到了这个帖子: [成功将 Hugo 博客迁移到 Next.js,很清爽的一个博客主题](https://cn.v2ex.com/t/1044137).
 
 本来没觉得有什么, 但是点进去他的博客后, 有一点打动我的是, 访问速度真的很快, 并且试了下关闭🪜后, 打开也很丝滑.
-我之前的博客是用hugo + github pages部署的, 经常就访问速度很慢或者说访问不到, 这是引发我迁移博客的最大原因. 
+我之前的博客是用hugo + github pages部署的, 经常就访问速度很慢或者说访问不到, 这是引发我迁移博客的最大原因.
 其次就是这位兄弟的模版使用了 `next.js+tailwindcss`, 作为一名前端, 不要太熟悉了, 用这套开发模板后续自己魔改肯定体验拉满, 废话不多说, 那么咱就开干!
 
 ### 模板
@@ -48,9 +48,9 @@ yarn start
 4. **🌟关键点:**, cloudflare 会自动分配 `Cloudflare 名称服务器`, 共有两个, 将用来替换腾讯云的域名解析
 5. 进入[腾讯云域名控制台](https://console.cloud.tencent.com/), 进入需要配置的域名, 点击 `修改DNS服务器`, 然后把第4步产生的 DNS服务器 复制进去即可.
 
-<div className='flex gap-2 flex-wrap xl:flex-nowrap'>
-    <img src='/static/images/tencent-dns.png' className="w-1/2"/>
-    <img src='/static/images/tencent-dns-add.png'/>
+<div className="flex flex-wrap gap-2 xl:flex-nowrap">
+    <img src="/static/images/tencent-dns.png" className="w-1/2" />
+    <img src="/static/images/tencent-dns-add.png" />
 </div>
 
 #### 为 Vercel 部署的应用使用自己的域名
@@ -62,6 +62,5 @@ yarn start
 再回到 cloudflare 的 `DNS->记录` 下, 点击添加记录, 把 `www` 和 `你的域名` 分别添加进去, 剩下的就是等待了, 一般一个小时以内就可以使用你的域名进行流畅地访问了🎉.
 
 ![cloudflare cname](/static/images/cloudflare-cname.png)
-
 
 [^1]: [如何在国内访问vercel部署应用?](https://juejin.cn/post/7301193497247727652)
