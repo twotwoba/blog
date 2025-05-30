@@ -2,14 +2,14 @@
 const siteMetadata = {
     title: '二二八',
     author: 'EricYuan',
-    headerTitle: '二二八',
+    headerTitle: 'EricYuan',
     description: '',
     language: 'en-us',
-    theme: 'system', // system, dark or light
+    theme: 'system',
     siteUrl: 'https://www.twotwoba.site',
     siteRepo: 'https://github.com/twotwoba/blog', // TODO
     siteLogo: '/static/images/logo.png',
-    socialBanner: '/static/images/twitter-card.png',
+    // socialBanner: '/static/images/cloudflare-cname.png',
     // mastodon: 'https://mastodon.social/@mastodonuser',
     email: 'ericyuanovo@gmail.com',
     github: 'https://github.com/twotwoba',
@@ -41,11 +41,6 @@ const siteMetadata = {
         // googleAnalytics: {
         //   googleAnalyticsId: '', // e.g. G-XXXXXXX
         // },
-    },
-    newsletter: {
-        // supports mailchimp, buttondown, convertkit, klaviyo, revue, emailoctopus
-        // Please add your .env file and modify it according to your selection
-        // provider: 'buttondown',
     },
     comments: {
         // If you want to use an analytics provider you have to add it to the

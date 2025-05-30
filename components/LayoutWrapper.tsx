@@ -1,3 +1,6 @@
+/**
+ * ? 好像没有用到
+ */
 import { Inter } from 'next/font/google'
 import SectionContainer from './SectionContainer'
 import Footer from './Footer'
