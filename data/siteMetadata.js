@@ -11,7 +11,7 @@ const siteMetadata = {
     siteLogo: '/static/images/logo.svg',
     // socialBanner: '/static/images/cloudflare-cname.png',
     // mastodon: 'https://mastodon.social/@mastodonuser',
-    email: 'ericyuanovo@gmail.com',
+    email: 'twotwoba@126.com',
     github: 'https://github.com/twotwoba',
     x: 'https://x.com/EricYuansz',
     // facebook: 'https://facebook.com',

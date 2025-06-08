@@ -49,3 +49,7 @@ input:-webkit-autofill:focus {
     display: inline-block;
     vertical-align: middle;
 }
+
+.dark\:bg-gray-900:is(.dark *) {
+    background-color: rgb(28 32 41) !important;
+}
