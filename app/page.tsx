@@ -4,6 +4,7 @@ import SocialIcon from '@/components/social-icons'
 import Image from '@/components/Image'
 import GitHubCalendar from 'react-github-calendar'
 import { useTheme } from 'next-themes'
+import { Popover } from '@headlessui/react'
 
 /**
  * @description 个人主页
@@ -32,7 +33,22 @@ const HomePage = () => {
                             <SocialIcon kind="mail" href="mailto:twotwoba@126.com" />
                             <SocialIcon kind="github" href="https://github.com/twotwoba" />
                             <SocialIcon kind="x" href="https://x.com/EricYuansz" />
-                            <SocialIcon kind="wechat" href="https://x.com/EricYuansz" />
+                            <Popover>
+                                <Popover.Button className="focus-visible:outline-none">
+                                    <SocialIcon kind="wechat" href="#" />
+                                </Popover.Button>
+                                <Popover.Panel className="absolute z-10 w-[300px]">
+                                    <div className="flex items-center justify-center">
+                                        <Image
+                                            src="/static/images/wechat.png"
+                                            alt="wechat"
+                                            width={256}
+                                            height={256}
+                                            className="w-[20rem]"
+                                        />
+                                    </div>
+                                </Popover.Panel>
+                            </Popover>
                         </div>
                     </div>
                     <div className="flex justify-center pt-4">
