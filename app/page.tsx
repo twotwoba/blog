@@ -37,7 +37,7 @@ const HomePage = () => {
                                 <Popover.Button className="focus-visible:outline-none">
                                     <SocialIcon kind="wechat" href="#" />
                                 </Popover.Button>
-                                <Popover.Panel className="absolute z-10 w-[300px]">
+                                <Popover.Panel className="absolute -left-[34%] z-10 w-[300px]">
                                     <div className="flex items-center justify-center">
                                         <Image
                                             src="/static/images/wechat.png"
