@@ -1,32 +1,25 @@
 ---
 title: 'Awesome Mac'
-date: '2025-06-10'
-tags: ['tool']
-draft: false
 summary: '多年 mac 使用经验，分享一些小技巧，解锁你的 mac 生产力！'
+date: '2025-06-10'
+tags: ['awesome tool']
 images: [https://picsum.photos/id/8/600/400.webp]
 layout: PostBanner
 ---
 
 _**提示：本文介绍的工具和技巧主要基于我的个人使用习惯，仅供参考。欢迎大家在评论区分享您的经验和建议！**_
 
-**🚀 拿到 mac 后的必改设置 **
+## 🚀 触控板&键盘
 
-1. 键盘，设置成和hhkb一样，cap 键位改成 ctrl，这样用起来顺手点，不用把小拇指歪过去。
-2. 触摸板，三指拖移，让你的触摸板比鼠标更好用
-3. vim 配置
+- 触控板**必做**的设置是**三指拖移**，功能和鼠标左键按住一致。`设置-辅助功能-触控板选项-拖移样式-选择三指拖移`。这样就可以用三根手指拖动窗口、选中文本等，操作起来非常顺手。
+- 键盘**必做**的设置有5️⃣：
 
-个人习惯了 mac 快捷键 `ctrl + f/b/a/e/n/p`, `vim` 在插入模式下, 鼠标光标的控制`hjkl`不适合我, 好在可以修改配置解决：
+    1. **Caps Lock 键改为 Ctrl 键**，这样可以更方便地使用快捷键。`系统偏好设置-键盘-键盘快捷键-修饰键`，将大写锁定键设置为 Ctrl 键，这是和 HHKB 的布局一致，使用 Ctrl 组合键时就不用把小拇指歪过去了，更符合人体工学。
+    2. **Vim下的方向组合件**，Vim 的方向控制是 `hjkl`，但我习惯了mac的快捷键 `Ctrl + p/n/b/f/a/e`（对应英文很好记），好在可以通过修改配置来解决。
 
 ```sh
 # vim ~/.vimrc
-syntax on      "语法高亮"
-set number     "显示行号"
-set cursorline "高亮光标所在行"
-set autoindent "回车缩进跟随上一行"
-set showmatch  "高亮显示匹配的括号([{和}])"
-
-"配置插入模式快捷键"
+"设置插入模式快捷键"
 inoremap <C-f> <Right>
 inoremap <C-b> <Left>
 inoremap <C-a> <Home>
@@ -35,84 +28,25 @@ inoremap <C-k> <Up>
 inoremap <C-l> <Down>
 inoremap <C-q> <PageUp>
 inoremap <C-z> <PageDown>
+
+"其他vim实用设置"
+syntax on      "语法高亮"
+set number     "显示行号"
+set cursorline "高亮光标所在行"
+set autoindent "回车缩进跟随上一行"
+set showmatch  "高亮显示匹配的括号([{和}])"
 ```
 
-## 必备软件
-
-### Homebrew [官网地址](https://brew.sh/)
-
-没有🪜或者懒得折腾的直接使用国内大神的脚本傻瓜式安装:
+    3. **右 command 键改为 F19**，右 cmd 键平时用的不多，可以用来丰富快捷键操作，在 `Raycast` 等其他软件中，可以很好的配合使用。
+    4. **左 shift 键改为右 option + space**，用来切换输入法（这是我使用sougo输入法的后遗症），**注意**需要同步修改 mac 切换输入法的快捷键 `系统偏好设置-键盘-键盘快捷键-输入法`，因为默认的 `Ctrl + Space` 是不少编辑器的触发提示快捷键，比如 VsCode。
+    5. **交换单双引号的输入方式**，因为双引号使用的更加频繁，js 还好，尤其是 go 语言、json 之类的。
 
 ```sh
-# 按照提示操作下去即可
-/bin/zsh -c "$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)"
-```
-
-按照官网的步骤安装也可, 但是在村里最好还是替换一下镜像源:
-
-```sh
-# 替换brew.git
-cd "$(brew --repo)"
-git remote set-url origin https://mirrors.cloud.tencent.com/homebrew/brew.git
-# 替换homebrew-core.git
-cd "$(brew --repo)/Library/Taps/homebrew/homebrew-core"
-git remote set-url origin https://mirrors.cloud.tencent.com/homebrew/homebrew-core.git
-```
-
-### oh-my-zsh [官网地址](https://ohmyz.sh/)
-
-修改 `~/.zshrc` 部分配置：
-
-```sh
-# zsh theme；default robbyrussell, prefer miloshadzic
-ZSH_THEME="miloshadzic"
-# plugins cd ~/.oh-my-zsh/plugins
-plugins=(
-  # 默认的,配置了很多别名 ~/.oh-my-zsh/plugins/git/git.plugin.zsh
-  git
-  # 语法高亮
-  # https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md#oh-my-zsh
-  zsh-syntax-highlighting
-  # 输入命令的时候给出历史提示，如果存在直接 ctrl + e, 就能补全命令(非常实用)
-  # https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md#oh-my-zsh
-  zsh-autosuggestions
-)
-
-# 让terminal标题干净
-DISABLE_AUTO_TITLE="true"
-```
-
-### Raycast [官网地址](https://www.raycast.com/)
-
-以前一直用Alfred，还花了钱支持，架不住 `Raycast` 的高颜值、丰富的插件、澎湃的活力, 并且集成了 **AI**, 让我毫不犹豫的投入了它的怀抱。
-
-插件推荐（直接 store 里搜即可）：
-
-- Visual Studio Code, 快速打开访问过的项目
-- Easy Dictionary, 目前用过最好用的翻译了(可以看见音标)
-- View 2FA Codes, 快捷填入验证码
-- IP-Geolocation, 查询 IP
-- Github, 都懂
-- Port Manager, 管理端口进程
-- change case, 快捷切换蛇形、驼峰等命名
-- json2ts, 自动转换 json 对象到 typescript 类型
-- ollama, 如果你本地部署了大模型的话, 可以直接调用（俺的m1只能带得动1.5b的模型😭）
-- color pick, 取色
-- brew
-- base64, encode/decode
-- search packages, 查找 go 包
-
-### Karabiner Elements [官网下载](https://karabiner-elements.pqrs.org/)
-
-在这里 [https://ke-complex-modifications.pqrs.org](规则) 能找到很多其他人贡献出来的规则。
-
-我用的主要是这几个:
-
-- 右 `command -> F19`，来丰富我的快捷键操作，配合raycast改键很香，真的大爱💘
-- 左 `shift -> right_option + space`，用来切换输入法，注意需要同步修改mac切换输入法的快捷键，因为默认的 `ctrl+space` 是不少编辑器的提示快捷键
-- 交换单双引号的输入方式，因为双引号使用的更加频繁，js还好，尤其是 go 语言、json 之类的
-
-```json
+# 以上3个改键，都需要借助 Karabiner Elements 这个软件,
+# 下载地址：https://karabiner-elements.pqrs.org/
+# Karabiner Elements 有很多现成可用的规则仓库，可以直接导入，
+# 仓库地址：https://ke-complex-modifications.pqrs.org
+# 这里我把👆三个规则的配置记录了下来，直接copy即可
 {
     "description": "F19, right_command key to command+control+option+shift.",
     "manipulators": [
@@ -138,11 +72,9 @@ DISABLE_AUTO_TITLE="true"
         }
     ]
 }
-```
-
-```json
+######################################################
 {
-    "description": "left Shift to Cmd+Space if alone",
+    "description": "left Shift to RightOption+Space if alone",
     "manipulators": [
         {
             "from": {
@@ -167,9 +99,7 @@ DISABLE_AUTO_TITLE="true"
         }
     ]
 }
-```
-
-```json
+######################################################
 {
     "description": "Exchange single and double quote",
     "manipulators": [
@@ -207,91 +137,201 @@ DISABLE_AUTO_TITLE="true"
 }
 ```
 
-不得不说体验真的完美啊~~~ 🥳
+---
 
-### 其他软件
+## 🧰 软件
 
-- `clashX pro`, 🪜, 由于不可知原因, github 仓库已经无了~自行谷歌下载吧(别存云盘, 也会被和谐😭)
-- `iShot Pro`, 截图、贴图软件, 功能较全, 目前为止很好用,
-- `keka`, 目前用过的 mac 上最好用的解压缩软件, [官网下载](https://www.keka.io/en/)(免费), AppStore 下载(付费)
-- `IINA`, 干净好用的播放器, [下载地址](https://iina.io/)
-- `Downie 4`, 下载视频神器, [下载地址](https://software.charliemonroe.net/downie/), 这个我支持了正版~
-- `PicGo`, 图床工具 [github 地址](https://github.com/Molunerfinn/PicGo)
-- `Dash`, 汇集了计算机的各种文档, 配合 raycast 查起来特别方便, [下载地址](https://kapeli.com/dash), 这个我也支持了正版~
-- `AppCleaner`, 干净卸载软件, 这个更较小, 支持 M1（推荐）, [下载地址](https://freemacsoft.net/appcleaner/)。（更新：用了 raycast 后, 此软件好像有点多余了哈哈）
-- `Tiny RDM`，开源好用的 redis 客户端
-- `MindNode`，思维导图软件, 目前用过最好用的, [下载地址](https://mindnode.com/)
-- `Proxyman`，http 请求拦截，抓包神器, [下载地址](https://proxyman.com/)
-- `Input source pro`，输入法切换神器, [下载地址](https://inputsource.pro/)
-- `only switch`，切换神器
-- `pronotes`，让mac自带的备忘录更加好用～
+> 以下是我日常使用的 Mac 软件清单，旨在分享一些实用配置和建议。对于软件的具体功能，建议参考各软件官网，这里只重点介绍我认为重要的配置或推荐。
 
-## 字体
-
-> update: 2025-03-17
->
-> 发现一个更好看的mono连体字体 `Maple mono`, 推荐给大家, https://font.subf.dev/zh-cn/
-
-强迫症, 个人目前最喜欢的字体是 `inconsolata`, 可以保证两个英文和一个汉字对齐.
-[点击下载 inconsolata](https://fonts.google.com/specimen/Inconsolata), 拖进 mac 的 Font Book 即可.
-
-喜欢连体字的可以使用比较热门的 `Fira Code`, [下载安装 github](https://github.com/tonsky/FiraCode) 或:
+### Homebrew https://brew.sh/
 
 ```sh
-brew tap homebrew/cask-fonts
-brew install --cask font-fira-code
+# 安装方式见官网👆
+# 咱在村里，建议替换镜像源
+cd "$(brew --repo)"
+git remote set-url origin https://mirrors.cloud.tencent.com/homebrew/brew.git # 替换brew.git
+
+cd "$(brew --repo)/Library/Taps/homebrew/homebrew-core"
+git remote set-url origin https://mirrors.cloud.tencent.com/homebrew/homebrew-core.git # 替换homebrew-core.git
 ```
 
-## tldr 命令提示工具
-
-这个还是挺好用的，因为经常会忘记某个命令的用法，可以用 `tldr` 来快速查看。
+✅推荐，国内大神的脚本傻瓜式安装：
 
 ```sh
-# mac 安装
-brew install tlrc
+# 根据提示一步步做即可
+/bin/zsh -c "$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)"
+```
 
-# vim ~/.zshrc, 我习惯把 tldr 改为 how，方便使用
+### oh-my-zsh https://ohmyz.sh/
+
+```sh
+# vim ~/.zshrc
+
+# 主题
+ZSH_THEME="miloshadzic"
+# 让 terminal 标题干净
+DISABLE_AUTO_TITLE="true"
+# 必备插件，还有很多很多插件见官网，按需配置
+plugins=(
+  # 语法高亮
+  # ✅ https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md#oh-my-zsh
+  zsh-syntax-highlighting
+  # 输入命令的时候给出历史提示，存在则直接 ctrl + e, 就能补全命令(非常实用)
+  # ✅ https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md#oh-my-zsh
+  zsh-autosuggestions
+)
+# 编辑完成后记得 source ~/.zshrc，文章后续部分不再提示
+```
+
+### 巨实用命令行小工具🔧 全部基于Rust，性能飞起
+
+#### 1. tldr https://github.com/tldr-pages/tldr
+
+_too long; don't read, 命令行的简明手册，快速查看常用命令的用法。再也不用记一大堆命令！_
+
+```sh
+brew install tlrc
+```
+
+```sh
+# vim ~/.zshrc,
+# 配置 tldr 的语言和缓存
 export TLDR_LANGUAGE="ZH"
 export TLDR_CACHE_ENABLE=1
-
-alias how=tldr
+# 我习惯把 tldr 改为 how，方便使用
+alias how=tldr # 所有的命令别名都可以在 zshrc 中配置，文章后续涉及到别名不再赘述
 ```
 
-## bat & fd
+#### 2. bat https://github.com/sharkdp/bat
 
-另外两个比较好用的 shell 小工具, bat 替代 cat，查看会有样式语法高亮，fd 快速高性能地搜索文件，比 find 好用多了。
+_替代 cat 命令，性能强且自带语法高亮_
 
 ```sh
-# https://github.com/sharkdp/bat
 brew install bat
+```
 
-# https://github.com/sharkdp/fd
+#### 3. fd https://github.com/sharkdp/fd
+
+_替代 find 命令，性能强劲且可用正则匹配_
+
+```sh
 brew install fd
 ```
 
-## 前端开发环境配置
+### Input source pro https://inputsource.pro/
 
-### pnpm 快捷提示
+_输入法自动切换神器！可根据场景自定义切换到各个应用的默认输入法语言_
 
 ```sh
-# 参见 https://github.com/g-plane/pnpm-shell-completion
+brew install --cask input-source-pro
 ```
 
-### fnm [github](https://github.com/Schniz/fnm)
+```sh
+# InputSourcePro的切换输入法提示更好看还可以自定义
+# 关闭 macos 自带的切换输入法提示体验更佳！
+sudo defaults write /Library/Preferences/FeatureFlags/Domain/UIKit.plist redesigned_text_cursor -dict-add Enabled -bool NO
+```
 
-之前有用过一段时间 `nvm`, 后来某次冲浪发现 nvm 制造的锅 -- 每次打开terminal会等待一会儿.
+### 🐮 Raycast https://www.raycast.com/
 
-再后来发现了 `fnm` 这个好东西, `Rust` 打造, 相信前端一听到这个大名就一个反应, 快！
+之前一直用 `Alfred`，前两年的后起之秀 `Raycast` 有更高的颜值，更丰富易用的插件系统，让我毫不犹豫的把快速启动器切换成了它。
+
+它自带的常用功能可能就是：
+
+1. 快速启动，可以给任意一个软件和插件自定义启动快捷键✅
+2. 剪切板工具✅
+3. RaycastNotes 临时笔记✅ 记录一些临时的问题或TODO，很实用
+4. 代码片段✅ 这个好用啊这个，比如写go的简短声明 `:=`，通过设置代码片段输入 `::` 的时候自动就变成了 `:=`
+5. 卸载软件，还算卸的比较干净
+
+其他非常实用的功能则都来自于它的插件系统，直接在Raycast中搜 store，下面是我高频使用的部分插件：
+
+1. `Visual Studio Code`，快速打开访问过的项目
+2. `View 2FA Codes`，快速填入验证码（记得打开message的icloud）
+3. `Google gemini`，google出品的，目前API可以免费调用，牛波一！✅
+4. `Easy Dictionary`，目前最好用的免费翻译了，还可以看见音标哦
+5. `Change Case`，快捷切换选中文本的各种形式，蛇形、驼峰、kebab等
+6. `Port Manager`，快捷管理端口进程
+7. `Brew`，Homebrew 的插件，简单好用
+8. `Base64`，快捷 encode/decode base64编码
+9. `IP-Geolocation`, 本机上的 ip 查看
+10. `Search Packages`，快捷搜索 go 的包
+
+### Shadowrocket
+
+_俗称小火箭，对于不那么折腾的🪜用户用这个恰好，和iphone上可以使用统一配置 icloud 同步，小组件开关非常方便✅。另外，github上还有很多 Shadowrocket 的规则仓库，拦截广告什么的，自己配置规则也超方便，唯一要求就是你得是`M系列的芯片`_
+
+### 1Capture https://docs-1c.hapigo.com/
+
+_Mac上的超高颜值的截图工具，没有之一！尝试过 ishot, clearshotx 等等，前两个月发现了1Capture这款截图软件，深得我心!_
+
+不过目前也有部分功能还没有很完善，我也给他们提了不少意见，后续会陆续上线，可以期待一下👀
+
+### ProNotes https://www.pronotes.app/
+
+_让Mac的备忘录更加好用_
+
+### Keka https://www.keka.io/en/
+
+_Mac上超强大高颜值的解压缩软件，完全免费！_
+
+### Downie 4 https://software.charliemonroe.net/downie/
+
+_下载**学习资料**的神器，能获取到打开页面的所有视频源并下载！_
+
+### IINA https://iina.io/
+
+_干净好用的本地视频播放器_
+
+### MindNode https://mindnode.com/
+
+_思维导图软件，很不错_
+
+### ProxyMan https://proxyman.com/
+
+_Mac 上的请求拦截抓包工具_
+
+### Dash https://kapeli.com/dash
+
+_汇集了各种计算机编程的问题，配合 Raycast 查起来还挺方便的_
+
+### PicGo https://github.com/Molunerfinn/PicGo
+
+_图床工具，目前用这个上传图片还算方便，但是我给1Capture提了建议，他们后续会加上图床功能_
+
+> 👆 部分软件是收费的，建议支持正版！
+
+---
+
+## 字体
+
+开发人员的强迫症就是连文字都得对齐！一个中文对应2个英文！
+我个人使用的是 [inconsolata](https://fonts.google.com/specimen/Inconsolata)，👈点击下载，然后拖进 mac 的 Font Book 即可。
+
+喜欢连体字的可以使用比较热门的 [Fira Code](https://github.com/tonsky/FiraCode)。
+
+2025-03-17: 近期在逛论坛的时候看到了另外一个比较优秀的开源字体 [Maple mono](https://font.subf.dev/zh-cn/)，一手行云流水的英文连体字，好看，但是编码实在太花眼啦～
+
+---
+
+## 前端工具
+
+如果你是一个前端开发工程师，👇的两个工具你一定需要！
+
+### fnm https://github.com/Schniz/fnm
+
+_放弃 nvm 吧，我用 fnm 让你爽啊！Rust 编写的 fnm 让你打开 terminal 的速度较 nvm 都快非常多_
 
 ```sh
 brew install fnm
-
-# 根据官网提示, 把下方代码贴进对应shell配置文件 .zshrc
+# 安装完成后会有提示, 把下方代码贴进对应shell配置文件 .zshrc
 eval "$(fnm env --use-on-cd)"
+```
 
-fnm install version # 安装不同版本node
-fnm default version # 设置默认node
-fnm use version     # 临时使用node
+```sh
+fnm install version # 安装不同版本
+fnm default version # 设置默认版本
+fnm use version     # 设置当前工作空间使用的版本
 
 fnm ls              # 查看本地已安装 node
 fnm ls-remote       # 查看远程可安装版本
@@ -299,23 +339,19 @@ fnm ls-remote       # 查看远程可安装版本
 
 ### nrm
 
+_npm 镜像源切换工具_
+
 ```sh
 npm i nrm -g
-# nrm 常用命令
+```
+
+```sh
 nrm ls
 nrm use
 nrm add <name> <url> # 添加新的镜像源(比如公司的私有源)
 nrm del <name>
 ```
 
-### Monokai pro license
-
-```js
-// 网上搜到的, 有钱的兄弟还是要支持正版!
-id@chinapyg.com
-d055c-36b72-151ce-350f4-a8f69
-```
-
 ---
 
-看完本文, 你有什么高效的小技巧推荐呢? 欢迎路过的兄弟留言补充! 👏🏻👏🏻👏🏻
+希望以上分享能帮助你更好地使用 Mac，也欢迎各位朋友在评论区分享你的 Mac 使用技巧和经验！期待与你交流！ 👏

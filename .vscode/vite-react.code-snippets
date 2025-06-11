@@ -1,15 +1,27 @@
 {
-	"blog header info": {
-		"prefix": "h--",
+	"simple header": {
+		"prefix": "hs-",
 		"body": [
 			"---",
 			"title: ''",
+			"summary: ''",
 			"date: ''",
-			"# lastmod: '1900-01-01'",
 			"tags: ['']",
 			"draft: true",
+			"---"
+		]
+	},
+	"banner header": {
+		"prefix": "hb-",
+		"body": [
+			"---",
+			"title: ''",
 			"summary: ''",
+			"date: ''",
+			"tags: ['']",
 			"images: []",
+			"layout: ",
+			"draft: true",
 			"---"
 		]
 	}
