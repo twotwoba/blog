@@ -3,9 +3,8 @@ title: '动态规划真的好难...'
 date: '2023-02-03'
 # lastmod: '1900-01-01'
 tags: ['algorithm']
-draft: false
+draft: true
 summary: '动态规划重点在于逻辑的推到, 涉及到的问题种类非常多, 所以真的好难呀😭'
-images: []
 ---
 
 动态规划是一种通过把**原问题分解为相对简单的子问题**的方式求解复杂问题的方法，它**不是一种具体的算法，而是一种解决特定问题的方法**。
@@ -57,8 +56,6 @@ images: []
 >
 > 如果用图论的思想理解，我们建立一个 有向无环图，每个状态对应图上一个节点，**决策对应节点间的连边**。这样问题就转变为了一个在 DAG 上寻找最长（短）路的问题。
 
-{/\*
-
 ```js
 // 思路1: 自顶向下的动态规划 (递归)
 function dp(staus1, ...other_staus) {
@@ -78,8 +75,6 @@ for(const 状态1 of 状态1中的所有取值) {
   }
 }
 ```
-
-\*/}
 
 ## 练一练
 
@@ -128,7 +123,6 @@ var longestCommonSubsequence = function (text1, text2) {
 
 lc.1035 不相交的线，与本题基本一模一样。
 
-{/\*
 这是一个，不用 dp[i] 表示前 i 个的定义，会有很多边界条件的判断，比较繁琐
 
 ```js
@@ -157,8 +151,6 @@ var longestCommonSubsequence = function (text1, text2) {
     return dp[m - 1][n - 1]
 }
 ```
-
-\*/}
 
 #### lc.300 最长递增子序列
 
@@ -709,7 +701,6 @@ var findTargetSumWays = function (nums, target) {
 }
 ```
 
-{/\*
 回溯一开始我是这么写的，有时会超时~~~
 
 ```js
@@ -735,8 +726,6 @@ var findTargetSumWays = function (nums, target) {
     return res
 }
 ```
-
-\*/}
 
 再来看一下动态规划，讲道理，第一时间我是真的想不到。。。需要先做一个数学推导：
 
@@ -893,7 +882,6 @@ var coinChange = function (coins, amount) {
 }
 ```
 
-{/\*
 // labuladong 大佬给出了两个经验公式(并不能覆盖所有情况，还是要自己思考的)
 
 ```js
@@ -912,8 +900,6 @@ for (let j = 0; j <= V; j++) {
     }
 }
 ```
-
-\*/}
 
 ##### lc.518 零钱兑换 II
 

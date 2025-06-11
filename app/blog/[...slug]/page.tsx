@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: { params: { slug: string[] } 
     }
     const ogImages = imageList.map((img) => {
         return {
-            url: img.includes('http') ? img : siteMetadata.siteUrl + img
+            url: img?.includes('http') ? img : siteMetadata.siteUrl + img
         }
     })
 

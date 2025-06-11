@@ -3,7 +3,7 @@ title: 'LRU'
 date: '2022-10-28'
 # lastmod: '1900-01-01'
 tags: ['data structure', 'algorithm']
-draft: false
+draft: true
 summary: '浅学一下缓存淘汰算法 LRU'
 images: []
 ---
@@ -185,7 +185,8 @@ LRUCache.prototype.put = function (key, value) {
 
 小心指针的变换就好了。
 
-{/\* ## LFU
+## LFU
+
 LFU（Least Frequently Used，最少频繁使用）。
 也就是使用最不频繁的将被淘汰，这个我目前就是先了解一下，后续需要深入的时候再回过头来看看。😂
 
@@ -201,4 +202,4 @@ LFU（Least Frequently Used，最少频繁使用）。
     - 希望能够快速删除 key 列表中的任何一个 key，因为如果频次为 freq 的某个 key 被访问，那么它的频次就会变成 freq+1，就应该从 freq 对应的 key 列表中删除，加到 freq+1 对应的 key 的列表中。
 
 > 小提示：LinkedHashSet
-> 这篇文章不错：https://halfrost.com/lru_lfu_interview/ \*/}
+> 这篇文章不错：https://halfrost.com/lru_lfu_interview/
