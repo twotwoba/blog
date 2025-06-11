@@ -6,7 +6,7 @@ tags: ['bug', 'pnpm', 'qiankun']
 draft: false
 summary: 'qiankun 是目前最常用的微前端框架之一, 社区踩过了不少的坑, 网上也有很多帖子, 俺也记录一下本次踩到的小坑吧, 进来看看你遇见过没.'
 images: []
-layout: PostLayout
+layout: PostBanner
 ---
 
 ## Question
@@ -25,13 +25,15 @@ layout: PostLayout
 一路跟踪到了 `ofd-tools` 的一个叫 `jszip` 的依赖, 其中有个方法是这么写的:
 
 ```js
-var onGlobalMessage = function(event) {
-    if (event.source === global && // 👈
-        typeof event.data === "string" &&
-        event.data.indexOf(messagePrefix) === 0) {
-        runIfPresent(+event.data.slice(messagePrefix.length));
+var onGlobalMessage = function (event) {
+    if (
+        event.source === global && // 👈
+        typeof event.data === 'string' &&
+        event.data.indexOf(messagePrefix) === 0
+    ) {
+        runIfPresent(+event.data.slice(messagePrefix.length))
     }
-};
+}
 ```
 
 有一点经验的朋友应该一眼就能扫到问题所在了吧, 就是 `event.source === global` 这里, 如果在乾坤下, `global` 始终都不会等于 `event.source`.
@@ -46,15 +48,19 @@ var onGlobalMessage = function(event) {
 
 1. `pnpm patch jszip@3.10.1`, 复制一个临时目录, 可以使用 `--edit-dir <dir name>` 指定
 2. 去临时目录中修改文件
+
 ```js
-var onGlobalMessage = function(event) {
-    if ((event.source === global || global.__POWERED_BY_QIANKUN__) &&
-        typeof event.data === "string" &&
-        event.data.indexOf(messagePrefix) === 0) {
-        runIfPresent(+event.data.slice(messagePrefix.length));
+var onGlobalMessage = function (event) {
+    if (
+        (event.source === global || global.__POWERED_BY_QIANKUN__) &&
+        typeof event.data === 'string' &&
+        event.data.indexOf(messagePrefix) === 0
+    ) {
+        runIfPresent(+event.data.slice(messagePrefix.length))
     }
-};
+}
 ```
+
 3. 最后, 执行第一步返回的命令: `pnpm patch-commit '/private/var/folders/0w/3bs237hx0_5bb5pk_tfqq5140000gn/T/1803a7b5a7b556da907c1199e582b295'` 即可,
 
 此时, 在项目目录下就会新增一个 `patches` 文件夹, 里面有 `jszip@3.10.1.patch` 文件, `package.json` 中也会增加以下内容:
@@ -77,6 +83,6 @@ var onGlobalMessage = function(event) {
 
 - 对于 `Vite`, 打完补丁后重启去要添加 `--force` 命令, 因为 **Vite 预构建**, `node_modules` 下的`.vite` 文件会把加载的依赖做一个缓存.
 - 撤销补丁仅仅删除 `patches` 文件夹是没有用的, 需要 `npx patch-package <pkgName@x>` 再重启.
-{/* - 注意一下 `package.json` 中的入口文件指向main module browser是否是要修改的文件. */}
+  {/* - 注意一下 `package.json` 中的入口文件指向main module browser是否是要修改的文件. */}
 
 [^1]: [qiankun 2.x 运行时沙箱源码分析](https://www.cnblogs.com/liyongning/p/15867403.html)

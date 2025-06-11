@@ -2,7 +2,6 @@ import siteMetadata from '@/data/siteMetadata'
 import headerNavLinks from '@/data/headerNavLinks'
 import Logo from 'public/static/images/logo.svg'
 import Link from './Link'
-import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
 import SearchButton from './SearchButton'
 
@@ -30,14 +29,12 @@ const Header = () => {
                         <Link
                             key={link.title}
                             href={link.href}
-                            className="font-medium text-gray-900 hover:text-primary-500 dark:text-gray-100 dark:hover:text-primary-400
-              sm:block">
+                            className="font-medium text-gray-900 hover:text-primary-500 dark:text-gray-100 dark:hover:text-primary-400 sm:block">
                             {link.title}
                         </Link>
                     ))}
                 <SearchButton />
                 <ThemeSwitch />
-                <MobileNav />
             </div>
         </header>
     )

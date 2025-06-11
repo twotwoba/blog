@@ -5,7 +5,7 @@ import { useState } from 'react'
 import siteMetadata from '@/data/siteMetadata'
 
 export default function Comments({ slug }: { slug: string }) {
-    const [loadComments, setLoadComments] = useState(false)
+    // const [loadComments, setLoadComments] = useState(false)
 
     if (!siteMetadata.comments?.provider) {
         return null
@@ -14,10 +14,10 @@ export default function Comments({ slug }: { slug: string }) {
         <>
             <CommentsComponent commentsConfig={siteMetadata.comments} slug={slug} />
             {/* {loadComments ? (
-        <CommentsComponent commentsConfig={siteMetadata.comments} slug={slug} />
-      ) : (
-        <button onClick={() => setLoadComments(true)}>Load Comments</button>
-      )} */}
+              <CommentsComponent commentsConfig={siteMetadata.comments} slug={slug} />
+            ) : (
+              <button onClick={() => setLoadComments(true)}>Load Comments</button>
+            )} */}
         </>
     )
 }

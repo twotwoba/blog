@@ -1,3 +1,6 @@
+/**
+ * @description  (No used) ListLayout component for displaying a list of blog posts with pagination and search functionality
+ */
 'use client'
 
 import { useState } from 'react'
