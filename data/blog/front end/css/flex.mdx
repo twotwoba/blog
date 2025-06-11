@@ -6,7 +6,6 @@ tags: ['css']
 draft: false
 summary: 'flex 是 css 界的宠儿, 必知必会.'
 images: []
-layout: PostLayout
 ---
 
 flex 是 css 界的宠儿，基础的就不记录了，直接参考[Flex 布局教程：语法篇](https://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)
@@ -49,26 +48,26 @@ flex: none;
 
 ```html
 <div class="wrap">
-  <div class="item-1"></div>
-  <div class="item-2"></div>
-  <div class="item-3"></div>
+    <div class="item-1"></div>
+    <div class="item-2"></div>
+    <div class="item-3"></div>
 </div>
 <style>
-  .wrap {
-    display: flex;
-    width: 600px;
-    background-color: yellowgreen;
-  }
+    .wrap {
+        display: flex;
+        width: 600px;
+        background-color: yellowgreen;
+    }
 
-  .item-1 {
-    width: 100px;
-  }
-  .item-2 {
-    width: 200px;
-  }
-  .item-3 {
-    flex: 1;
-  }
+    .item-1 {
+        width: 100px;
+    }
+    .item-2 {
+        width: 200px;
+    }
+    .item-3 {
+        flex: 1;
+    }
 </style>
 ```
 
@@ -87,14 +86,14 @@ total = unit * 1 + 0
 
 ```css
 .item-1 {
-  flex: 2 1 10%;
+    flex: 2 1 10%;
 }
 .item-2 {
-  flex: 1 1 10%;
+    flex: 1 1 10%;
 }
 .item-3 {
-  width: 100px;
-  flex: 1 1 200px;
+    width: 100px;
+    flex: 1 1 200px;
 }
 ```
 
@@ -117,62 +116,62 @@ item3: 200 + 70 270
 
 ```html
 <style>
-  html,
-  body {
-    height: 100%;
-  }
+    html,
+    body {
+        height: 100%;
+    }
 
-  .wrap {
-    display: flex;
-    width: 500px;
-    height: 100%;
-    flex-direction: column;
-    background-color: yellowgreen;
-  }
+    .wrap {
+        display: flex;
+        width: 500px;
+        height: 100%;
+        flex-direction: column;
+        background-color: yellowgreen;
+    }
 
-  .head,
-  .foot,
-  .center-header {
-    height: 20px;
-    background-color: black;
-  }
+    .head,
+    .foot,
+    .center-header {
+        height: 20px;
+        background-color: black;
+    }
 
-  .center {
-    display: flex;
-    flex: 1;
-    /* 关键代码，需要在这里设置 height 为 0，这样子元素才会滚动起来 */
-    height: 0;
-    flex-direction: column;
-  }
+    .center {
+        display: flex;
+        flex: 1;
+        /* 关键代码，需要在这里设置 height 为 0，这样子元素才会滚动起来 */
+        height: 0;
+        flex-direction: column;
+    }
 
-  .center-content {
-    flex: 1;
-    overflow: auto;
-  }
+    .center-content {
+        flex: 1;
+        overflow: auto;
+    }
 
-  .item {
-    height: 50px;
-    margin: 20px;
-    background-color: pink;
-  }
+    .item {
+        height: 50px;
+        margin: 20px;
+        background-color: pink;
+    }
 </style>
 <body>
-  <div class="wrap">
-    <div class="head"></div>
-    <div class="center">
-      <div class="center-header"></div>
-      <div class="center-content">
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-      </div>
+    <div class="wrap">
+        <div class="head"></div>
+        <div class="center">
+            <div class="center-header"></div>
+            <div class="center-content">
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+            </div>
+        </div>
+        <div class="foot"></div>
     </div>
-    <div class="foot"></div>
-  </div>
 </body>
 ```
 

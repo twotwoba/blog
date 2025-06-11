@@ -6,7 +6,6 @@ tags: ['data structure', 'algorithm']
 draft: false
 summary: '浅学一下图🐰'
 images: []
-layout: PostLayout
 ---
 
 ## 图论基础
@@ -15,10 +14,7 @@ layout: PostLayout
 
 出度、入度等基础概念自行百度.
 
-<img
-  src="https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202404031402924.png"
-  className="w-[300px]"
-/>
+<img src="https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202404031402924.png" className="w-[300px]" />
 
 上面这幅有向图，分别用邻接表和邻接矩阵实现如下：
 
@@ -27,11 +23,11 @@ layout: PostLayout
 const graph: Array<number[]> = [[1, 3, 4], [2, 3, 4], [3], [4], []]
 // 邻接矩阵，当然元素不仅仅只能为 Boolean 值
 const graph: Array<boolean[]> = [
-  [false, true, false, true, true],
-  [false, false, true, true, true],
-  [false, false, false, true, false],
-  [false, false, false, false, true],
-  [false, false, false, false, false],
+    [false, true, false, true, true],
+    [false, false, true, true, true],
+    [false, false, false, true, false],
+    [false, false, false, false, true],
+    [false, false, false, false, false]
 ]
 ```
 
@@ -54,16 +50,16 @@ const onPath = []
 
 /* 图遍历框架 DFS */
 function traverse(graph, s) {
-  if (visited[s]) return
-  // 经过节点 s，标记为已遍历
-  visited[s] = true
-  // 做选择：标记节点 s 在路径上
-  onPath[s] = true
-  for (const neighbor of graph.neighbors(s)) {
-    traverse(graph, neighbor)
-  }
-  // 撤销选择：节点 s 离开路径
-  onPath[s] = false
+    if (visited[s]) return
+    // 经过节点 s，标记为已遍历
+    visited[s] = true
+    // 做选择：标记节点 s 在路径上
+    onPath[s] = true
+    for (const neighbor of graph.neighbors(s)) {
+        traverse(graph, neighbor)
+    }
+    // 撤销选择：节点 s 离开路径
+    onPath[s] = false
 }
 ```
 
@@ -76,24 +72,24 @@ function traverse(graph, s) {
 
 ```js
 var allPathsSourceTarget = function (graph) {
-  // 有向无环图, graph 的 index 自身即为 node; graph[index] 为邻居
-  let res = []
-  const onPath = []
-  const dfs = (node) => {
-    onPath.push(node)
-    if (node === graph.length - 1) {
-      res.push([...onPath])
-      /** 因为无环，所以不用 return；如果 return 同时需要维护 onPath */
-      // onPath.pop()
-      // return
+    // 有向无环图, graph 的 index 自身即为 node; graph[index] 为邻居
+    let res = []
+    const onPath = []
+    const dfs = (node) => {
+        onPath.push(node)
+        if (node === graph.length - 1) {
+            res.push([...onPath])
+            /** 因为无环，所以不用 return；如果 return 同时需要维护 onPath */
+            // onPath.pop()
+            // return
+        }
+        for (let i = 0; i < graph[node].length; ++i) {
+            dfs(graph[node][i])
+        }
+        onPath.pop()
     }
-    for (let i = 0; i < graph[node].length; ++i) {
-      dfs(graph[node][i])
-    }
-    onPath.pop()
-  }
-  dfs(0)
-  return res
+    dfs(0)
+    return res
 }
 ```
 
@@ -116,35 +112,35 @@ var allPathsSourceTarget = function (graph) {
  * @return {boolean}
  */
 var canFinish = function (numCourses, prerequisites) {
-  // 先构图
-  const graph = Array.from(Array(numCourses), () => [])
-  for (let i = 0; i < prerequisites.length; ++i) {
-    const [to, from] = prerequisites[i]
-    graph[from].push(to) // from -> to
-  }
-  // 再判断是否有环
-  const onPath = [] // 记录遍历过程
-  const visited = [] // 防止进入死循环
-  let hasCycle = false
-  const dfs = (node) => {
-    // 蛇身成环
-    if (onPath.indexOf(node) > -1) {
-      hasCycle = true
-      return
+    // 先构图
+    const graph = Array.from(Array(numCourses), () => [])
+    for (let i = 0; i < prerequisites.length; ++i) {
+        const [to, from] = prerequisites[i]
+        graph[from].push(to) // from -> to
     }
-    if (visited.indexOf(node) > -1 || hasCycle) return
-    onPath.push(node)
-    visited.push(node)
-    for (const neighbor of graph[node]) {
-      dfs(neighbor)
+    // 再判断是否有环
+    const onPath = [] // 记录遍历过程
+    const visited = [] // 防止进入死循环
+    let hasCycle = false
+    const dfs = (node) => {
+        // 蛇身成环
+        if (onPath.indexOf(node) > -1) {
+            hasCycle = true
+            return
+        }
+        if (visited.indexOf(node) > -1 || hasCycle) return
+        onPath.push(node)
+        visited.push(node)
+        for (const neighbor of graph[node]) {
+            dfs(neighbor)
+        }
+        onPath.pop()
     }
-    onPath.pop()
-  }
 
-  for (let i = 0; i < numCourses; ++i) {
-    dfs(i)
-  }
-  return !hasCycle
+    for (let i = 0; i < numCourses; ++i) {
+        dfs(i)
+    }
+    return !hasCycle
 }
 ```
 
@@ -212,34 +208,34 @@ var canFinish = function (numCourses, prerequisites) {
  * @return {number[]}
  */
 var findOrder = function (numCourses, prerequisites) {
-  const graph = Array.from(Array(numCourses), () => [])
-  for (let i = 0; i < prerequisites.length; ++i) {
-    const [to, from] = prerequisites[i]
-    graph[to].push(from) // 注意这里！
-  }
-  let res = []
-  let hasCycle = false
-  const visited = []
-  const onPath = []
-  const dfs = (node) => {
-    if (onPath.indexOf(node) > -1) {
-      hasCycle = true
-      return
+    const graph = Array.from(Array(numCourses), () => [])
+    for (let i = 0; i < prerequisites.length; ++i) {
+        const [to, from] = prerequisites[i]
+        graph[to].push(from) // 注意这里！
     }
-    if (visited.indexOf(node) > -1 || hasCycle) return
-    onPath.push(node)
-    visited.push(node)
-    for (const neighbor of graph[node]) {
-      dfs(neighbor)
+    let res = []
+    let hasCycle = false
+    const visited = []
+    const onPath = []
+    const dfs = (node) => {
+        if (onPath.indexOf(node) > -1) {
+            hasCycle = true
+            return
+        }
+        if (visited.indexOf(node) > -1 || hasCycle) return
+        onPath.push(node)
+        visited.push(node)
+        for (const neighbor of graph[node]) {
+            dfs(neighbor)
+        }
+        res.push(node)
+        onPath.pop()
     }
-    res.push(node)
-    onPath.pop()
-  }
-  for (let i = 0; i < numCourses; ++i) {
-    dfs(i)
-  }
-  if (hasCycle) return []
-  return res
+    for (let i = 0; i < numCourses; ++i) {
+        dfs(i)
+    }
+    if (hasCycle) return []
+    return res
 }
 ```
 
@@ -249,36 +245,36 @@ var findOrder = function (numCourses, prerequisites) {
 
 ```js
 var findOrder = function (numCourses, prerequisites) {
-  // 先构图 + 构建入度数组
-  const graph = Array.from(Array(numCourses), () => [])
-  const indegree = Array(numCourses).fill(0)
-  for (let i = 0; i < prerequisites.length; ++i) {
-    const [to, from] = prerequisites[i]
-    graph[from].push(to) // from -> to
-    indegree[to]++
-  }
-  // 寻找入度为 0 的节点加入队列，然后开始 bfs 遍历
-  const queue = []
-  for (let i = 0; i < numCourses; ++i) {
-    indegree[i] === 0 && queue.push(i)
-  }
-  let visitedCount = 0
-  const res = []
-  while (queue.length) {
-    // 这道题不用向四周分散，而是去操作入度数组
-    visitedCount++
-    const node = queue.shift()
-    res.push(node)
-    const indegreeOfNode = graph[node]
-    for (let i = 0; i < indegreeOfNode.length; ++i) {
-      indegree[indegreeOfNode[i]]--
-      if (indegree[indegreeOfNode[i]] === 0) {
-        queue.push(indegreeOfNode[i])
-      }
+    // 先构图 + 构建入度数组
+    const graph = Array.from(Array(numCourses), () => [])
+    const indegree = Array(numCourses).fill(0)
+    for (let i = 0; i < prerequisites.length; ++i) {
+        const [to, from] = prerequisites[i]
+        graph[from].push(to) // from -> to
+        indegree[to]++
     }
-  }
-  if (visitedCount !== numCourses) return []
-  return res
+    // 寻找入度为 0 的节点加入队列，然后开始 bfs 遍历
+    const queue = []
+    for (let i = 0; i < numCourses; ++i) {
+        indegree[i] === 0 && queue.push(i)
+    }
+    let visitedCount = 0
+    const res = []
+    while (queue.length) {
+        // 这道题不用向四周分散，而是去操作入度数组
+        visitedCount++
+        const node = queue.shift()
+        res.push(node)
+        const indegreeOfNode = graph[node]
+        for (let i = 0; i < indegreeOfNode.length; ++i) {
+            indegree[indegreeOfNode[i]]--
+            if (indegree[indegreeOfNode[i]] === 0) {
+                queue.push(indegreeOfNode[i])
+            }
+        }
+    }
+    if (visitedCount !== numCourses) return []
+    return res
 }
 ```
 
@@ -302,49 +298,49 @@ var findOrder = function (numCourses, prerequisites) {
 ```js
 /** disjoint sets union */
 class Dsu {
-  // 初始化：每个元素位于一个「单独的集合」，--根节点为自身--
-  constructor(size) {
-    this.father = Array.from(Array(size), (_, index) => index)
-  }
-  // 把集合 u, v 合并到一个集合，合并的是根~
-  join(u, v) {
-    u = find(u) // 寻根
-    v = find(v) // 寻根
-    if (u === v) return
-    this.father[v] = u // 请注意！：这里连通的是入参 u，v 的根
-  }
-  // 向上寻根
-  find(u) {
-    if (u === this.father[u]) return u // 自身
-    // return find(this.father[u])
-    /**
-     * 路径压缩： 如果每次都如上行那样递归寻找上级，比较浪费时间
-     * 路径压缩就是把节点直接接到根节点上，而这一步操作可以巧妙的在 find 过程中完成，如下：
-     */
-    return (this.father[u] = find(this.father[u]))
-  }
+    // 初始化：每个元素位于一个「单独的集合」，--根节点为自身--
+    constructor(size) {
+        this.father = Array.from(Array(size), (_, index) => index)
+    }
+    // 把集合 u, v 合并到一个集合，合并的是根~
+    join(u, v) {
+        u = find(u) // 寻根
+        v = find(v) // 寻根
+        if (u === v) return
+        this.father[v] = u // 请注意！：这里连通的是入参 u，v 的根
+    }
+    // 向上寻根
+    find(u) {
+        if (u === this.father[u]) return u // 自身
+        // return find(this.father[u])
+        /**
+         * 路径压缩： 如果每次都如上行那样递归寻找上级，比较浪费时间
+         * 路径压缩就是把节点直接接到根节点上，而这一步操作可以巧妙的在 find 过程中完成，如下：
+         */
+        return (this.father[u] = find(this.father[u]))
+    }
 }
 ```
 
 - 启发式合并：
 
-  上面的合并比较随意，合并时，选择哪棵树的根节点作为新树的根节点会影响未来操作的复杂度。我们可以将节点较少或深度较小的树连到另一棵。将较小集合合并到较大集合有助于平衡树的高度，从而提高查询效率。
+    上面的合并比较随意，合并时，选择哪棵树的根节点作为新树的根节点会影响未来操作的复杂度。我们可以将节点较少或深度较小的树连到另一棵。将较小集合合并到较大集合有助于平衡树的高度，从而提高查询效率。
 
-  ```js
-  // constructor
-  this.size = Array(size).fill(1)
+    ```js
+    // constructor
+    this.size = Array(size).fill(1)
 
-  union(u, y) {
-      u = this.find(u);
-      v = this.find(v);
-      if (u === v) return
-      if (this.size[u] < this.size[v]) {
-          [u, v] = [v, u];
-      }
-      this.father[v] = u;
-      this.size[u] += this.size[v];
-  }
-  ```
+    union(u, y) {
+        u = this.find(u);
+        v = this.find(v);
+        if (u === v) return
+        if (this.size[u] < this.size[v]) {
+            [u, v] = [v, u];
+        }
+        this.father[v] = u;
+        this.size[u] += this.size[v];
+    }
+    ```
 
 #### 练习
 
@@ -358,20 +354,20 @@ class Dsu {
  * @return {number[]}
  */
 var findRedundantConnection = function (edges) {
-  const len = edges.length
-  const DSU = Array.from(Array(len + 1), (_, index) => index)
-  for (let i = 0; i < len; ++i) {
-    const [u, v] = edges[i]
-    const u1 = find(DSU, u)
-    const v1 = find(DSU, v)
-    if (u1 === v1) return edges[i]
-    DSU[v1] = u1 // union 简化到这里
-  }
-  return [0]
+    const len = edges.length
+    const DSU = Array.from(Array(len + 1), (_, index) => index)
+    for (let i = 0; i < len; ++i) {
+        const [u, v] = edges[i]
+        const u1 = find(DSU, u)
+        const v1 = find(DSU, v)
+        if (u1 === v1) return edges[i]
+        DSU[v1] = u1 // union 简化到这里
+    }
+    return [0]
 }
 function find(p, u) {
-  if (u === p[u]) return u
-  return (p[u] = find(p, p[u]))
+    if (u === p[u]) return u
+    return (p[u] = find(p, p[u]))
 }
 ```
 
@@ -383,63 +379,63 @@ function find(p, u) {
  * @return {void} Do not return anything, modify board in-place instead.
  */
 var solve = function (board) {
-  if (board.length === 0) return
-  // 这道题一看就是岛屿类的问题，自然可以用 flood fill 算法去搞定，但本次重点是并查集~
-  const rowLen = board.length
-  const colLen = board[0].length
+    if (board.length === 0) return
+    // 这道题一看就是岛屿类的问题，自然可以用 flood fill 算法去搞定，但本次重点是并查集~
+    const rowLen = board.length
+    const colLen = board[0].length
 
-  const DSU = Array.from(Array(rowLen * colLen + 1), (_, index) => index) // 多一个最后的节点用于给 dummyNode
-  const dummyNode = rowLen * colLen // 如果不用 dummyNode 就略微复杂了
+    const DSU = Array.from(Array(rowLen * colLen + 1), (_, index) => index) // 多一个最后的节点用于给 dummyNode
+    const dummyNode = rowLen * colLen // 如果不用 dummyNode 就略微复杂了
 
-  // 遍历四条件边，把四条边上的 O 与 dummyNode 连通
-  for (let i = 0; i < rowLen; ++i) {
-    if (board[i][0] === 'O') union(DSU, i * colLen, dummyNode)
-    if (board[i][colLen - 1] === 'O') union(DSU, i * colLen + colLen - 1, dummyNode)
-  }
-  for (let j = 0; j < colLen; ++j) {
-    if (board[0][j] === 'O') union(DSU, j, dummyNode)
-    if (board[rowLen - 1][j] === 'O') union(DSU, (rowLen - 1) * colLen + j, dummyNode)
-  }
+    // 遍历四条件边，把四条边上的 O 与 dummyNode 连通
+    for (let i = 0; i < rowLen; ++i) {
+        if (board[i][0] === 'O') union(DSU, i * colLen, dummyNode)
+        if (board[i][colLen - 1] === 'O') union(DSU, i * colLen + colLen - 1, dummyNode)
+    }
+    for (let j = 0; j < colLen; ++j) {
+        if (board[0][j] === 'O') union(DSU, j, dummyNode)
+        if (board[rowLen - 1][j] === 'O') union(DSU, (rowLen - 1) * colLen + j, dummyNode)
+    }
 
-  // 遍历整个内部节点，把所有的 O 连通起来（连完后，如果和边缘连接的就会在一个集合，否则在另一个集合）
-  // 利用方向数组遍历上下左右
-  const dirs = [
-    [-1, 0],
-    [1, 0],
-    [0, -1],
-    [0, 1],
-  ]
-  for (let i = 1; i < rowLen - 1; ++i) {
-    for (let j = 1; j < colLen - 1; ++j) {
-      if (board[i][j] === 'O') {
-        for (const [x, y] of dirs) {
-          const nx = i + x
-          const ny = j + y
-          if (board[nx][ny] === 'O') {
-            union(DSU, i * colLen + j, nx * colLen + ny)
-          }
+    // 遍历整个内部节点，把所有的 O 连通起来（连完后，如果和边缘连接的就会在一个集合，否则在另一个集合）
+    // 利用方向数组遍历上下左右
+    const dirs = [
+        [-1, 0],
+        [1, 0],
+        [0, -1],
+        [0, 1]
+    ]
+    for (let i = 1; i < rowLen - 1; ++i) {
+        for (let j = 1; j < colLen - 1; ++j) {
+            if (board[i][j] === 'O') {
+                for (const [x, y] of dirs) {
+                    const nx = i + x
+                    const ny = j + y
+                    if (board[nx][ny] === 'O') {
+                        union(DSU, i * colLen + j, nx * colLen + ny)
+                    }
+                }
+            }
         }
-      }
     }
-  }
-  // 遍历整个 board， 把中间包围的且没有和 dummyNode 连通的 O 变为 X
-  for (let i = 1; i < rowLen - 1; ++i) {
-    for (let j = 1; j < colLen - 1; ++j) {
-      if (board[i][j] === 'O' && find(DSU, i * colLen + j) !== find(DSU, dummyNode)) {
-        board[i][j] = 'X'
-      }
+    // 遍历整个 board， 把中间包围的且没有和 dummyNode 连通的 O 变为 X
+    for (let i = 1; i < rowLen - 1; ++i) {
+        for (let j = 1; j < colLen - 1; ++j) {
+            if (board[i][j] === 'O' && find(DSU, i * colLen + j) !== find(DSU, dummyNode)) {
+                board[i][j] = 'X'
+            }
+        }
     }
-  }
 }
 function find(p, u) {
-  if (u === p[u]) return u
-  return (p[u] = find(p, p[u]))
+    if (u === p[u]) return u
+    return (p[u] = find(p, p[u]))
 }
 function union(p, u, v) {
-  u = find(p, u)
-  v = find(p, v)
-  if (u === v) return
-  p[v] = u
+    u = find(p, u)
+    v = find(p, v)
+    if (u === v) return
+    p[v] = u
 }
 ```
 
@@ -449,28 +445,28 @@ function union(p, u, v) {
 
 ```js
 class UnionFind {
-  constructor(n) {
-    this.parent = new Array(n).fill(null).map((_, idx) => idx)
-    this.isEdge = new Array(n).fill(false) // 标记是否与边缘相连
-  }
-
-  find(x) {
-    if (this.parent[x] !== x) {
-      this.parent[x] = this.find(this.parent[x])
+    constructor(n) {
+        this.parent = new Array(n).fill(null).map((_, idx) => idx)
+        this.isEdge = new Array(n).fill(false) // 标记是否与边缘相连
     }
-    return this.parent[x]
-  }
 
-  union(x, y) {
-    let rootX = this.find(x)
-    let rootY = this.find(y)
-
-    if (rootX !== rootY) {
-      this.parent[rootY] = rootX
-      // 更新rootX的边缘状态
-      this.isEdge[rootX] = this.isEdge[rootX] || this.isEdge[rootY]
+    find(x) {
+        if (this.parent[x] !== x) {
+            this.parent[x] = this.find(this.parent[x])
+        }
+        return this.parent[x]
     }
-  }
+
+    union(x, y) {
+        let rootX = this.find(x)
+        let rootY = this.find(y)
+
+        if (rootX !== rootY) {
+            this.parent[rootY] = rootX
+            // 更新rootX的边缘状态
+            this.isEdge[rootX] = this.isEdge[rootX] || this.isEdge[rootY]
+        }
+    }
 }
 
 /**
@@ -478,49 +474,49 @@ class UnionFind {
  * @return {void} Do not return anything, modify board in-place instead.
  */
 var solve = function (board) {
-  if (board.length === 0) {
-    return
-  }
+    if (board.length === 0) {
+        return
+    }
 
-  const rows = board.length
-  const cols = board[0].length
-  const uf = new UnionFind(rows * cols)
+    const rows = board.length
+    const cols = board[0].length
+    const uf = new UnionFind(rows * cols)
 
-  // 定义边界条件
-  const isEdge = (i, j) => i == 0 || i == rows - 1 || j == 0 || j == cols - 1
+    // 定义边界条件
+    const isEdge = (i, j) => i == 0 || i == rows - 1 || j == 0 || j == cols - 1
 
-  // 遍历矩阵中所有的'O'节点
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < cols; j++) {
-      if (board[i][j] === 'O') {
-        let idx = i * cols + j
-        // 如果是边缘节点，则将其标记为与边缘相连
-        uf.isEdge[idx] = isEdge(i, j)
+    // 遍历矩阵中所有的'O'节点
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            if (board[i][j] === 'O') {
+                let idx = i * cols + j
+                // 如果是边缘节点，则将其标记为与边缘相连
+                uf.isEdge[idx] = isEdge(i, j)
 
-        // 将当前'O'节点与相邻的'O'节点进行连接
-        let neighbors = [
-          [i + 1, j],
-          [i - 1, j],
-          [i, j + 1],
-          [i, j - 1],
-        ]
-        for (let [ni, nj] of neighbors) {
-          if (ni >= 0 && ni < rows && nj >= 0 && nj < cols && board[ni][nj] === 'O') {
-            uf.union(idx, ni * cols + nj)
-          }
+                // 将当前'O'节点与相邻的'O'节点进行连接
+                let neighbors = [
+                    [i + 1, j],
+                    [i - 1, j],
+                    [i, j + 1],
+                    [i, j - 1]
+                ]
+                for (let [ni, nj] of neighbors) {
+                    if (ni >= 0 && ni < rows && nj >= 0 && nj < cols && board[ni][nj] === 'O') {
+                        uf.union(idx, ni * cols + nj)
+                    }
+                }
+            }
         }
-      }
     }
-  }
 
-  // 遍历矩阵，将不与边缘相连的'O'节点改为'X'
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < cols; j++) {
-      if (board[i][j] === 'O' && !uf.isEdge[uf.find(i * cols + j)]) {
-        board[i][j] = 'X'
-      }
+    // 遍历矩阵，将不与边缘相连的'O'节点改为'X'
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            if (board[i][j] === 'O' && !uf.isEdge[uf.find(i * cols + j)]) {
+                board[i][j] = 'X'
+            }
+        }
     }
-  }
 }
 ```
 
@@ -534,37 +530,37 @@ var solve = function (board) {
  * @return {boolean}
  */
 var equationsPossible = function (equations) {
-  // 很明显的环检测问题
-  const DSU = Array.from(Array(26), (_, index) => index)
-  for (let i = 0; i < equations.length; ++i) {
-    const edge = equations[i]
-    const isConnected = edge[1] === '='
-    if (isConnected) {
-      const u = edge.charCodeAt(0) - 'a'.charCodeAt()
-      const v = edge.charCodeAt(3) - 'a'.charCodeAt()
-      union(DSU, u, v)
+    // 很明显的环检测问题
+    const DSU = Array.from(Array(26), (_, index) => index)
+    for (let i = 0; i < equations.length; ++i) {
+        const edge = equations[i]
+        const isConnected = edge[1] === '='
+        if (isConnected) {
+            const u = edge.charCodeAt(0) - 'a'.charCodeAt()
+            const v = edge.charCodeAt(3) - 'a'.charCodeAt()
+            union(DSU, u, v)
+        }
     }
-  }
-  for (let i = 0; i < equations.length; ++i) {
-    const edge = equations[i]
-    const isNotConnected = edge[1] === '!'
-    if (isNotConnected) {
-      const u = edge.charCodeAt(0) - 'a'.charCodeAt()
-      const v = edge.charCodeAt(3) - 'a'.charCodeAt()
-      if (find(DSU, u) === find(DSU, v)) return false
+    for (let i = 0; i < equations.length; ++i) {
+        const edge = equations[i]
+        const isNotConnected = edge[1] === '!'
+        if (isNotConnected) {
+            const u = edge.charCodeAt(0) - 'a'.charCodeAt()
+            const v = edge.charCodeAt(3) - 'a'.charCodeAt()
+            if (find(DSU, u) === find(DSU, v)) return false
+        }
     }
-  }
-  return true
+    return true
 }
 function find(p, u) {
-  if (u === p[u]) return u
-  return (p[u] = find(p, p[u]))
+    if (u === p[u]) return u
+    return (p[u] = find(p, p[u]))
 }
 function union(p, u, v) {
-  u = find(p, u)
-  v = find(p, v)
-  if (u === v) return
-  p[v] = u
+    u = find(p, u)
+    v = find(p, v)
+    if (u === v) return
+    p[v] = u
 }
 ```
 

@@ -6,7 +6,6 @@ tags: ['cli', 'react']
 draft: false
 summary: '一个简单的脚手架, 使用 vite + react + typescript + tailwindcss + zustand + prettier + eslint.'
 images: []
-layout: PostLayout
 ---
 
 ## 缘起
@@ -22,12 +21,14 @@ layout: PostLayout
 # 使用了官网提供的最基础的模板
 pnpm create vite my-vue-app --template react-ts
 ```
+
 下面是具体做的工作:
 
 - 配置 `preset.css`, 最简单的 css 预设
 - 配置 `prettier` 和 `eslint`, 规范代码提交
 - 配置 `tailwindcss`, 在`settings.json`中添加 `tailwindCSS.experimental.classRegex`, 使得在变量中也能给出 `tailwindcss` 提示
 - 配置 `zustand`, 进行状态管理, 内置了 loading 处理 store 和函数(启发于 Rematch 的 loading 插件).
+
     ```ts
     import till from '@/utils' // 把 await-to-js 搬运到项目中了, 因为我觉得 till 与这个方法的作用更匹配
     import { create } from 'zustand'
@@ -40,7 +41,7 @@ pnpm create vite my-vue-app --template react-ts
     }
     const useLoading = create<State & Action>((set, get) => ({
         loading: false,
-        setLoading: loading => {
+        setLoading: (loading) => {
             set({ loading: typeof loading === 'boolean' ? loading : !get().loading })
         }
     }))

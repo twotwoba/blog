@@ -2,11 +2,10 @@
 title: '自用 TS 手册'
 date: '2024-07-26 17:05:26'
 # lastmod: '1900-01-01'
-tags: ['typescript','javascript']
+tags: ['typescript', 'javascript']
 draft: false
 summary: '说来惭愧，写了 3 年的 ts，尽管不是 anyscript 风格，但是跟源码中的一些类型体操比起来，略显稚嫩，而且现在越来越觉得**代码设计优先**，代码编写就是个体力活罢了。 so~，回炉重造！'
 images: []
-layout: PostLayout
 ---
 
 > 只会写基础TS就跟处处写重复代码不会抽通用模块、功能函数的 js 初学者一样一样的，run是能run，就是有点费键盘...
@@ -22,19 +21,23 @@ layout: PostLayout
 ![ts-basic-types](/static/images/ts-basic-types.png)
 
 基础运算：
+
 - `|`，联合类型
-   - 存在父子关系，则结果是类型权重较`大`的那个；没有父子关系则为`联合类型`
-   - 在二进制位运算里，`|` 会有增加属性的功能，TS 里也类似，使得类型范围增加，但赋值时只能命中其中某一个类型
+    - 存在父子关系，则结果是类型权重较`大`的那个；没有父子关系则为`联合类型`
+    - 在二进制位运算里，`|` 会有增加属性的功能，TS 里也类似，使得类型范围增加，但赋值时只能命中其中某一个类型
 - `&`，交叉类型
-   - 存在父子关系，则结果是类型权重较`小`的那个；没有父子关系则为 `never`
-   - 在对象类型中就是合并对象类型
+    - 存在父子关系，则结果是类型权重较`小`的那个；没有父子关系则为 `never`
+    - 在对象类型中就是合并对象类型
 
 特殊的 `any` 既为顶部类型也为底部类型：
+
 ```ts
 type t1 = any | unknown // any
 type t2 = any & unknown // any
 ```
+
 特殊的，`never` 在联合类型中会被过滤掉：
+
 ```ts
 // 获取函数属性的键值
 interface Demo {
@@ -47,12 +50,13 @@ interface Demo {
 type GetDemoFnKeyTypes<T, K> = {
     [P in keyof T]: T[P] extends K ? P : never // TS 中的遍历属性，类似与 JS 的 forin 语句
 }[keyof T]
-type FnKeyTypes = GetDemoFnKeyTypes<Demo, () => string[]>  // 'd' | 'e'
+type FnKeyTypes = GetDemoFnKeyTypes<Demo, () => string[]> // 'd' | 'e'
 ```
 
 ## 取属性类型
 
 JS 对象通过 `.`或`[prop]` 获取属性值，TS 中则可以通过后者 `[prop]` 获取属性类型：
+
 ```ts
 interface Person {
     name: string
@@ -64,6 +68,7 @@ type Name = Person['name'] // string
 ```
 
 特殊的，基础类型可以取到原型的定义：
+
 ```ts
 // String.prototype.concat 的类型定义
 type Concat = 'hello'['concat'] // (...strings: string[]) => string
@@ -74,11 +79,12 @@ type ToFixed = 1['toFixed'] // (fractionDigits?: number | undefined) => string
 ## keyof & typeof
 
 `keyof` 获取公有属性的联合类型；`typeof` 推导出 js 变量的对应类型：
+
 ```ts
 class Person {
-  public name: string
-  public age: number
-  private gender: boolean
+    public name: string
+    public age: number
+    private gender: boolean
 }
 type T1 = keyof Person // 'name' | 'age'
 type T2 = keyof any // string | number | symbol
@@ -94,6 +100,7 @@ type T4 = (typeof Demo)[number] // 1 | 'hello' | true
 const A = ['a', 'b', 'c'] as const
 const temp = {} as Record<(typeof A)[number], any> // {a: xxx, b: xxx, c : xxx}
 ```
+
 实际上，一般 keyof 和 typeof 一起配合使用的场景非常多，多加练习即可。
 
 ## interface & type
@@ -114,6 +121,7 @@ TS 入门时多多少少都会对这两玩意儿有点困惑吧👻
 协变（Covariance）和逆变（Contravariance）的概念用于描述类型系统中子类型和父类型之间的关系。
 
 简单讲：
+
 - `协变`，意味着子类型可以赋值给父类型
 - `逆变`，意味着父类型可以赋值给子类型
 
@@ -121,7 +129,7 @@ TS 入门时多多少少都会对这两玩意儿有点困惑吧👻
 
 ```ts
 type Animal = {
-  name: string
+    name: string
 }
 type Dog = Animal & { age: number }
 
@@ -130,8 +138,8 @@ let b!: () => Dog
 a = b // ok
 b = a // error
 
-let c!: (param: Animal) => void 
-let d!: (param: Dog) => void 
+let c!: (param: Animal) => void
+let d!: (param: Dog) => void
 c = d // error
 d = c // ok
 ```
@@ -141,17 +149,19 @@ d = c // ok
 ## 泛型 & infer
 
 泛型需要注意的一个点是在进行约束时，如果泛型是联合类型，那么满足`分配律`：
+
 ```ts
 type P<T> = T extends 'X' ? 1 : 2
 type T1 = P<'X' | 'Y'> // 1 | 2
 
-type T2 = 'X' | 'Y' extends 'X' ? 1 : 2; // 2 直接进行约束则没有分配律
+type T2 = 'X' | 'Y' extends 'X' ? 1 : 2 // 2 直接进行约束则没有分配律
 ```
 
 `infer` 用在 `extends` 之后，用来推断类型，是类型体操的关键字段之一：
+
 ```ts
-type A<T> = T extends {a: infer U, b: infer U} ? U : any;
-type B = A<{a: string, b: number}> // string | number
+type A<T> = T extends { a: infer U; b: infer U } ? U : any
+type B = A<{ a: string; b: number }> // string | number
 ```
 
 ## 内置类型
@@ -159,10 +169,11 @@ type B = A<{a: string, b: number}> // string | number
 - [常用内置工具类型](https://www.typescriptlang.org/docs/handbook/utility-types.html)
 
 熟练使用内置类型，会让体操事半功倍，比如我之前用 zustand 时，封装了一个 loading 函数：
+
 ```ts
 /**
  * 用到了 Parameters & ReturnType
- * 使用的时候 const res = withLoading(apiService)(params), 
+ * 使用的时候 const res = withLoading(apiService)(params),
  * 得益于 ts 类型提示，上面的 apiService 的参数也提示到 params 的位置
  */
 export const withLoading = <T extends (...args: any[]) => Promise<any>>(asyncFunction: T) => {

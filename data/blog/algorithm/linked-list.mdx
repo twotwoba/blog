@@ -6,7 +6,6 @@ tags: ['data structure', 'algorithm']
 draft: false
 summary: '浅学一下链表⛓️'
 images: []
-layout: PostLayout
 ---
 
 ## 链表
@@ -84,26 +83,26 @@ while (f != null && f.next != null) {
  * @return {ListNode}
  */
 var addTwoNumbers = function (l1, l2) {
-  let dummy = new ListNode(-1)
-  let p = dummy
+    let dummy = new ListNode(-1)
+    let p = dummy
 
-  let p1 = l1,
-    p2 = l2
-  let carry = 0
-  while (p1 || p2) {
-    let a = p1 ? p1.val : 0
-    let b = p2 ? p2.val : 0
-    let sum = a + b + carry
-    carry = (sum / 10) | 0
-    p.next = new ListNode(sum % 10)
-    p = p.next
-    p1 = p1 ? p1.next : null
-    p2 = p2 ? p2.next : null
-  }
-  if (carry) {
-    p.next = new ListNode(carry)
-  }
-  return dummy.next
+    let p1 = l1,
+        p2 = l2
+    let carry = 0
+    while (p1 || p2) {
+        let a = p1 ? p1.val : 0
+        let b = p2 ? p2.val : 0
+        let sum = a + b + carry
+        carry = (sum / 10) | 0
+        p.next = new ListNode(sum % 10)
+        p = p.next
+        p1 = p1 ? p1.next : null
+        p2 = p2 ? p2.next : null
+    }
+    if (carry) {
+        p.next = new ListNode(carry)
+    }
+    return dummy.next
 }
 ```
 
@@ -116,18 +115,18 @@ var addTwoNumbers = function (l1, l2) {
  * @return {ListNode}
  */
 var removeNthFromEnd = function (head, n) {
-  let p = head
-  while (n--) {
-    p = p.next
-  }
-  let dummy = new ListNode(-1, head)
-  let p2 = dummy
-  while (p) {
-    p = p.next
-    p2 = p2.next
-  }
-  p2.next = p2.next.next
-  return dummy.next
+    let p = head
+    while (n--) {
+        p = p.next
+    }
+    let dummy = new ListNode(-1, head)
+    let p2 = dummy
+    while (p) {
+        p = p.next
+        p2 = p2.next
+    }
+    p2.next = p2.next.next
+    return dummy.next
 }
 ```
 
@@ -153,23 +152,23 @@ lc.2 和 lc.19 是 dummy 守卫节点的最佳实践了，一个是新增，一�
  * @return {ListNode}
  */
 var mergeTwoLists = function (list1, list2) {
-  let dummy = new ListNode(-1)
-  let p = dummy
-  let p1 = list1,
-    p2 = list2
-  while (p1 && p2) {
-    if (p1.val < p2.val) {
-      p.next = p1
-      p1 = p1.next
-    } else {
-      p.next = p2
-      p2 = p2.next
+    let dummy = new ListNode(-1)
+    let p = dummy
+    let p1 = list1,
+        p2 = list2
+    while (p1 && p2) {
+        if (p1.val < p2.val) {
+            p.next = p1
+            p1 = p1.next
+        } else {
+            p.next = p2
+            p2 = p2.next
+        }
+        p = p.next
     }
-    p = p.next
-  }
-  if (p1) p.next = p1
-  if (p2) p.next = p2
-  return dummy.next
+    if (p1) p.next = p1
+    if (p2) p.next = p2
+    return dummy.next
 }
 ```
 
@@ -192,66 +191,66 @@ var mergeTwoLists = function (list1, list2) {
  * @return {ListNode}
  */
 var mergeKLists = function (lists) {
-  let dummy = new ListNode(-1)
-  let p = dummy
-  lists = lists.filter((item) => item !== null)
-  const pq = new PQ(lists, (a, b) => a > b)
-  while (!pq.isEmpty()) {
-    const top = pq.pop()
-    p.next = top
-    p = p.next
+    let dummy = new ListNode(-1)
+    let p = dummy
+    lists = lists.filter((item) => item !== null)
+    const pq = new PQ(lists, (a, b) => a > b)
+    while (!pq.isEmpty()) {
+        const top = pq.pop()
+        p.next = top
+        p = p.next
 
-    if (top && top.next) {
-      pq.push(top.next)
+        if (top && top.next) {
+            pq.push(top.next)
+        }
     }
-  }
-  return dummy.next
+    return dummy.next
 }
 
 /** 手动实现优先队列 */
 class PQ {
-  constructor(data, comparator) {
-    this.data = data
-    this.comparator = comparator
-    for (let i = data.length >> 1; i >= 0; --i) this.down(i)
-  }
-  up(i) {
-    while (i > 0 && this.comparator(this.data[(i - 1) >> 1].val, this.data[i].val)) {
-      this.swap((i - 1) >> 1, i)
-      i = (i - 1) >> 1
+    constructor(data, comparator) {
+        this.data = data
+        this.comparator = comparator
+        for (let i = data.length >> 1; i >= 0; --i) this.down(i)
     }
-  }
-  down(i) {
-    let left = 2 * i + 1
-    while (left < this.data.length) {
-      let min = left
-      if (left + 1 < this.data.length) {
-        min = this.comparator(this.data[left + 1].val, this.data[left].val) ? left : left + 1
-      }
-      min = this.comparator(this.data[i].val, this.data[min].val) ? i : min
-      if (min === i) break
-      this.swap(min, i)
-      i = min
-      left = 2 * i + 1
+    up(i) {
+        while (i > 0 && this.comparator(this.data[(i - 1) >> 1].val, this.data[i].val)) {
+            this.swap((i - 1) >> 1, i)
+            i = (i - 1) >> 1
+        }
     }
-  }
-  push(val) {
-    this.up(this.data.push(val) - 1)
-  }
-  pop() {
-    this.swap(0, this.data.length - 1)
-    const top = this.data.pop()
-    this.down(0)
-    return top
-  }
-  swap(i, j) {
-    const temp = this.data[i]
-    this.data[i] = this.data[j]
-    this.data[j] = temp
-  }
-  isEmpty() {
-    return this.data.length === 0
-  }
+    down(i) {
+        let left = 2 * i + 1
+        while (left < this.data.length) {
+            let min = left
+            if (left + 1 < this.data.length) {
+                min = this.comparator(this.data[left + 1].val, this.data[left].val) ? left : left + 1
+            }
+            min = this.comparator(this.data[i].val, this.data[min].val) ? i : min
+            if (min === i) break
+            this.swap(min, i)
+            i = min
+            left = 2 * i + 1
+        }
+    }
+    push(val) {
+        this.up(this.data.push(val) - 1)
+    }
+    pop() {
+        this.swap(0, this.data.length - 1)
+        const top = this.data.pop()
+        this.down(0)
+        return top
+    }
+    swap(i, j) {
+        const temp = this.data[i]
+        this.data[i] = this.data[j]
+        this.data[j] = temp
+    }
+    isEmpty() {
+        return this.data.length === 0
+    }
 }
 ```
 
@@ -259,23 +258,23 @@ class PQ {
 
 ```js
 var mergeKLists = function (lists) {
-  if (lists.length === 0) return null
-  if (lists.length === 1) return lists[0]
-  const mid = lists.length >> 1
-  const left = mergeKLists(lists.slice(0, mid))
-  const right = mergeKLists(lists.slice(mid))
-  return mergeTwoList(left, right)
+    if (lists.length === 0) return null
+    if (lists.length === 1) return lists[0]
+    const mid = lists.length >> 1
+    const left = mergeKLists(lists.slice(0, mid))
+    const right = mergeKLists(lists.slice(mid))
+    return mergeTwoList(left, right)
 }
 function mergeTwoList(a, b) {
-  if (!a) return b
-  if (!b) return a
-  if (a.val < b.val) {
-    a.next = mergeTwoList(a.next, b)
-    return a
-  } else {
-    b.next = mergeTwoList(a, b.next)
-    return b
-  }
+    if (!a) return b
+    if (!b) return a
+    if (a.val < b.val) {
+        a.next = mergeTwoList(a.next, b)
+        return a
+    } else {
+        b.next = mergeTwoList(a, b.next)
+        return b
+    }
 }
 ```
 
@@ -285,28 +284,28 @@ function mergeTwoList(a, b) {
 
 ```js
 var swapPairs = function (head) {
-  if (head === null || head.next === null) return head
-  const newHead = head.next // cache
-  head.next = swapPairs(head.next.next)
-  newHead.next = head // 归 - 后序位置
-  return newHead
+    if (head === null || head.next === null) return head
+    const newHead = head.next // cache
+    head.next = swapPairs(head.next.next)
+    newHead.next = head // 归 - 后序位置
+    return newHead
 }
 
 /** 迭代解法 */
 var swapPairs = function (head) {
-  const dummy = new ListNode(-1)
-  dummy.next = head
-  let p = dummy
-  while (p.next !== null && p.next.next !== null) {
-    const a = p.next // cache
-    const b = p.next.next // cache
+    const dummy = new ListNode(-1)
+    dummy.next = head
+    let p = dummy
+    while (p.next !== null && p.next.next !== null) {
+        const a = p.next // cache
+        const b = p.next.next // cache
 
-    p.next = b
-    a.next = b.next
-    b.next = a
-    p = a
-  }
-  return dummy.next
+        p.next = b
+        a.next = b.next
+        b.next = a
+        p = a
+    }
+    return dummy.next
 }
 ```
 
@@ -320,15 +319,15 @@ var swapPairs = function (head) {
  * @return {ListNode}
  */
 var deleteDuplicates = function (head) {
-  let p = head
-  while (p && p.next) {
-    if (p.val === p.next.val) {
-      p.next = p.next.next
-    } else {
-      p = p.next
+    let p = head
+    while (p && p.next) {
+        if (p.val === p.next.val) {
+            p.next = p.next.next
+        } else {
+            p = p.next
+        }
     }
-  }
-  return head
+    return head
 }
 ```
 
@@ -349,27 +348,27 @@ var deleteDuplicates = function (head) {
  * @return {ListNode}
  */
 var partition = function (head, x) {
-  if (head === null || head.next === null) return head
-  let small = new ListNode(-1)
-  let large = new ListNode(-1)
-  let p = head,
-    p1 = small,
-    p2 = large
-  while (p !== null) {
-    const val = p.val
-    if (val < x) {
-      p1.next = p
-      p1 = p1.next
-    } else {
-      p2.next = p
-      p2 = p2.next
-    }
+    if (head === null || head.next === null) return head
+    let small = new ListNode(-1)
+    let large = new ListNode(-1)
+    let p = head,
+        p1 = small,
+        p2 = large
+    while (p !== null) {
+        const val = p.val
+        if (val < x) {
+            p1.next = p
+            p1 = p1.next
+        } else {
+            p2.next = p
+            p2 = p2.next
+        }
 
-    p = p.next
-  }
-  p2.next = null // 注意需要给大的收尾~
-  p1.next = large.next
-  return small.next
+        p = p.next
+    }
+    p2.next = null // 注意需要给大的收尾~
+    p1.next = large.next
+    return small.next
 }
 ```
 
@@ -448,31 +447,31 @@ public Node copyRandomList(Node head) {
  * @return {Node}
  */
 var copyRandomList = function (head) {
-  /** 尽可能降低空间复杂度，使用拼接技巧 */
-  let p = head
-  while (p !== null) {
-    const cpNode = new Node(p.val)
-    cpNode.next = p.next
-    p.next = cpNode
-    p = cpNode.next
-  }
-  p = head
-  while (p !== null) {
-    if (p.random) {
-      p.next.random = p.random.next
+    /** 尽可能降低空间复杂度，使用拼接技巧 */
+    let p = head
+    while (p !== null) {
+        const cpNode = new Node(p.val)
+        cpNode.next = p.next
+        p.next = cpNode
+        p = cpNode.next
     }
-    p = p.next.next
-  }
-  const dummy = new Node(-1)
-  let curr = dummy
-  p = head
-  while (p !== null) {
-    curr.next = p.next
-    curr = curr.next
-    p.next = curr.next
-    p = p.next
-  }
-  return dummy.next
+    p = head
+    while (p !== null) {
+        if (p.random) {
+            p.next.random = p.random.next
+        }
+        p = p.next.next
+    }
+    const dummy = new Node(-1)
+    let curr = dummy
+    p = head
+    while (p !== null) {
+        curr.next = p.next
+        curr = curr.next
+        p.next = curr.next
+        p = p.next
+    }
+    return dummy.next
 }
 ```
 
@@ -488,25 +487,25 @@ var copyRandomList = function (head) {
  * @return {boolean}
  */
 var hasCycle = function (head) {
-  if (head == null) return false
-  let f = head.next,
-    s = head
-  while (true) {
-    if (f == null || f.next == null) return false
-    s = s.next
-    f = f.next.next
-    if (s === f) return true
-  }
-  // 下面那种写法也行
-  // if (head == null) return false
-  // let s = head,
-  //     f = head.next // !!! 注意这里是先走了一步的
-  // while (s !== f) {
-  //     if (f == null || f.next == null) return false
-  //     s = s.next
-  //     f = f.next.next
-  // }
-  // return true
+    if (head == null) return false
+    let f = head.next,
+        s = head
+    while (true) {
+        if (f == null || f.next == null) return false
+        s = s.next
+        f = f.next.next
+        if (s === f) return true
+    }
+    // 下面那种写法也行
+    // if (head == null) return false
+    // let s = head,
+    //     f = head.next // !!! 注意这里是先走了一步的
+    // while (s !== f) {
+    //     if (f == null || f.next == null) return false
+    //     s = s.next
+    //     f = f.next.next
+    // }
+    // return true
 }
 ```
 
@@ -527,22 +526,22 @@ var hasCycle = function (head) {
  * @return {ListNode}
  */
 var detectCycle = function (head) {
-  if (head === null || head.next === null) return null
-  let s = head,
-    f = head
-  while (true) {
-    if (f == null || f.next == null) return null
-    s = s.next
-    f = f.next.next
-    if (s === f) break
-  }
+    if (head === null || head.next === null) return null
+    let s = head,
+        f = head
+    while (true) {
+        if (f == null || f.next == null) return null
+        s = s.next
+        f = f.next.next
+        if (s === f) break
+    }
 
-  f = head
-  while (s !== f) {
-    f = f.next
-    s = s.next
-  }
-  return s
+    f = head
+    while (s !== f) {
+        f = f.next
+        s = s.next
+    }
+    return s
 }
 ```
 
@@ -559,39 +558,39 @@ var detectCycle = function (head) {
  * @return {ListNode}
  */
 var getIntersectionNode = function (headA, headB) {
-  if (headA == null || headB == null) return null
+    if (headA == null || headB == null) return null
 
-  let n = 0
-  let p1 = headA,
-    p2 = headB // 假定 p1 为长，p2 为 短
-  while (p1 !== null) {
-    n++
-    p1 = p1.next
-  }
-  while (p2 !== null) {
-    n--
-    p2 = p2.next
-  }
+    let n = 0
+    let p1 = headA,
+        p2 = headB // 假定 p1 为长，p2 为 短
+    while (p1 !== null) {
+        n++
+        p1 = p1.next
+    }
+    while (p2 !== null) {
+        n--
+        p2 = p2.next
+    }
 
-  if (n > 0) {
-    p1 = headA
-    p2 = headB
-  } else {
-    p1 = headB
-    p2 = headA
-  }
+    if (n > 0) {
+        p1 = headA
+        p2 = headB
+    } else {
+        p1 = headB
+        p2 = headA
+    }
 
-  n = Math.abs(n)
-  while (n--) {
-    p1 = p1.next
-  }
+    n = Math.abs(n)
+    while (n--) {
+        p1 = p1.next
+    }
 
-  while (p1 !== p2) {
-    p1 = p1.next
-    p2 = p2.next
-  }
+    while (p1 !== p2) {
+        p1 = p1.next
+        p2 = p2.next
+    }
 
-  return p1
+    return p1
 }
 ```
 
@@ -720,23 +719,23 @@ public ListNode reverseList(ListNode head) {
  * @return {ListNode}
  */
 var reverseList = function (head) {
-  if (!head || !head.next) return head
-  const newHead = reverseList(head.next)
-  head.next.next = head
-  head.next = null
-  return newHead
+    if (!head || !head.next) return head
+    const newHead = reverseList(head.next)
+    head.next.next = head
+    head.next = null
+    return newHead
 }
 
 var reverseList = function (head) {
-  let p = head,
-    pre = null
-  while (p) {
-    const next = p.next
-    p.next = pre
-    pre = p
-    p = next
-  }
-  return pre
+    let p = head,
+        pre = null
+    while (p) {
+        const next = p.next
+        p.next = pre
+        pre = p
+        p = next
+    }
+    return pre
 }
 ```
 
@@ -761,26 +760,26 @@ var reverseList = function (head) {
  * @return {ListNode}
  */
 var reverseBetween = function (head, left, right) {
-  const dummy = new ListNode(-1) // left 可能为头，守卫简化操作
-  dummy.next = head
+    const dummy = new ListNode(-1) // left 可能为头，守卫简化操作
+    dummy.next = head
 
-  let p = dummy
-  for (let i = 0; i < left - 1; ++i) {
-    p = p.next
-  }
-  // 此时，p 指向区间的前一个节点
+    let p = dummy
+    for (let i = 0; i < left - 1; ++i) {
+        p = p.next
+    }
+    // 此时，p 指向区间的前一个节点
 
-  const len = right - left + 1
-  let curr = p.next
-  let step = len - 1
-  while (step--) {
-    const next = curr.next
-    curr.next = next.next
-    next.next = p.next
-    p.next = next
-  }
+    const len = right - left + 1
+    let curr = p.next
+    let step = len - 1
+    while (step--) {
+        const next = curr.next
+        curr.next = next.next
+        next.next = p.next
+        p.next = next
+    }
 
-  return dummy.next
+    return dummy.next
 }
 ```
 
@@ -800,31 +799,31 @@ var reverseBetween = function (head, left, right) {
  * @return {ListNode}
  */
 var reverseKGroup = function (head, k) {
-  if (head === null) return head
-  let a = (b = head)
-  for (let i = 0; i < k; ++i) {
-    if (b == null) return head // 不足 k
-    b = b.next
-  }
+    if (head === null) return head
+    let a = (b = head)
+    for (let i = 0; i < k; ++i) {
+        if (b == null) return head // 不足 k
+        b = b.next
+    }
 
-  const newHead = reverse(a, b)
-  a.next = reverseKGroup(b, k) // [a, b) 反转后 a 的 next 为剩下的链表反转
-  return newHead
+    const newHead = reverse(a, b)
+    a.next = reverseKGroup(b, k) // [a, b) 反转后 a 的 next 为剩下的链表反转
+    return newHead
 }
 
 /**
  * 反转 [head, tail) 区间的链表，其实普通的反转链表反转的就是 [head, null) 区间罢了
  */
 function reverse(head, tail) {
-  let prev = null,
-    curr = head
-  while (curr !== tail) {
-    const next = curr.next
-    curr.next = prev
-    prev = curr
-    curr = next
-  }
-  return prev
+    let prev = null,
+        curr = head
+    while (curr !== tail) {
+        const next = curr.next
+        curr.next = prev
+        prev = curr
+        curr = next
+    }
+    return prev
 }
 ```
 
@@ -843,31 +842,31 @@ function reverse(head, tail) {
  * @return {boolean}
  */
 var isPalindrome = function (head) {
-  if (head === null) return false
-  let s = head,
-    f = head
-  while (f !== null && f.next !== null) {
-    s = s.next
-    f = f.next.next
-  }
+    if (head === null) return false
+    let s = head,
+        f = head
+    while (f !== null && f.next !== null) {
+        s = s.next
+        f = f.next.next
+    }
 
-  // 对后半部分， s 进行反转
-  let prev = null
-  while (s !== null) {
-    const next = s.next
-    s.next = prev
-    prev = s
-    s = next
-  }
+    // 对后半部分， s 进行反转
+    let prev = null
+    while (s !== null) {
+        const next = s.next
+        s.next = prev
+        prev = s
+        s = next
+    }
 
-  // 对 prev 和 head 进行比较
-  while (prev) {
-    if (prev.val !== head.val) return false
-    prev = prev.next
-    head = head.next
-  }
+    // 对 prev 和 head 进行比较
+    while (prev) {
+        if (prev.val !== head.val) return false
+        prev = prev.next
+        head = head.next
+    }
 
-  return true
+    return true
 }
 ```
 
@@ -878,11 +877,11 @@ var isPalindrome = function (head) {
 在 javascript 中的 Set 和 Map 咱就不说啥了，非正规军 😄。来看看 java 的：
 
 1. 无序表
-   - HashSet: add remove contains，对呀 c++ 中的 unordered_set
-   - HashMap: put remove containsKey，对应 c++ 中的 unordered_map
+    - HashSet: add remove contains，对呀 c++ 中的 unordered_set
+    - HashMap: put remove containsKey，对应 c++ 中的 unordered_map
 2. 有序表
-   - TreeSet：它是按升序对元素进行排序，对应 c++ 中的 ordered_set
-   - TreeMap：基于红黑树的 NavigableMap 实现，它根据其键的自然顺序排序，对应 c++ 中的 ordered_map
+    - TreeSet：它是按升序对元素进行排序，对应 c++ 中的 ordered_set
+    - TreeMap：基于红黑树的 NavigableMap 实现，它根据其键的自然顺序排序，对应 c++ 中的 ordered_map
 
 记得之前学 java 的时候， HashSet 底层就是 HashMap，只不过没有 value 只有 key 罢了，而常规的 HashMap 的底层则是 链表，在 java 中，当链表的长度到达 8 时，就会自动扩容，链表也会重新分配，好像有红黑树什么的（不清楚，后序学习再回头补充），后面了解到哈希函数的时候，就更加清楚了，离散函数使得分配空间时基本是离散均匀的。
 

@@ -6,7 +6,6 @@ tags: ['algorithm']
 draft: false
 summary: '动态规划重点在于逻辑的推到, 涉及到的问题种类非常多, 所以真的好难呀😭'
 images: []
-layout: PostLayout
 ---
 
 动态规划是一种通过把**原问题分解为相对简单的子问题**的方式求解复杂问题的方法，它**不是一种具体的算法，而是一种解决特定问题的方法**。
@@ -15,17 +14,17 @@ layout: PostLayout
 
 能用动态规划解决的问题，需要满足三个条件：
 
--   最优子结构
+- 最优子结构
 
     简单说就是：一个问题的最优解包含子问题的最优解。
 
     注意：最优子结构不是动态规划方法独有的，也可能适用贪心。
 
--   重叠子问题
+- 重叠子问题
 
     子问题之间会有重叠，参考斐波那契数列，求 f(5) 依赖于 f(4)fn(3), f(4) 依赖于 f(3)f(2)。如果有大量的重叠子问题，我们可以用空间将这些子问题的解存储下来，避免重复求解相同的子问题，从而提升效率。
 
--   无后效性
+- 无后效性
 
     已经求解的子问题，不会再受到后续决策的影响。
 
@@ -42,9 +41,9 @@ layout: PostLayout
 
 依次来看：
 
--   每一层都会有最优解，且就是那一层所有子问题的最优解 --- 满足最优子结构
--   每一层的最优解不会因为下一层的选择而发生改变 --- 满足无后效性；
--   这道题倒是没有类似斐波那契类似的交叉的子问题，没有重叠子问题
+- 每一层都会有最优解，且就是那一层所有子问题的最优解 --- 满足最优子结构
+- 每一层的最优解不会因为下一层的选择而发生改变 --- 满足无后效性；
+- 这道题倒是没有类似斐波那契类似的交叉的子问题，没有重叠子问题
 
     （注意不是依赖于上一层的最优解，那就变成贪心了。 比如 第二层最优为 7-8，但是第三层是 7-3-8。）
 
@@ -58,7 +57,8 @@ layout: PostLayout
 >
 > 如果用图论的思想理解，我们建立一个 有向无环图，每个状态对应图上一个节点，**决策对应节点间的连边**。这样问题就转变为了一个在 DAG 上寻找最长（短）路的问题。
 
-{/* 
+{/\*
+
 ```js
 // 思路1: 自顶向下的动态规划 (递归)
 function dp(staus1, ...other_staus) {
@@ -78,7 +78,8 @@ for(const 状态1 of 状态1中的所有取值) {
   }
 }
 ```
-*/}
+
+\*/}
 
 ## 练一练
 
@@ -94,9 +95,9 @@ for(const 状态1 of 状态1中的所有取值) {
 
 精练一下：
 
--   「状态」：`定义 dp[i][j] 表示**A 的前 i 个元素，B 的前 j 个元素**的最长公共子序列的长度`，这样每一个 `dp[i][j]` 都表示了一个状态。
+- 「状态」：`定义 dp[i][j] 表示**A 的前 i 个元素，B 的前 j 个元素**的最长公共子序列的长度`，这样每一个 `dp[i][j]` 都表示了一个状态。
     > 注意：通常将`dp[i]`定义为表示`前i个`元素的状态，更容易处理边界情况，例如 `dp[0]`通常被定义为初始状态，表示空集或空字符串对应的状态。
--   「决策」：每一个 dp[i][j]都有 3 个决策：
+- 「决策」：每一个 dp[i][j]都有 3 个决策：
     1. a[i] == b[j]，dp[i][j] = dp[i-1][j-1] + 1
     2. a[i] != b[j]，dp[i][j] = Math.max(dp[i-1][j] + dp[i][j-1]) ，两个决策中选择较大的那个
         > 注意：这里的 a[i]、b[j] 的 i,j 只是指针游走，表示第 i、j 个，(实际位置应当是 a[i-1]、b[j-1])，方便状态推导，与 dp 的前 i,j 个相呼应。根据分析, dp[i-1][j-1]一定小于等于 dp[i-1][j]或 dp[i][j-1]
@@ -127,8 +128,9 @@ var longestCommonSubsequence = function (text1, text2) {
 
 lc.1035 不相交的线，与本题基本一模一样。
 
-{/* 
+{/\*
 这是一个，不用 dp[i] 表示前 i 个的定义，会有很多边界条件的判断，比较繁琐
+
 ```js
 var longestCommonSubsequence = function (text1, text2) {
     const m = text1.length
@@ -155,7 +157,8 @@ var longestCommonSubsequence = function (text1, text2) {
     return dp[m - 1][n - 1]
 }
 ```
-*/}
+
+\*/}
 
 #### lc.300 最长递增子序列
 
@@ -286,10 +289,10 @@ var isSubsequence = function (s, t) {
 
 需要动一下脑筋，举例思考，abb 和 ab，定义 dp[i][j] 表示 a 的前 i 个字符的子序列包含 b 的前 j 个字符的个数
 
--   当 a[i] == b[i] 时
-    -   若使用 a[i]，则 dp[i][j] = dp[i-1][j-1]
-    -   若不使用 a[i]，则 dp[i][j] = dp[i-1][j]
--   当 a[i] != b[i] 时，dp[i][j] = dp[i-1][j]
+- 当 a[i] == b[i] 时
+    - 若使用 a[i]，则 dp[i][j] = dp[i-1][j-1]
+    - 若不使用 a[i]，则 dp[i][j] = dp[i-1][j]
+- 当 a[i] != b[i] 时，dp[i][j] = dp[i-1][j]
 
 ```js
 /**
@@ -385,9 +388,10 @@ var findLength = function (nums1, nums2) {
 {/* 一个思考技巧是**把两个指针放到最后，从后往前游走来进行状态转移**： */}
 
 {/* 因为 a[i+1]==b[j]，所以 dp[i+1][j] = dp[i][j-1]，dp[i][j-1]是 dp[i+1][j]的前一个状态。如果还不能转过弯来，请把 a 插入1位看成 b 删除1 位~ */}
--   a 插，`dp[i][j-1] + 1`，在 a[i] 后插入一个和 b[j] 相同的字符，a[i+1]把 b[j]抵消了，此时就需要看 a[i] 转为 b[j-1]的最小步骤了，此时要让 a == b 则就需要看 a[1:i] 转换为 b[1:j-1]的最小步骤了，即 dp[i][j-1]
--   a 删，`dp[i-1][j] + 1`，删除 a[i]，即看 a[1:i-1] 转换为 b[1:j]的最小步骤。
--   a 改，`dp[i-1][j-1] + 1`，换一个字符只需要看 a[1:i-1] 转换为 b[1:j-1]
+
+- a 插，`dp[i][j-1] + 1`，在 a[i] 后插入一个和 b[j] 相同的字符，a[i+1]把 b[j]抵消了，此时就需要看 a[i] 转为 b[j-1]的最小步骤了，此时要让 a == b 则就需要看 a[1:i] 转换为 b[1:j-1]的最小步骤了，即 dp[i][j-1]
+- a 删，`dp[i-1][j] + 1`，删除 a[i]，即看 a[1:i-1] 转换为 b[1:j]的最小步骤。
+- a 改，`dp[i-1][j-1] + 1`，换一个字符只需要看 a[1:i-1] 转换为 b[1:j-1]
 
 ```js
 /**
@@ -472,12 +476,18 @@ var minDistance = function (word1, word2) {
 
 所以：
 
--   a[i] == a[j] 时，dp[i][j] = dp[i+1][j-1] + 2
--   a[i] != a[j] 时，dp[i][j] = Math.max(dp[i+1][j], dp[i][j-1])
+- a[i] == a[j] 时，dp[i][j] = dp[i+1][j-1] + 2
+- a[i] != a[j] 时，dp[i][j] = Math.max(dp[i+1][j], dp[i][j-1])
 
 > 注意：当出现 i 依赖于 i + 1 的情况，就需要分析一下遍历的方式。首先根据定义，i < = j, base case 就是对角线；根据状态转移方程每个节点都是从左边和下边推导上来的，如下图 1；由此可以脑补出二位矩阵图，如下图 2。
 >
-> <div className='flex gap-2'><img src='https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202404242237201.png' className='w-[270px] h-[200px]'/> <img src='https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202404242238302.png' className='w-[270px]'/> </div>
+> <div className="flex gap-2">
+>     <img
+>         src="https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202404242237201.png"
+>         className="h-[200px] w-[270px]"
+>     />{' '}
+>     <img src="https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202404242238302.png" className="w-[270px]" />{' '}
+> </div>
 > 遇到上图 2 的情况，可以斜着遍历（虚线），当然也可以从下往上&从左往右这样子遍历。
 
 ```js
@@ -522,7 +532,7 @@ var longestPalindromeSubseq = function (s) {
  */
 var minInsertions = function (s) {
     const n = s.length
-    const dp = Array.from(new Array(n), _ => new Array(n).fill(0))
+    const dp = Array.from(new Array(n), (_) => new Array(n).fill(0))
     // base case
     for (let i = 0; i < dp.length; ++i) {
         dp[i][i] = 1
@@ -556,11 +566,11 @@ var minInsertions = function (s) {
 
 01 背包是背包问题的基础中的基础，完全背包和多重背包都可以转换为 01 背包问题。
 
--   问题：**N 个物品， V 容量的背包。放入第 i 个物品至背包，占用 Wi 的容量，获得 Ci 的价值**。
--   特点：**每个物品都只有一件，选择放或者不放**。
--   状态定义及转移：**`dp[i][v]` 表示前 i 个物品放入 v 容量背包能获得的最大价值**。
-    -   不放，`dp[i][v] = dp[i-1][v]`，容量不变，价值与放入前一个一致
-    -   放入，`dp[i][v] = Math.max(dp[i-1][v - wi] + ci, dp[i-1][v])`，放入则需要与不放入进行比较，因为能放入的容量为 v-wi，需要找到能放入前的最大价值再加上 ci 即放入的最大价值。
+- 问题：**N 个物品， V 容量的背包。放入第 i 个物品至背包，占用 Wi 的容量，获得 Ci 的价值**。
+- 特点：**每个物品都只有一件，选择放或者不放**。
+- 状态定义及转移：**`dp[i][v]` 表示前 i 个物品放入 v 容量背包能获得的最大价值**。
+    - 不放，`dp[i][v] = dp[i-1][v]`，容量不变，价值与放入前一个一致
+    - 放入，`dp[i][v] = Math.max(dp[i-1][v - wi] + ci, dp[i-1][v])`，放入则需要与不放入进行比较，因为能放入的容量为 v-wi，需要找到能放入前的最大价值再加上 ci 即放入的最大价值。
 
 ##### 空间复杂度优化
 
@@ -577,8 +587,8 @@ var minInsertions = function (s) {
 
 进一步了解空间压缩，上面做过的最长回文子序列的状态转移方程为 `dp[i][j] = Math.max(dp[i+1][j], dp[i][j-1]) || dp[i+1][j-1] + 2`，dp[i][j] 依赖于三个状态，那么投影干掉 i 维度后:
 
--   a[i] == a[j]: dp[j] = dp[j-1] + 2
--   a[i] != a[j]: dp[j] = Math.max(dp[j], dp[j-1])
+- a[i] == a[j]: dp[j] = dp[j-1] + 2
+- a[i] != a[j]: dp[j] = Math.max(dp[j], dp[j-1])
 
 此时，右侧的 `dp[j]` 表示的是上一轮外层 for 循环的结果，即 `dp[i+1][j]`，由于是顺序遍历，`dp[j-1]` 表示的是内层 for 循环的结果，即 `dp[i][j-1]`，那么就剩下 `dp[i + 1][j - 1]` 还没有结果，那是因为二维变一维的时候，它的值被 `dp[i][j-1]` 覆盖掉啦（想象从上往下投影），解决办法也很简单，类似普通的交换方法中的技巧，先暂存起来不就好了 ☀️！
 
@@ -657,21 +667,18 @@ var findMaxForm = function (strs, m, n) {
     const dp = Array.from(Array(len + 1), () =>
         Array(m + 1)
             .fill(0)
-            .map(_ => Array(n + 1).fill(0))
+            .map((_) => Array(n + 1).fill(0))
     )
     for (let i = 1; i <= len; ++i) {
         const el = strs[i - 1]
-        const oneCount = el.split('').filter(_ => _ == '1').length
+        const oneCount = el.split('').filter((_) => _ == '1').length
         const zeroCount = el.length - oneCount
         for (let j = 0; j <= m; j++) {
             for (let k = 0; k <= n; ++k) {
                 if (j < zeroCount || k < oneCount) {
                     dp[i][j][k] = dp[i - 1][j][k]
                 } else {
-                    dp[i][j][k] = Math.max(
-                        dp[i - 1][j][k],
-                        dp[i - 1][j - zeroCount][k - oneCount] + 1
-                    )
+                    dp[i][j][k] = Math.max(dp[i - 1][j][k], dp[i - 1][j - zeroCount][k - oneCount] + 1)
                 }
             }
         }
@@ -702,39 +709,41 @@ var findTargetSumWays = function (nums, target) {
 }
 ```
 
-{/* 
+{/\*
 回溯一开始我是这么写的，有时会超时~~~
+
 ```js
 var findTargetSumWays = function (nums, target) {
-  let res = 0
-  let sum = 0
-  const backtrack = (index) => {
-    if (index === nums.length) {
-      if (sum === target) {
-        res++
-      }
-    } else {
-      sum += nums[index]
-      backtrack(index + 1)
-      sum -= nums[index]
+    let res = 0
+    let sum = 0
+    const backtrack = (index) => {
+        if (index === nums.length) {
+            if (sum === target) {
+                res++
+            }
+        } else {
+            sum += nums[index]
+            backtrack(index + 1)
+            sum -= nums[index]
 
-      sum -= nums[index]
-      backtrack(index + 1)
-      sum += nums[index]
+            sum -= nums[index]
+            backtrack(index + 1)
+            sum += nums[index]
+        }
     }
-  }
-  backtrack(0)
-  return res
+    backtrack(0)
+    return res
 }
 ```
-*/}
+
+\*/}
 
 再来看一下动态规划，讲道理，第一时间我是真的想不到。。。需要先做一个数学推导：
 
 集合总体可以分为 A、B 两个子集，那么就有：
 
--   `A - B = target`
--   `A + B = sum`
+- `A - B = target`
+- `A + B = sum`
 
 因此 `2A = sum + target，A = (sum + target) >> 1`；如此一来就巧妙地转变为了 lc.416 分割等和子集的问题了~~~
 
@@ -797,10 +806,10 @@ var lastStoneWeightII = function (stones) {
 
 #### 完全背包
 
--   问题：**N 种物品， V 容量的背包。放入第 i 种物品至背包，占用 Wi 的容量，获得 Ci 的价值**。
--   特点：**每种物品有无数件，选择不再是选货不选，而且选 0、1、2...直到 V/Wi 次**。
--   状态定义及转移：**`dp[i][v]` 表示前 i 种物品恰放入一个容量为 v 的背包的最大价值**，类似 01 背包可以给出基础方程：`dp[i][v] = Math.max(dp[i-1][v], dp[i-1]v-k*wi] + k*ci )，0 <= kwi <= v`。然而，这样求解每个状态的时间复杂度就不是常数级了，来到了`O(v/wi)`，总的时间复杂度是 `O(NVΣV/Ci)`，是比较高的，所以一般都需要优化。
-{/* 然而这么做是远远不够的，时间复杂度过高，先看一下 01 背包的状态压缩优化。 */}
+- 问题：**N 种物品， V 容量的背包。放入第 i 种物品至背包，占用 Wi 的容量，获得 Ci 的价值**。
+- 特点：**每种物品有无数件，选择不再是选货不选，而且选 0、1、2...直到 V/Wi 次**。
+- 状态定义及转移：**`dp[i][v]` 表示前 i 种物品恰放入一个容量为 v 的背包的最大价值**，类似 01 背包可以给出基础方程：`dp[i][v] = Math.max(dp[i-1][v], dp[i-1]v-k*wi] + k*ci )，0 <= kwi <= v`。然而，这样求解每个状态的时间复杂度就不是常数级了，来到了`O(v/wi)`，总的时间复杂度是 `O(NVΣV/Ci)`，是比较高的，所以一般都需要优化。
+  {/* 然而这么做是远远不够的，时间复杂度过高，先看一下 01 背包的状态压缩优化。 */}
 
 ##### 空间复杂度优化
 
@@ -884,8 +893,9 @@ var coinChange = function (coins, amount) {
 }
 ```
 
-{/* 
+{/\*
 // labuladong 大佬给出了两个经验公式(并不能覆盖所有情况，还是要自己思考的)
+
 ```js
 // 求填满背包 物品有多少种组合方式的 问题
 for (let i = 0; i < N; i++) {
@@ -902,7 +912,8 @@ for (let j = 0; j <= V; j++) {
     }
 }
 ```
-*/}
+
+\*/}
 
 ##### lc.518 零钱兑换 II
 
@@ -1021,7 +1032,7 @@ var minCostClimbingStairs = function (cost) {
  */
 var uniquePaths = function (m, n) {
     // 1. 定义dp[i][j]: 表示从matrix[0][0]到达 matrix[i][j]的总共路径
-    const dp = Array.from(new Array(m), _ => new Array(n).fill(0))
+    const dp = Array.from(new Array(m), (_) => new Array(n).fill(0))
     // 2. base case i == 0 / j == 0 的边界条件 dp[0][j] = 1 dp[j][0] = 1
     for (let i = 0; i < m; ++i) dp[i][0] = 1
     for (let j = 0; j < n; ++j) dp[0][j] = 1
@@ -1046,7 +1057,7 @@ var uniquePathsWithObstacles = function (obstacleGrid) {
     // 定义dp[i][j]: [0][0] 到 [i][j] 的路径总数
     const m = obstacleGrid.length
     const n = obstacleGrid[0].length
-    const dp = Array.from(new Array(m), _ => new Array(n).fill(0))
+    const dp = Array.from(new Array(m), (_) => new Array(n).fill(0))
     // base case
     dp[0][0] = obstacleGrid[0][0] === 1 ? 0 : 1
     for (let i = 1; i < m; ++i) dp[i][0] = obstacleGrid[i][0] === 1 ? 0 : dp[i - 1][0]
@@ -1098,5 +1109,5 @@ var integerBreak = function (n) {
 
 ## 推荐阅读
 
--  [Pascal's Triangle](https://www.mathsisfun.com/pascals-triangle.html)
--  [vue3 diff 中的 【最长递增子系列】](https://juejin.cn/post/6988489193215229982)
+- [Pascal's Triangle](https://www.mathsisfun.com/pascals-triangle.html)
+- [vue3 diff 中的 【最长递增子系列】](https://juejin.cn/post/6988489193215229982)

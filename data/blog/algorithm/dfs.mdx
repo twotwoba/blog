@@ -6,7 +6,6 @@ tags: ['algorithm']
 draft: false
 summary: '深度优先搜索'
 images: []
-layout: PostLayout
 ---
 
 ## 暴力递归-dfs
@@ -16,26 +15,26 @@ layout: PostLayout
 ```js
 // DFS 算法把「做选择」「撤销选择」的逻辑放在 for 循环外面
 var dfs = function (root) {
-  if (root == null) return
-  // 做选择
-  console.log('我已经进入节点 ' + root + ' 啦')
-  for (var i in root.children) {
-    dfs(root.children[i])
-  }
-  // 撤销选择
-  console.log('我将要离开节点 ' + root + ' 啦')
+    if (root == null) return
+    // 做选择
+    console.log('我已经进入节点 ' + root + ' 啦')
+    for (var i in root.children) {
+        dfs(root.children[i])
+    }
+    // 撤销选择
+    console.log('我将要离开节点 ' + root + ' 啦')
 }
 
 // 回溯算法把「做选择」「撤销选择」的逻辑放在 for 循环里面
 var backtrack = function (root) {
-  if (root == null) return
-  for (var i in root.children) {
-    // 做选择
-    console.log('我站在节点 ' + root + ' 到节点 ' + root.children[i] + ' 的树枝上')
-    backtrack(root.children[i])
-    // 撤销选择
-    console.log('我将要离开节点 ' + root.children[i] + ' 到节点 ' + root + ' 的树枝上')
-  }
+    if (root == null) return
+    for (var i in root.children) {
+        // 做选择
+        console.log('我站在节点 ' + root + ' 到节点 ' + root.children[i] + ' 的树枝上')
+        backtrack(root.children[i])
+        // 撤销选择
+        console.log('我将要离开节点 ' + root.children[i] + ' 到节点 ' + root + ' 的树枝上')
+    }
 }
 ```
 
@@ -48,11 +47,11 @@ var backtrack = function (root) {
 ```js
 /** 就用最简单的二叉树来看看，到底，在外面和在里面做选择与撤销选择有什么区别 */
 class Node {
-  constructor(val) {
-    this.left = null
-    this.right = null
-    this.val = val
-  }
+    constructor(val) {
+        this.left = null
+        this.right = null
+        this.val = val
+    }
 }
 /*  构建出简单的一棵树，构建过程简单，就不赘述了
                 1
@@ -62,24 +61,24 @@ class Node {
         4     5 6    7
 */
 function dfs(root) {
-  if (root === null) return
-  console.log(`--->> 入 ${root.val}   ---`)
-  for (const branch of [root.left, root.right]) {
-    dfs(branch)
-  }
-  console.log(`<<--- 出 ${root.val}   ---`)
+    if (root === null) return
+    console.log(`--->> 入 ${root.val}   ---`)
+    for (const branch of [root.left, root.right]) {
+        dfs(branch)
+    }
+    console.log(`<<--- 出 ${root.val}   ---`)
 }
 dfs(root)
 
 console.log('🔥🔥🔥 ---------------------------  🔥🔥🔥')
 
 function backtrack(root) {
-  if (root === null || root.left === null || root.right === null) return
-  for (const branch of [root.left, root.right]) {
-    console.log(`--->> ${root.val} - ${branch.val} 的树枝上; branch.val: ${branch.val}`)
-    backtrack(branch)
-    console.log(`<<--- ${root.val} - ${branch.val} 的树枝上; branch.val: ${branch.val}`)
-  }
+    if (root === null || root.left === null || root.right === null) return
+    for (const branch of [root.left, root.right]) {
+        console.log(`--->> ${root.val} - ${branch.val} 的树枝上; branch.val: ${branch.val}`)
+        backtrack(branch)
+        console.log(`<<--- ${root.val} - ${branch.val} 的树枝上; branch.val: ${branch.val}`)
+    }
 }
 backtrack(root)
 
@@ -128,18 +127,18 @@ backtrack(root)
 
 ### 回溯练习-排列组合
 
-{/*
+{/\*
 一点经验
 
 1. backtrack 函数用来进行深度遍历(函数嘛,不断进调用栈喽)，for 循环用来控制每一层能遍历元素。
 2. 子集与组合是一类题无需考虑顺序，而排列需要考虑顺序。所以子集和组合需要一个参数 start 来过滤后续的树枝。
-   - 组合：`backtrack = (start) => {}`
-   - 排列：`backtrack = () => {}`
+    - 组合：`backtrack = (start) => {}`
+    - 排列：`backtrack = () => {}`
 3. 无重复元素时，不需要剪枝；有重复元素时，需要先排序，然后剪枝，这一步在 for 循环内。
 4. 元素可以复选，`backtrack(i)` 否则 `backtrack(i + 1)`，这一步在 for 循环内。
 5. 针对排列，需要使用 used 剪枝。
    如果排列中有重复元素，需要保证相同元素在排列中的相对位置保持不变，所以剪枝条件要多加一个 `!used[i-1]`，其含义是：如果前面的元素没有用过，则跳过，A1A2A3，为了保证顺序，一定是 A1 有用过我才能用 A2 这样子。
-*/}
+   \*/}
 
 #### lc.39 组合总和
 
@@ -150,39 +149,39 @@ backtrack(root)
  * @return {number[][]}
  */
 var combinationSum = function (candidates, target) {
-  /**
-   * 无重复元素，所以不用剪枝
-   * 可以被重复选取，那么就是类似这么个树
-   *            1        2       3
-   *          1 2 3    1 2 3   1 2 3
-   *          .....    .....    ....
-   */
-  const res = []
-  const track = []
-  let sum = 0
-  /**
-   * 仍然不要忘记定义递归
-   * 输入：层级 level，输出 void; 在递归过程中把可行解塞入 res
-   * 结束条件，这道题比较明显 sum === target
-   */
-  const backtrack = (level) => {
-    if (sum === target) {
-      res.push([...track]) // 注意拷贝一下
-      return
+    /**
+     * 无重复元素，所以不用剪枝
+     * 可以被重复选取，那么就是类似这么个树
+     *            1        2       3
+     *          1 2 3    1 2 3   1 2 3
+     *          .....    .....    ....
+     */
+    const res = []
+    const track = []
+    let sum = 0
+    /**
+     * 仍然不要忘记定义递归
+     * 输入：层级 level，输出 void; 在递归过程中把可行解塞入 res
+     * 结束条件，这道题比较明显 sum === target
+     */
+    const backtrack = (level) => {
+        if (sum === target) {
+            res.push([...track]) // 注意拷贝一下
+            return
+        }
+        if (sum > target) return // 结束条件不要忘了~
+        // level 在这里的含义是1.在 level 层， 2.在候选数据 [level...end] 区间内做选择，通过保证元素的相对顺序，来避免重复的组合
+        // 如果每次都从 0 开始，那么 可能会产生 [1,2] [2,1] 这样重复的组合，不过这对排列来说，是有用的
+        for (let i = level; i < candidates.length; ++i) {
+            track.push(candidates[i])
+            sum += candidates[i]
+            backtrack(i) // 可重复使用，i + 1 则是在下一层排除了自己
+            track.pop()
+            sum -= candidates[i]
+        }
     }
-    if (sum > target) return // 结束条件不要忘了~
-    // level 在这里的含义是1.在 level 层， 2.在候选数据 [level...end] 区间内做选择，通过保证元素的相对顺序，来避免重复的组合
-    // 如果每次都从 0 开始，那么 可能会产生 [1,2] [2,1] 这样重复的组合，不过这对排列来说，是有用的
-    for (let i = level; i < candidates.length; ++i) {
-      track.push(candidates[i])
-      sum += candidates[i]
-      backtrack(i) // 可重复使用，i + 1 则是在下一层排除了自己
-      track.pop()
-      sum -= candidates[i]
-    }
-  }
-  backtrack(0)
-  return res
+    backtrack(0)
+    return res
 }
 ```
 
@@ -200,28 +199,28 @@ var combinationSum = function (candidates, target) {
  * @return {number[][]}
  */
 var combinationSum2 = function (candidates, target) {
-  const res = []
-  const track = []
-  let sum = 0
-  candidates.sort((a, b) => a - b)
-  const backtrack = (level) => {
-    if (sum === target) {
-      res.push([...track])
-      return
+    const res = []
+    const track = []
+    let sum = 0
+    candidates.sort((a, b) => a - b)
+    const backtrack = (level) => {
+        if (sum === target) {
+            res.push([...track])
+            return
+        }
+        if (sum > target) return
+        for (let i = level; i < candidates.length; ++i) {
+            // 因为元素有重复的，所以需要先进行 「排序」，然后进行剪枝
+            if (i > level && candidates[i] === candidates[i - 1]) continue
+            track.push(candidates[i])
+            sum += candidates[i]
+            backtrack(i + 1) // 不能复用元素，下一层 level 不能包扩 i 自身
+            sum -= candidates[i]
+            track.pop()
+        }
     }
-    if (sum > target) return
-    for (let i = level; i < candidates.length; ++i) {
-      // 因为元素有重复的，所以需要先进行 「排序」，然后进行剪枝
-      if (i > level && candidates[i] === candidates[i - 1]) continue
-      track.push(candidates[i])
-      sum += candidates[i]
-      backtrack(i + 1) // 不能复用元素，下一层 level 不能包扩 i 自身
-      sum -= candidates[i]
-      track.pop()
-    }
-  }
-  backtrack(0)
-  return res
+    backtrack(0)
+    return res
 }
 ```
 
@@ -234,26 +233,26 @@ var combinationSum2 = function (candidates, target) {
  * @return {number[][]}
  */
 var combinationSum3 = function (k, n) {
-  const res = []
-  const track = []
-  let sum = 0
-  const backtrack = (level) => {
-    if (sum === n && track.length === k) {
-      res.push([...track])
-      return
+    const res = []
+    const track = []
+    let sum = 0
+    const backtrack = (level) => {
+        if (sum === n && track.length === k) {
+            res.push([...track])
+            return
+        }
+        if (sum > n) return
+        for (let i = level; i < 10; ++i) {
+            if (track.length > k) continue
+            track.push(i)
+            sum += i
+            backtrack(i + 1)
+            track.pop()
+            sum -= i
+        }
     }
-    if (sum > n) return
-    for (let i = level; i < 10; ++i) {
-      if (track.length > k) continue
-      track.push(i)
-      sum += i
-      backtrack(i + 1)
-      track.pop()
-      sum -= i
-    }
-  }
-  backtrack(1)
-  return res
+    backtrack(1)
+    return res
 }
 ```
 
@@ -266,21 +265,21 @@ var combinationSum3 = function (k, n) {
  * @return {number[][]}
  */
 var combine = function (n, k) {
-  const res = []
-  const track = []
-  const backtrack = (level) => {
-    if (track.length === k) {
-      res.push([...track])
-      return
+    const res = []
+    const track = []
+    const backtrack = (level) => {
+        if (track.length === k) {
+            res.push([...track])
+            return
+        }
+        for (let i = level; i <= n; ++i) {
+            track.push(i)
+            backtrack(i + 1)
+            track.pop()
+        }
     }
-    for (let i = level; i <= n; ++i) {
-      track.push(i)
-      backtrack(i + 1)
-      track.pop()
-    }
-  }
-  backtrack(1)
-  return res
+    backtrack(1)
+    return res
 }
 ```
 
@@ -294,27 +293,27 @@ var combine = function (n, k) {
  * @return {number[][]}
  */
 var subsets = function (nums) {
-  //           root
-  //      1      2      3
-  //   2   3     3
-  // 3
-  const res = [[]]
-  const track = []
-  const backtrack = (level) => {
-    // res.push([...track]) 在这里加入 是另一种无需 res 提前 [[]]
-    // 此处是在「节点」操作区
-    if (track.length === nums.length) return
-    for (let i = level; i < nums.length; ++i) {
-      track.push(nums[i])
-      // 在这里加入 需要 res 需要提前加一个空 []
-      // 此处是 「树枝」操作区
-      res.push([...track])
-      backtrack(i + 1)
-      track.pop()
+    //           root
+    //      1      2      3
+    //   2   3     3
+    // 3
+    const res = [[]]
+    const track = []
+    const backtrack = (level) => {
+        // res.push([...track]) 在这里加入 是另一种无需 res 提前 [[]]
+        // 此处是在「节点」操作区
+        if (track.length === nums.length) return
+        for (let i = level; i < nums.length; ++i) {
+            track.push(nums[i])
+            // 在这里加入 需要 res 需要提前加一个空 []
+            // 此处是 「树枝」操作区
+            res.push([...track])
+            backtrack(i + 1)
+            track.pop()
+        }
     }
-  }
-  backtrack(0)
-  return res
+    backtrack(0)
+    return res
 }
 ```
 
@@ -326,21 +325,21 @@ var subsets = function (nums) {
  * @return {number[][]}
  */
 var subsetsWithDup = function (nums) {
-  const res = []
-  const track = []
-  nums.sort((a, b) => a - b)
-  const backtrack = (level) => {
-    res.push([...track])
-    if (level === nums.length) return
-    for (let i = level; i < nums.length; ++i) {
-      if (i > level && nums[i] === nums[i - 1]) continue
-      track.push(nums[i])
-      backtrack(i + 1)
-      track.pop()
+    const res = []
+    const track = []
+    nums.sort((a, b) => a - b)
+    const backtrack = (level) => {
+        res.push([...track])
+        if (level === nums.length) return
+        for (let i = level; i < nums.length; ++i) {
+            if (i > level && nums[i] === nums[i - 1]) continue
+            track.push(nums[i])
+            backtrack(i + 1)
+            track.pop()
+        }
     }
-  }
-  backtrack(0)
-  return res
+    backtrack(0)
+    return res
 }
 ```
 
@@ -357,25 +356,25 @@ var subsetsWithDup = function (nums) {
  * @return {number[][]}
  */
 var permute = function (nums) {
-  const res = []
-  const track = []
-  const used = []
-  const backtrack = () => {
-    if (track.length === nums.length) {
-      res.push([...track])
-      return
+    const res = []
+    const track = []
+    const used = []
+    const backtrack = () => {
+        if (track.length === nums.length) {
+            res.push([...track])
+            return
+        }
+        for (let i = 0; i < nums.length; ++i) {
+            if (used[i]) continue // 剪枝
+            track.push(nums[i])
+            used[i] = true
+            backtrack()
+            track.pop()
+            used[i] = false
+        }
     }
-    for (let i = 0; i < nums.length; ++i) {
-      if (used[i]) continue // 剪枝
-      track.push(nums[i])
-      used[i] = true
-      backtrack()
-      track.pop()
-      used[i] = false
-    }
-  }
-  backtrack()
-  return res
+    backtrack()
+    return res
 }
 ```
 
@@ -387,37 +386,36 @@ var permute = function (nums) {
  * @return {number[][]}
  */
 var permuteUnique = function (nums) {
-  const res = []
-  const track = []
-  const used = []
-  nums.sort((a, b) => a - b)
-  const backtrack = () => {
-    if (track.length === nums.length) {
-      res.push([...track])
-      return
+    const res = []
+    const track = []
+    const used = []
+    nums.sort((a, b) => a - b)
+    const backtrack = () => {
+        if (track.length === nums.length) {
+            res.push([...track])
+            return
+        }
+        for (let i = 0; i < nums.length; ++i) {
+            if (used[i]) continue // 去除自身剪枝
+            if (i > 0 && nums[i] === nums[i - 1] && !used[i - 1]) continue // 关键
+            track.push(nums[i])
+            used[i] = true
+            backtrack()
+            track.pop()
+            used[i] = false
+        }
     }
-    for (let i = 0; i < nums.length; ++i) {
-      if (used[i]) continue // 去除自身剪枝
-      if (i > 0 && nums[i] === nums[i - 1] && !used[i - 1]) continue // 关键
-      track.push(nums[i])
-      used[i] = true
-      backtrack()
-      track.pop()
-      used[i] = false
-    }
-  }
-  backtrack()
-  return res
+    backtrack()
+    return res
 }
 ```
 
 上方 `!used[i-1]` 是为了去除重复的排列，当同一层前后两个元素相同时，如果前一个元素没有使用，那么就 continue，这样做的结果就是会让 `[2,2',2'']` 这样的数组保持固定的顺序，即 2 一定在 2' 前，2' 一定在 2'' 前。如果改为 `used[i-1]` 也能得到去重的效果，就是固定顺序为 2'' -> 2' -> 2，但是剪枝的效率会大大折扣，可以参考 labuladong 大佬的示意图理解。
 
-<div className='flex gap-2'> 
-    <img src='https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202403242041410.png' className='w-1/2' />
-    <img src='https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202403242041080.png' className='w-1/2' />
+<div className="flex gap-2">
+    <img src="https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202403242041410.png" className="w-1/2" />
+    <img src="https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202403242041080.png" className="w-1/2" />
 </div>
-
 
 ### 经典题
 
@@ -429,40 +427,40 @@ var permuteUnique = function (nums) {
  * @return {string[][]}
  */
 var solveNQueens = function (n) {
-  // 这道题是二维的 track，所以得先初始化一个二维棋盘再说
-  // 同时类似组合，需要 level 来控制深度；又似排列，需要每次都遍历每一行的每一个
-  const res = []
-  const board = Array.from(Array(n), () => Array(n).fill('.'))
-  const backtrack = (level) => {
-    if (level === n) {
-      res.push([...board.map((item) => item.join(''))])
-      return
+    // 这道题是二维的 track，所以得先初始化一个二维棋盘再说
+    // 同时类似组合，需要 level 来控制深度；又似排列，需要每次都遍历每一行的每一个
+    const res = []
+    const board = Array.from(Array(n), () => Array(n).fill('.'))
+    const backtrack = (level) => {
+        if (level === n) {
+            res.push([...board.map((item) => item.join(''))])
+            return
+        }
+        for (let i = 0; i < n; ++i) {
+            //剪枝操作
+            if (!isValid(board, level, i)) continue
+            board[level][i] = 'Q'
+            backtrack(level + 1)
+            board[level][i] = '.'
+        }
     }
-    for (let i = 0; i < n; ++i) {
-      //剪枝操作
-      if (!isValid(board, level, i)) continue
-      board[level][i] = 'Q'
-      backtrack(level + 1)
-      board[level][i] = '.'
-    }
-  }
-  backtrack(0)
-  return res
+    backtrack(0)
+    return res
 }
 /**
  * 判断是否合格，因为是从上往下铺的，所以只判断左上，上，右上即可
  */
 function isValid(board, row, col) {
-  for (let i = 0; i < row; ++i) {
-    if (board[i][col] === 'Q') return false
-  }
-  for (let i = row - 1, j = col - 1; i >= 0; --i, --j) {
-    if (board[i][j] === 'Q') return false
-  }
-  for (let i = row - 1, j = col + 1; i >= 0; --i, ++j) {
-    if (board[i][j] === 'Q') return false
-  }
-  return true
+    for (let i = 0; i < row; ++i) {
+        if (board[i][col] === 'Q') return false
+    }
+    for (let i = row - 1, j = col - 1; i >= 0; --i, --j) {
+        if (board[i][j] === 'Q') return false
+    }
+    for (let i = row - 1, j = col + 1; i >= 0; --i, ++j) {
+        if (board[i][j] === 'Q') return false
+    }
+    return true
 }
 ```
 
@@ -481,32 +479,32 @@ function isValid(board, row, col) {
  * @return {boolean}
  */
 var canPartitionKSubsets = function (nums, k) {
-  if (k > nums.length) return false
-  const sum = nums.reduce((a, b) => a + b)
-  if (sum % k !== 0) return false
+    if (k > nums.length) return false
+    const sum = nums.reduce((a, b) => a + b)
+    if (sum % k !== 0) return false
 
-  const bucketTarget = sum / k
-  const used = []
-  // 定义递归：输入 k 号桶, 每个数字不能重复使用，所以从 level 层开始选择
-  // 输出：k 号桶，是否应该把 nums[level] 加入进来
-  const backtrack = (k, level, bucketSum) => {
-    if (k === 0) return true // 所有桶装满了
-    // 一个桶装满了，继续下一个桶
-    if (bucketSum === bucketTarget) {
-      return backtrack(k - 1, 0, 0) // 从 0 层 0 sum 重新开始累加和
+    const bucketTarget = sum / k
+    const used = []
+    // 定义递归：输入 k 号桶, 每个数字不能重复使用，所以从 level 层开始选择
+    // 输出：k 号桶，是否应该把 nums[level] 加入进来
+    const backtrack = (k, level, bucketSum) => {
+        if (k === 0) return true // 所有桶装满了
+        // 一个桶装满了，继续下一个桶
+        if (bucketSum === bucketTarget) {
+            return backtrack(k - 1, 0, 0) // 从 0 层 0 sum 重新开始累加和
+        }
+        for (let i = level; i < nums.length; ++i) {
+            if (used[i]) continue // 剪枝，被用过啦
+            if (nums[i] + bucketSum > bucketTarget) continue // 这个数装不得，装了就超载~
+            used[i] = true
+            bucketSum += nums[i]
+            if (backtrack(k, level + 1, bucketSum)) return true // 递归下一个数字是否加入桶
+            used[i] = false
+            bucketSum -= nums[i]
+        }
+        return false
     }
-    for (let i = level; i < nums.length; ++i) {
-      if (used[i]) continue // 剪枝，被用过啦
-      if (nums[i] + bucketSum > bucketTarget) continue // 这个数装不得，装了就超载~
-      used[i] = true
-      bucketSum += nums[i]
-      if (backtrack(k, level + 1, bucketSum)) return true // 递归下一个数字是否加入桶
-      used[i] = false
-      bucketSum -= nums[i]
-    }
-    return false
-  }
-  return backtrack(k, 0, 0)
+    return backtrack(k, 0, 0)
 }
 /**
  * 上方代码，逻辑上是没有问题的，但是效率低下，跑力扣的测试用例会超时
@@ -514,38 +512,38 @@ var canPartitionKSubsets = function (nums, k) {
  * 优化自然是可以想到 memo 缓存，再就是我没想到的 used 改为位运算[捂脸]。。。
  */
 var canPartitionKSubsets = function (nums, k) {
-  if (k > nums.length) return false
-  const sum = nums.reduce((a, b) => a + b)
-  if (sum % k !== 0) return false
+    if (k > nums.length) return false
+    const sum = nums.reduce((a, b) => a + b)
+    if (sum % k !== 0) return false
 
-  const bucketTarget = sum / k
-  let used = 0 // 使用位图技巧
-  const backtrack = (k, level, bucketSum, memo) => {
-    if (k === 0) return true
-    if (bucketSum === bucketTarget) {
-      const nextBucket = backtrack(k - 1, 0, 0, memo)
-      memo.set(used, nextBucket)
-      return nextBucket
+    const bucketTarget = sum / k
+    let used = 0 // 使用位图技巧
+    const backtrack = (k, level, bucketSum, memo) => {
+        if (k === 0) return true
+        if (bucketSum === bucketTarget) {
+            const nextBucket = backtrack(k - 1, 0, 0, memo)
+            memo.set(used, nextBucket)
+            return nextBucket
+        }
+        if (memo.has(used)) {
+            // 避免冗余计算
+            return memo.get(used)
+        }
+        for (let i = level; i < nums.length; ++i) {
+            // 判断第 i 位是否是 1
+            if (((used >> i) & 1) === 1) {
+                continue // nums[i] 已经被装入别的桶中
+            }
+            if (nums[i] + bucketSum > bucketTarget) continue
+            used |= 1 << i // 将第 i 位置为 1
+            bucketSum += nums[i]
+            if (backtrack(k, level + 1, bucketSum, memo)) return true
+            used ^= 1 << i // 使用异或运算将第 i 位恢复 0
+            bucketSum -= nums[i]
+        }
+        return false
     }
-    if (memo.has(used)) {
-      // 避免冗余计算
-      return memo.get(used)
-    }
-    for (let i = level; i < nums.length; ++i) {
-      // 判断第 i 位是否是 1
-      if (((used >> i) & 1) === 1) {
-        continue // nums[i] 已经被装入别的桶中
-      }
-      if (nums[i] + bucketSum > bucketTarget) continue
-      used |= 1 << i // 将第 i 位置为 1
-      bucketSum += nums[i]
-      if (backtrack(k, level + 1, bucketSum, memo)) return true
-      used ^= 1 << i // 使用异或运算将第 i 位恢复 0
-      bucketSum -= nums[i]
-    }
-    return false
-  }
-  return backtrack(k, 0, 0, new Map())
+    return backtrack(k, 0, 0, new Map())
 }
 ```
 
@@ -563,26 +561,26 @@ var canPartitionKSubsets = function (nums, k) {
  * @return {string[]}
  */
 var generateParenthesis = function (n) {
-  // 当出现右括号数量 > 左括号数量时，无效
-  const res = []
-  const track = []
-  const backtrack = (l, r) => {
-    if (l > r) return
-    if (l < 0 || r < 0) return
-    if (l === 0 && r === 0) {
-      res.push([...track].join(''))
-      return
+    // 当出现右括号数量 > 左括号数量时，无效
+    const res = []
+    const track = []
+    const backtrack = (l, r) => {
+        if (l > r) return
+        if (l < 0 || r < 0) return
+        if (l === 0 && r === 0) {
+            res.push([...track].join(''))
+            return
+        }
+        /** 之前可选择的是很多个，这里就两个直接摊开写方便 */
+        track.push('(')
+        backtrack(l - 1, r)
+        track.pop()
+        track.push(')')
+        backtrack(l, r - 1)
+        track.pop()
     }
-    /** 之前可选择的是很多个，这里就两个直接摊开写方便 */
-    track.push('(')
-    backtrack(l - 1, r)
-    track.pop()
-    track.push(')')
-    backtrack(l, r - 1)
-    track.pop()
-  }
-  backtrack(n, n)
-  return res
+    backtrack(n, n)
+    return res
 }
 ```
 
@@ -598,15 +596,15 @@ var generateParenthesis = function (n) {
  * dfs() {for(for(选择 dfs 撤销选择))}
  */
 var solveSudoku = function (board) {
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      if (board[i][j] === '.') {
-        for (let k = 1; k <= 9; ++k) {
-          dfs(grid, i, j, k.toString())
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            if (board[i][j] === '.') {
+                for (let k = 1; k <= 9; ++k) {
+                    dfs(grid, i, j, k.toString())
+                }
+            }
         }
-      }
     }
-  }
 }
 /** 开奖 */
 /**
@@ -614,40 +612,40 @@ var solveSudoku = function (board) {
  * @return {void} Do not return anything, modify board in-place instead.
  */
 var solveSudoku = function (board) {
-  dfs(board)
+    dfs(board)
 }
 function dfs(grid) {
-  for (let i = 0; i < 9; ++i) {
-    for (let j = 0; j < 9; ++j) {
-      if (grid[i][j] === '.') {
-        for (let k = 1; k <= 9; ++k) {
-          // 重点是剪枝
-          if (!isValid(grid, i, j, k.toString())) continue
-          grid[i][j] = k.toString()
-          if (dfs(grid)) return true // 找到一种可行解 直接结束
-          grid[i][j] = '.'
+    for (let i = 0; i < 9; ++i) {
+        for (let j = 0; j < 9; ++j) {
+            if (grid[i][j] === '.') {
+                for (let k = 1; k <= 9; ++k) {
+                    // 重点是剪枝
+                    if (!isValid(grid, i, j, k.toString())) continue
+                    grid[i][j] = k.toString()
+                    if (dfs(grid)) return true // 找到一种可行解 直接结束
+                    grid[i][j] = '.'
+                }
+                return false // 9 个数字都不行
+            }
         }
-        return false // 9 个数字都不行
-      }
     }
-  }
-  return true // 遍历完没有返回 false，说明找到了一组合适棋盘位置了
+    return true // 遍历完没有返回 false，说明找到了一组合适棋盘位置了
 }
 function isValid(grid, row, col, tryVal) {
-  for (let i = 0; i < 9; ++i) {
-    if (grid[row][i] === tryVal) return false
-    if (grid[i][col] === tryVal) return false
-  }
-
-  const startRow = Math.floor(row / 3) * 3
-  const startCol = Math.floor(col / 3) * 3
-  for (let i = startRow; i < startRow + 3; ++i) {
-    for (let j = startCol; j < startCol + 3; ++j) {
-      if (grid[i][j] === tryVal) return false
+    for (let i = 0; i < 9; ++i) {
+        if (grid[row][i] === tryVal) return false
+        if (grid[i][col] === tryVal) return false
     }
-  }
 
-  return true
+    const startRow = Math.floor(row / 3) * 3
+    const startCol = Math.floor(col / 3) * 3
+    for (let i = startRow; i < startRow + 3; ++i) {
+        for (let j = startCol; j < startCol + 3; ++j) {
+            if (grid[i][j] === tryVal) return false
+        }
+    }
+
+    return true
 }
 ```
 
@@ -660,30 +658,30 @@ function isValid(grid, row, col, tryVal) {
  * 在二维矩阵中的 dfs --- for{for{dfs}}
  */
 function dfs(matrix, i, j, visited) {
-  if (i < 0 || j < 0 || i >= m || j >= n) return
-  /** 进节点 */
-  if (visited[i][j]) return
-  visited[i][j] = true
-  /** 上下左右遍历 */
-  dfs(matrix, i - 1, j)
-  dfs(matrix, i + 1, j)
-  dfs(matrix, i, j - 1)
-  dfs(matrix, i, j + 1)
-  /** 出节点 */
+    if (i < 0 || j < 0 || i >= m || j >= n) return
+    /** 进节点 */
+    if (visited[i][j]) return
+    visited[i][j] = true
+    /** 上下左右遍历 */
+    dfs(matrix, i - 1, j)
+    dfs(matrix, i + 1, j)
+    dfs(matrix, i, j - 1)
+    dfs(matrix, i, j + 1)
+    /** 出节点 */
 }
 
 /** 此外有方向数组的技巧 */
 const dirs = [
-  [-1, 0],
-  [1, 0],
-  [0, -1],
-  [0, 1],
+    [-1, 0],
+    [1, 0],
+    [0, -1],
+    [0, 1]
 ]
 // 把上方的四个 dfs 配合 dirs 改为 for 循环即可
 for (var d of dirs) {
-  const next_i = i + d[0]
-  const next_j = j + d[1]
-  dfs(matrix, next_i, next_j, visited)
+    const next_i = i + d[0]
+    const next_j = j + d[1]
+    dfs(matrix, next_i, next_j, visited)
 }
 ```
 
@@ -693,31 +691,31 @@ for (var d of dirs) {
  * @return {number}
  */
 var numIslands = function (grid) {
-  let res = 0
-  const m = grid.length
-  const n = grid[0].length
-  const visited = Array.from(Array(m), () => Array(n).fill(false))
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      // 从某个陆地节点开始 detect
-      if (grid[i][j] === '1') {
-        res++
-        dfs(grid, i, j, visited)
-      }
+    let res = 0
+    const m = grid.length
+    const n = grid[0].length
+    const visited = Array.from(Array(m), () => Array(n).fill(false))
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            // 从某个陆地节点开始 detect
+            if (grid[i][j] === '1') {
+                res++
+                dfs(grid, i, j, visited)
+            }
+        }
     }
-  }
-  return res
+    return res
 }
 function dfs(grid, i, j, visited) {
-  const m = grid.length
-  const n = grid[0].length
-  if (i < 0 || j < 0 || i >= m || j >= n) return
-  if (grid[i][j] === '0') return
-  grid[i][j] = '0' // 淹没土地
-  dfs(grid, i - 1, j, visited)
-  dfs(grid, i + 1, j, visited)
-  dfs(grid, i, j - 1, visited)
-  dfs(grid, i, j + 1, visited)
+    const m = grid.length
+    const n = grid[0].length
+    if (i < 0 || j < 0 || i >= m || j >= n) return
+    if (grid[i][j] === '0') return
+    grid[i][j] = '0' // 淹没土地
+    dfs(grid, i - 1, j, visited)
+    dfs(grid, i + 1, j, visited)
+    dfs(grid, i, j - 1, visited)
+    dfs(grid, i, j + 1, visited)
 }
 ```
 
@@ -733,37 +731,37 @@ _另外此题还可以使用 BFS 和 并查集 解决_
  * @return {number}
  */
 var numDistinctIslands = function (grid) {
-  // 序列化,用set去重。注意点是，序列化时，要带上回溯的情况。
-  const m = grid.length,
-    n = grid[0].length
-  const set = new Set()
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      if (grid[i][j] === 1) {
-        const arr = []
-        dfs(grid, i, j, 0, arr)
-        set.add(arr.join(','))
-      }
+    // 序列化,用set去重。注意点是，序列化时，要带上回溯的情况。
+    const m = grid.length,
+        n = grid[0].length
+    const set = new Set()
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            if (grid[i][j] === 1) {
+                const arr = []
+                dfs(grid, i, j, 0, arr)
+                set.add(arr.join(','))
+            }
+        }
     }
-  }
-  return set.size
+    return set.size
 }
 
 function dfs(grid, i, j, dir, arr) {
-  const m = grid.length,
-    n = grid[0].length
-  if (i < 0 || j < 0 || i >= m || j >= n) return
-  if (grid[i][j] === 0) return
+    const m = grid.length,
+        n = grid[0].length
+    if (i < 0 || j < 0 || i >= m || j >= n) return
+    if (grid[i][j] === 0) return
 
-  // 进入节点
-  grid[i][j] = 0
-  arr.push(dir)
-  dfs(grid, i - 1, j, 1, arr)
-  dfs(grid, i + 1, j, 2, arr)
-  dfs(grid, i, j - 1, 3, arr)
-  dfs(grid, i, j + 1, 4, arr)
-  // 退出节点
-  arr.push(0 - dir)
+    // 进入节点
+    grid[i][j] = 0
+    arr.push(dir)
+    dfs(grid, i - 1, j, 1, arr)
+    dfs(grid, i + 1, j, 2, arr)
+    dfs(grid, i, j - 1, 3, arr)
+    dfs(grid, i, j + 1, 4, arr)
+    // 退出节点
+    arr.push(0 - dir)
 }
 ```
 
@@ -778,26 +776,26 @@ function dfs(grid, i, j, dir, arr) {
  * @return {number}
  */
 var maxAreaOfIsland = function (grid) {
-  let maxArea = 0
-  const m = grid.length
-  const n = grid[0].length
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      if (grid[i][j] === 1) {
-        maxArea = Math.max(maxArea, dfs(grid, i, j))
-      }
+    let maxArea = 0
+    const m = grid.length
+    const n = grid[0].length
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            if (grid[i][j] === 1) {
+                maxArea = Math.max(maxArea, dfs(grid, i, j))
+            }
+        }
     }
-  }
-  return maxArea
+    return maxArea
 }
 // 继续 flood fill
 function dfs(grid, i, j) {
-  const m = grid.length
-  const n = grid[0].length
-  if (i < 0 || j < 0 || i >= m || j >= n) return 0
-  if (grid[i][j] === 0) return 0
-  grid[i][j] = 0
-  return dfs(grid, i - 1, j) + dfs(grid, i + 1, j) + dfs(grid, i, j - 1) + dfs(grid, i, j + 1) + 1
+    const m = grid.length
+    const n = grid[0].length
+    if (i < 0 || j < 0 || i >= m || j >= n) return 0
+    if (grid[i][j] === 0) return 0
+    grid[i][j] = 0
+    return dfs(grid, i - 1, j) + dfs(grid, i + 1, j) + dfs(grid, i, j - 1) + dfs(grid, i, j + 1) + 1
 }
 ```
 
@@ -811,37 +809,37 @@ function dfs(grid, i, j) {
  * @return {number}
  */
 var numEnclaves = function (grid) {
-  let res = 0
-  const m = grid.length
-  const n = grid[0].length
-  // 先把四个边界的淹没掉
-  for (let i = 0; i < m; ++i) {
-    dfs(grid, i, 0)
-    dfs(grid, i, n - 1)
-  }
-  for (let i = 0; i < n; ++i) {
-    dfs(grid, 0, i)
-    dfs(grid, m - 1, i)
-  }
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      if (grid[i][j] === 1) {
-        res++
-      }
+    let res = 0
+    const m = grid.length
+    const n = grid[0].length
+    // 先把四个边界的淹没掉
+    for (let i = 0; i < m; ++i) {
+        dfs(grid, i, 0)
+        dfs(grid, i, n - 1)
     }
-  }
-  return res
+    for (let i = 0; i < n; ++i) {
+        dfs(grid, 0, i)
+        dfs(grid, m - 1, i)
+    }
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            if (grid[i][j] === 1) {
+                res++
+            }
+        }
+    }
+    return res
 }
 function dfs(grid, i, j) {
-  const m = grid.length
-  const n = grid[0].length
-  if (i < 0 || j < 0 || i >= m || j >= n) return
-  if (grid[i][j] === 0) return
-  grid[i][j] = 0
-  dfs(grid, i - 1, j)
-  dfs(grid, i + 1, j)
-  dfs(grid, i, j - 1)
-  dfs(grid, i, j + 1)
+    const m = grid.length
+    const n = grid[0].length
+    if (i < 0 || j < 0 || i >= m || j >= n) return
+    if (grid[i][j] === 0) return
+    grid[i][j] = 0
+    dfs(grid, i - 1, j)
+    dfs(grid, i + 1, j)
+    dfs(grid, i, j - 1)
+    dfs(grid, i, j + 1)
 }
 ```
 
@@ -853,37 +851,37 @@ function dfs(grid, i, j) {
  * @return {number}
  */
 var closedIsland = function (grid) {
-  let res = 0
-  const m = grid.length
-  const n = grid[0].length
-  for (let i = 0; i < m; ++i) {
-    dfs(grid, i, 0)
-    dfs(grid, i, n - 1)
-  }
-  for (let j = 0; j < n; ++j) {
-    dfs(grid, 0, j)
-    dfs(grid, m - 1, j)
-  }
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      if (grid[i][j] === 0) {
-        res++
-        dfs(grid, i, j)
-      }
+    let res = 0
+    const m = grid.length
+    const n = grid[0].length
+    for (let i = 0; i < m; ++i) {
+        dfs(grid, i, 0)
+        dfs(grid, i, n - 1)
     }
-  }
-  return res
+    for (let j = 0; j < n; ++j) {
+        dfs(grid, 0, j)
+        dfs(grid, m - 1, j)
+    }
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            if (grid[i][j] === 0) {
+                res++
+                dfs(grid, i, j)
+            }
+        }
+    }
+    return res
 }
 function dfs(grid, i, j) {
-  const m = grid.length
-  const n = grid[0].length
-  if (i < 0 || j < 0 || i >= m || j >= n) return
-  if (grid[i][j] === 1) return
-  grid[i][j] = 1
-  dfs(grid, i - 1, j)
-  dfs(grid, i + 1, j)
-  dfs(grid, i, j - 1)
-  dfs(grid, i, j + 1)
+    const m = grid.length
+    const n = grid[0].length
+    if (i < 0 || j < 0 || i >= m || j >= n) return
+    if (grid[i][j] === 1) return
+    grid[i][j] = 1
+    dfs(grid, i - 1, j)
+    dfs(grid, i + 1, j)
+    dfs(grid, i, j - 1)
+    dfs(grid, i, j + 1)
 }
 ```
 
@@ -898,36 +896,36 @@ function dfs(grid, i, j) {
  * @return {number}
  */
 var countSubIslands = function (grid1, grid2) {
-  let res = 0
-  const m = grid2.length
-  const n = grid2[0].length
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      if (grid2[i][j] === 1 && grid2[i][j] !== grid1[i][j]) {
-        dfs(grid2, i, j)
-      }
+    let res = 0
+    const m = grid2.length
+    const n = grid2[0].length
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            if (grid2[i][j] === 1 && grid2[i][j] !== grid1[i][j]) {
+                dfs(grid2, i, j)
+            }
+        }
     }
-  }
-  for (let i = 0; i < m; ++i) {
-    for (let j = 0; j < n; ++j) {
-      if (grid2[i][j] === 1) {
-        res++
-        dfs(grid2, i, j)
-      }
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            if (grid2[i][j] === 1) {
+                res++
+                dfs(grid2, i, j)
+            }
+        }
     }
-  }
-  return res
+    return res
 }
 function dfs(grid, i, j) {
-  const m = grid.length
-  const n = grid[0].length
-  if (i < 0 || j < 0 || i >= m || j >= n) return
-  if (grid[i][j] === 0) return
-  grid[i][j] = 0
-  dfs(grid, i - 1, j)
-  dfs(grid, i + 1, j)
-  dfs(grid, i, j - 1)
-  dfs(grid, i, j + 1)
+    const m = grid.length
+    const n = grid[0].length
+    if (i < 0 || j < 0 || i >= m || j >= n) return
+    if (grid[i][j] === 0) return
+    grid[i][j] = 0
+    dfs(grid, i - 1, j)
+    dfs(grid, i + 1, j)
+    dfs(grid, i, j - 1)
+    dfs(grid, i, j + 1)
 }
 ```
 

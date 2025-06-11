@@ -6,7 +6,6 @@ tags: ['javascript']
 draft: false
 summary: ''
 images: []
-layout: PostLayout
 ---
 
 [promise A+ github](https://github.com/promises-aplus/promises-spec) 送上！
@@ -39,25 +38,29 @@ promise.then(onFulfilled, onRejected)
 5. 一个 `promise` 可以注册多个 `then` 方法，按照初始声明时的调用顺序执行 `then`
 6. `then` 必须返回一个 `promise：`
 
-   ```js
-   promise2 = promise1.then(onFulfilled, onRejected)
-   ```
+    ```js
+    promise2 = promise1.then(onFulfilled, onRejected)
+    ```
 
-   - 如果`onFulfilled`或`onRejected` 返回了值 `x`，会进入 `[[reslove]](poromise2, x)` 的程序
-   - 如果`onFulfilled`或`onRejected` 抛出了错 `e`，promise2 必须用 `e` 作为 `onRejected` 的 `reason`
-   - 如果`onFulfilled`或`onRejected` 不为函数，则 promise2 必须采用 promise1 的 value 或 reason (即会发生值/异常传递)
+    - 如果`onFulfilled`或`onRejected` 返回了值 `x`，会进入 `[[reslove]](poromise2, x)` 的程序
+    - 如果`onFulfilled`或`onRejected` 抛出了错 `e`，promise2 必须用 `e` 作为 `onRejected` 的 `reason`
+    - 如果`onFulfilled`或`onRejected` 不为函数，则 promise2 必须采用 promise1 的 value 或 reason (即会发生值/异常传递)
 
-     ```js
-     // 案例1 resolve
-     console.log(new Promise((resolve) => {
-        resolve(1)
-     }).then((x) => x))
-     // 案例2 reject
-     console.log(new Promise((resolve, reject) => {
-        reject(1)
-     }).then(undefined,(r) => r))
-     // 验证上方6.1，最终 PromiseState 都是 fulfilled 而不是第二个为 rejected
-     ```
+        ```js
+        // 案例1 resolve
+        console.log(
+            new Promise((resolve) => {
+                resolve(1)
+            }).then((x) => x)
+        )
+        // 案例2 reject
+        console.log(
+            new Promise((resolve, reject) => {
+                reject(1)
+            }).then(undefined, (r) => r)
+        )
+        // 验证上方6.1，最终 PromiseState 都是 fulfilled 而不是第二个为 rejected
+        ```
 
 ### [[reslove]](poromise2, x)
 
@@ -70,13 +73,13 @@ promise.then(onFulfilled, onRejected)
 1. 若 `promise` 和 `x` 是同一个对象(引用)，`reject promise with TypeError reason` (死循环)
 2. 若 `x` 是 promise 对象，采用它的状态，三个状态该干嘛干嘛
 3. 若 `x` 为 普通对象或函数
-   1. 用一个变量 `then` 存储 `x.then`，如果获取 `x.then` 报错，就 `reject promise with throw error reason`
-   2. 如果 `then` 是函数，用 `x` 作为 `this` 来调用，第一个参数为 `resolvePromise`，第二个参数为 `rejectPromise`
-      - 当`resolvePromise`被调用，参数为 `y`，执行 `[[resolve]](promise, y)`
-      - 当`rejectPromise`被调用,参数为 `r`， `reject promise with r`
-      - 如果`resolvePromise`和`rejectPromise`都被调用，第一个调用执行，其他的忽略
-      - 当在 `then` 中抛出了异常 `e`，若是 `resolvePromise` 或者 `rejectPromise` 已经执行，则忽略该异常，否则 `reject promise with e`
-   3. 如果 `then` 不是函数，`resolve promise with x`
+    1. 用一个变量 `then` 存储 `x.then`，如果获取 `x.then` 报错，就 `reject promise with throw error reason`
+    2. 如果 `then` 是函数，用 `x` 作为 `this` 来调用，第一个参数为 `resolvePromise`，第二个参数为 `rejectPromise`
+        - 当`resolvePromise`被调用，参数为 `y`，执行 `[[resolve]](promise, y)`
+        - 当`rejectPromise`被调用,参数为 `r`， `reject promise with r`
+        - 如果`resolvePromise`和`rejectPromise`都被调用，第一个调用执行，其他的忽略
+        - 当在 `then` 中抛出了异常 `e`，若是 `resolvePromise` 或者 `rejectPromise` 已经执行，则忽略该异常，否则 `reject promise with e`
+    3. 如果 `then` 不是函数，`resolve promise with x`
 4. 如果 `x` 不是对象或函数，`resolve promise with x`
 
 > 有的地方我感觉英语更好理解，比如第一条，意思就是让 promise 进入 rejected 状态，并且返回一个 TypeError 作为 reason，后续此类表达都将使用英语，真的简练也更好理解 😂
@@ -94,108 +97,113 @@ const FULFILLED = 'fulfilled'
 const REJECTED = 'rejected'
 
 class _Promise {
-  constructor(executor) {
-    this.status = PENGDING
-    this.value = null
-    this.reason = null
-    this.onFulfilledCb = []
-    this.onRejectedCb = []
-    try {
-      executor(this.resovle, this.reject)
-    } catch (e) {
-      this.reject(e)
+    constructor(executor) {
+        this.status = PENGDING
+        this.value = null
+        this.reason = null
+        this.onFulfilledCb = []
+        this.onRejectedCb = []
+        try {
+            executor(this.resovle, this.reject)
+        } catch (e) {
+            this.reject(e)
+        }
     }
-  }
-  resovle = value => {
-    if (this.status === PENGDING) {
-      this.status = FULFILLED
-      this.value = value
-      this.onFulfilledCb.forEach(cb => cb(value))
+    resovle = (value) => {
+        if (this.status === PENGDING) {
+            this.status = FULFILLED
+            this.value = value
+            this.onFulfilledCb.forEach((cb) => cb(value))
+        }
     }
-  }
-  reject = reason => {
-    if (this.status === PENGDING) {
-      this.status = REJECTED
-      this.reason = reason
-      this.onRejectedCb.forEach(cb => cb(reason))
+    reject = (reason) => {
+        if (this.status === PENGDING) {
+            this.status = REJECTED
+            this.reason = reason
+            this.onRejectedCb.forEach((cb) => cb(reason))
+        }
     }
-  }
-  then = (onFulfilled, onRejected) => {
-    onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : x => x
-    onRejected = typeof onRejected === 'function' ? onRejected : e => { throw e }
+    then = (onFulfilled, onRejected) => {
+        onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : (x) => x
+        onRejected =
+            typeof onRejected === 'function'
+                ? onRejected
+                : (e) => {
+                      throw e
+                  }
 
-    const promise2 = new _Promise((resolve, reject) => {
-      const fulfilledTask = () => {
-        // Nodejs.11后实现的
-        queueMicrotask(() => {
-          try {
-            const x = onFulfilled(this.value)
-            resolvePromise(promise2, x, resolve, reject)
-          } catch (e) {
-            reject(e)
-          }
+        const promise2 = new _Promise((resolve, reject) => {
+            const fulfilledTask = () => {
+                // Nodejs.11后实现的
+                queueMicrotask(() => {
+                    try {
+                        const x = onFulfilled(this.value)
+                        resolvePromise(promise2, x, resolve, reject)
+                    } catch (e) {
+                        reject(e)
+                    }
+                })
+            }
+            const rejectedTask = () => {
+                queueMicrotask(() => {
+                    try {
+                        const x = onRejected(this.reason)
+                        resolvePromise(promise2, x, resolve, reject)
+                    } catch (e) {
+                        reject(e)
+                    }
+                })
+            }
+            if (this.status === FULFILLED) {
+                fulfilledTask()
+            } else if (this.status === REJECTED) {
+                rejectedTask()
+            } else {
+                this.onFulfilledCb.push(fulfilledTask)
+                this.onRejectedCb.push(rejectedTask)
+            }
         })
-      }
-      const rejectedTask = () => {
-        queueMicrotask(() => {
-          try {
-            const x = onRejected(this.reason)
-            resolvePromise(promise2, x, resolve, reject)
-          } catch (e) {
-            reject(e)
-          }
-        })
-      }
-      if (this.status === FULFILLED) {
-        fulfilledTask()
-      } else if (this.status === REJECTED) {
-        rejectedTask()
-      } else {
-        this.onFulfilledCb.push(fulfilledTask)
-        this.onRejectedCb.push(rejectedTask)
-      }
-    })
-    return promise2
-  }
+        return promise2
+    }
 }
 
 function resolvePromise(promise, x, resolve, reject) {
-  if (promise === x) return reject(new TypeError('type error'))
-  if ((typeof x === 'object' && x !== null) || typeof x === 'function') {
-    let then
-    try {
-      then = x.then
-    } catch (e) {
-      reject(e)
-    }
+    if (promise === x) return reject(new TypeError('type error'))
+    if ((typeof x === 'object' && x !== null) || typeof x === 'function') {
+        let then
+        try {
+            then = x.then
+        } catch (e) {
+            reject(e)
+        }
 
-    let called = false
-    if (typeof then === 'function') {
-      try {
-        then.call(
-          x,
-          y => {
-            if (called) return
-            called = true
-            resolvePromise(promise, y, resolve, reject)
-          },
-          r => {
-            if (called) return
-            called = true
-            reject(r)
-          }
-        )
-      } catch (e) {
-        if (called) return
-        called = true
-        reject(e)
-      }
+        let called = false
+        if (typeof then === 'function') {
+            try {
+                then.call(
+                    x,
+                    (y) => {
+                        if (called) return
+                        called = true
+                        resolvePromise(promise, y, resolve, reject)
+                    },
+                    (r) => {
+                        if (called) return
+                        called = true
+                        reject(r)
+                    }
+                )
+            } catch (e) {
+                if (called) return
+                called = true
+                reject(e)
+            }
+        } else {
+            resolve(x)
+        }
     } else {
-      resolve(x)
+        resolve(x)
     }
-  } else {
-    resolve(x)
-  }
 }
 ```
 
@@ -286,15 +294,15 @@ npm install promises-aplus-tests -D
 
 ```js
 _Promise.deferred = function () {
-  var result = {};
-  result.promise = new _Promise(function (resolve, reject) {
-    result.resolve = resolve;
-    result.reject = reject;
-  });
+    var result = {}
+    result.promise = new _Promise(function (resolve, reject) {
+        result.resolve = resolve
+        result.reject = reject
+    })
 
-  return result;
+    return result
 }
-module.exports = _Promise;
+module.exports = _Promise
 ```
 
 3. 配置启动 script

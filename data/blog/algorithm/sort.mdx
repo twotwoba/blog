@@ -6,7 +6,6 @@ tags: ['algorithm']
 draft: false
 summary: '你真的会排序吗? sort((a,b) => a-b)?'
 images: []
-layout: PostLayout
 ---
 
 ## 冒泡，选择，插入
@@ -130,14 +129,14 @@ function insert(arr) {
 1. 数学归纳法
 2. 主定理 master 公式：`T(N) = a * T(N/b) + O(N^c)`，a ≥ 1，b > 1；是一种用于求解分治算法时间复杂度的方法
 
--   T(N): 母问题体量
--   a，表示子问题被调了多少次
--   b，**等量子问题**的体量
--   O(N^c)：表示其他部分的时间复杂度
+- T(N): 母问题体量
+- a，表示子问题被调了多少次
+- b，**等量子问题**的体量
+- O(N^c)：表示其他部分的时间复杂度
 
--   当 log_b(a) > c，则 O(n^log_b(a))
--   当 log_b(a) = c，则 O(n^c\*logn)
--   当 log_b(a) < c，则 O(n^c)
+- 当 log_b(a) > c，则 O(n^log_b(a))
+- 当 log_b(a) = c，则 O(n^c\*logn)
+- 当 log_b(a) < c，则 O(n^c)
 
 主定理给出了这类递归式时间复杂度的上界。但请注意，主定理并不适用于所有类型的递归式，有时可能需要配合其他方法。
 
@@ -321,67 +320,68 @@ public static void partition(int[] arr, int target) {
  * 2. 每次把相等分区的左右边界返回
  */
 function quickSort(arr, left, right) {
-  if (left < right) {
-    const [leftBorder, rightBorder] = partition(arr, left, right)
-    quickSort(arr, left, leftBorder - 1)
-    quickSort(arr, rightBorder + 1, right)
-  }
+    if (left < right) {
+        const [leftBorder, rightBorder] = partition(arr, left, right)
+        quickSort(arr, left, leftBorder - 1)
+        quickSort(arr, rightBorder + 1, right)
+    }
 }
 function partition(arr, left, right) {
-  const pivotIndex = left + Math.floor(Math.random(right - left + 1))
-  const pivot = arr[pivotIndex]
-  // 指针 p 从左到右依次遍历与基准值比较
-  let p = left
-  while (p <= right) {
-    if (arr[p] === pivot) {
-      p++
-    } else if (arr[p] < pivot) {
-      swap(arr, left, p)
-      left++
-      p++
-    } else {
-      swap(arr, right, p)
-      right--
-      // 此处 p 没移动是因为从 right 位置换过来的元素与pivot的关系还不清楚
+    const pivotIndex = left + Math.floor(Math.random(right - left + 1))
+    const pivot = arr[pivotIndex]
+    // 指针 p 从左到右依次遍历与基准值比较
+    let p = left
+    while (p <= right) {
+        if (arr[p] === pivot) {
+            p++
+        } else if (arr[p] < pivot) {
+            swap(arr, left, p)
+            left++
+            p++
+        } else {
+            swap(arr, right, p)
+            right--
+            // 此处 p 没移动是因为从 right 位置换过来的元素与pivot的关系还不清楚
+        }
     }
-  }
-  return [left, right]
+    return [left, right]
 }
 ```
+
 普通的快速排序，也很有用，对于解决 topK 的问题衍生出快速选择算法，见 lc.215
 
 ```js
 function quickSort(arr, left, right) {
-  if (left < right) {
-    const pivotIndex = partition(arr, left, right)
-    quickSort(arr, left, pivotIndex - 1)
-    quickSort(arr, pivotIndex + 1, right)
-  }
+    if (left < right) {
+        const pivotIndex = partition(arr, left, right)
+        quickSort(arr, left, pivotIndex - 1)
+        quickSort(arr, pivotIndex + 1, right)
+    }
 }
 function partition(arr, left, right) {
-  const pivotIndex = left + Math.floor(Math.random() * (right - left + 1))
-  const pivot = arr[pivotIndex]
-  // 基准值放到最左或最右，避免在循环中频繁判断指针是否指向的基准值（三路快排存在等于的区间就无需这一步）
-  swap(arr, left, pivotIndex)
+    const pivotIndex = left + Math.floor(Math.random() * (right - left + 1))
+    const pivot = arr[pivotIndex]
+    // 基准值放到最左或最右，避免在循环中频繁判断指针是否指向的基准值（三路快排存在等于的区间就无需这一步）
+    swap(arr, left, pivotIndex)
 
-  let l = left + 1,
-    r = right
-  while (l <= r) {
-    // 选择把与基准值相等的统一放到一个侧，不然在后续分割的时候就不在一起了
-    // 这也是为什么选择 arr[l] <= pivot 而不是 arr[r] >= pivot, 因为在上方我们把基准值放到了最左边
-    while (l <= r && arr[l] <= pivot) {
-      l++
+    let l = left + 1,
+        r = right
+    while (l <= r) {
+        // 选择把与基准值相等的统一放到一个侧，不然在后续分割的时候就不在一起了
+        // 这也是为什么选择 arr[l] <= pivot 而不是 arr[r] >= pivot, 因为在上方我们把基准值放到了最左边
+        while (l <= r && arr[l] <= pivot) {
+            l++
+        }
+        while (l <= r && arr[r] > pivot) {
+            r--
+        }
+        if (l < r) {
+            swap(arr, l, r)
+        }
     }
-    while (l <= r && arr[r] > pivot) {
-      r--
-    }
-    if (l < r) {
-      swap(arr, l, r)
-    }
-  }
-  // 结束时，l 一定在比基准值大的位置，而 r 在小于等于基准值的位置，把基准值放到正确的位置并且返回新的分割index - r
-  swap(arr, left, r)
-  return r
+    // 结束时，l 一定在比基准值大的位置，而 r 在小于等于基准值的位置，把基准值放到正确的位置并且返回新的分割index - r
+    swap(arr, left, r)
+    return r
 }
 ```
 
@@ -391,9 +391,9 @@ function partition(arr, left, right) {
 
 ### 节点关系
 
--   左子节点：2\*i + 1
--   右子节点：2\*i + 2
--   父节点：(i - 1)/2，注意：java 中可以这么做因为 java 中 -1 / 2 == 0；js 中就可以使用绝对值和位运算来简化操作。
+- 左子节点：2\*i + 1
+- 右子节点：2\*i + 2
+- 父节点：(i - 1)/2，注意：java 中可以这么做因为 java 中 -1 / 2 == 0；js 中就可以使用绝对值和位运算来简化操作。
 
 ### 上浮和下沉
 
@@ -453,8 +453,8 @@ for (int i = data.length / 2; i >= 0; --i) {
 
 时间复杂度证明：
 
--   T(n) = n/2 \* 1 + n/4 \* 2 + n/8 \* 3 + ...
--   2T(n) = n/2 \* 2 + n/2 \* 2 + n/4 \* 3 + ...
+- T(n) = n/2 \* 1 + n/4 \* 2 + n/8 \* 3 + ...
+- 2T(n) = n/2 \* 2 + n/2 \* 2 + n/4 \* 3 + ...
 
 错位相减： `T(n) = n + n/2 + n/4 + n/8 + ...`， 等比数列求和公式：sn = an。所以时间复杂度是 O(n)。
 
@@ -536,9 +536,9 @@ function shellSort(nums) {
 
 冒泡选择和插入只有选择排序是不稳定的，因为在它的过程中，会把 min 或 max 与后面的交换，同理快速排序也不是稳定的，堆排序更不用提了~
 
--   快速排序: 时间 O(nlogn), 空间 O(logn)，相对而言速度最快
--   归并排序: 时间 O(nlogn)，空间 O(n)，具有稳定性
--   堆排序的：时间 O(nlogn)，空间 O(1)，空间最少
+- 快速排序: 时间 O(nlogn), 空间 O(logn)，相对而言速度最快
+- 归并排序: 时间 O(nlogn)，空间 O(n)，具有稳定性
+- 堆排序的：时间 O(nlogn)，空间 O(1)，空间最少
 
 ## 非比较排序
 
@@ -671,7 +671,7 @@ function bucketSort(nums) {
     const min = Math.min(...nums)
     const max = Math.max(...nums)
     const count = Math.floor((max - min) / scope) + 1
-    const bucket = Array.from(new Array(count), _ => [])
+    const bucket = Array.from(new Array(count), (_) => [])
 
     // 遍历数据，看应该放入哪个桶中
     for (const value of nums) {

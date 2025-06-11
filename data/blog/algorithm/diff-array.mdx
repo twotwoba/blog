@@ -6,7 +6,6 @@ tags: ['data structure', 'algorithm']
 draft: false
 summary: '频繁对区间内元素进行增删操作? 试一试差分数组技巧吧.'
 images: []
-layout: PostLayout
 ---
 
 ### 概念
@@ -29,8 +28,8 @@ for (let i = 1; i < diff[i]; ++i) {
 
 原理也很简单：
 
--   `diff[i] += val`，等于对 `[i...]` 之后的所有元素都加了 val
--   `diff[j+1] -=val`，等于对 `[j+1...]` 之后的所有元素都减了 val
+- `diff[i] += val`，等于对 `[i...]` 之后的所有元素都加了 val
+- `diff[j+1] -=val`，等于对 `[j+1...]` 之后的所有元素都减了 val
 
 这样就使用了常数级的时间对区间 `[i:j]` 内的元素进行了修改，最后一次性还原即可。
 

@@ -6,7 +6,6 @@ tags: ['data structure', 'algorithm']
 draft: false
 summary: '浅学一下单调栈'
 images: []
-layout: PostLayout
 ---
 
 ## 概念及实现
@@ -44,24 +43,24 @@ for (const item of arr) {
  * @return {string}
  */
 var removeKdigits = function (num, k) {
-  const nums = num.split('')
-  const stack = []
-  for (const el of num) {
-    while (stack.length && k && el < stack[stack.length - 1]) {
-      stack.pop()
-      k--
+    const nums = num.split('')
+    const stack = []
+    for (const el of num) {
+        while (stack.length && k && el < stack[stack.length - 1]) {
+            stack.pop()
+            k--
+        }
+        stack.push(el)
     }
-    stack.push(el)
-  }
 
-  /** k 还有富余继续pop */
-  while (k > 0) {
-    stack.pop()
-    k--
-  }
+    /** k 还有富余继续pop */
+    while (k > 0) {
+        stack.pop()
+        k--
+    }
 
-  while (stack[0] === '0') stack.shift()
-  return stack.join('') || '0'
+    while (stack[0] === '0') stack.shift()
+    return stack.join('') || '0'
 }
 ```
 
@@ -74,21 +73,21 @@ var removeKdigits = function (num, k) {
  * @return {number[]}
  */
 var nextGreaterElement = function (nums1, nums2) {
-  // 思路：对 nums2 构建单调栈，同时用哈希表存储信息，最后遍历 nums1 并从哈希表中取出数据即可
-  const stack = []
-  const map = {}
-  for (const el of nums2) {
-    while (stack.length && el > stack[stack.length - 1]) {
-      const last = stack.pop() // 拍扁过程中，el 是 所所有被拍扁元素的下一个更大元素
-      map[last] = el
+    // 思路：对 nums2 构建单调栈，同时用哈希表存储信息，最后遍历 nums1 并从哈希表中取出数据即可
+    const stack = []
+    const map = {}
+    for (const el of nums2) {
+        while (stack.length && el > stack[stack.length - 1]) {
+            const last = stack.pop() // 拍扁过程中，el 是 所所有被拍扁元素的下一个更大元素
+            map[last] = el
+        }
+        stack.push(el)
     }
-    stack.push(el)
-  }
-  let res = []
-  for (const el of nums1) {
-    res.push(map[el] || -1)
-  }
-  return res
+    let res = []
+    for (const el of nums1) {
+        res.push(map[el] || -1)
+    }
+    return res
 }
 ```
 
@@ -105,16 +104,16 @@ var nextGreaterElement = function (nums1, nums2) {
  * @return {number[]}
  */
 var nextGreaterElements = function (nums) {
-  const res = Array(nums.length).fill(-1)
-  const stack = []
-  for (let i = 0; i < nums.length * 2 - 1; i++) {
-    while (stack.length && nums[i % nums.length] > nums[stack[stack.length - 1]]) {
-      const index = stack.pop()
-      res[index] = nums[i % nums.length]
+    const res = Array(nums.length).fill(-1)
+    const stack = []
+    for (let i = 0; i < nums.length * 2 - 1; i++) {
+        while (stack.length && nums[i % nums.length] > nums[stack[stack.length - 1]]) {
+            const index = stack.pop()
+            res[index] = nums[i % nums.length]
+        }
+        stack.push(i % nums.length)
     }
-    stack.push(i % nums.length)
-  }
-  return res
+    return res
 }
 ```
 
@@ -128,16 +127,16 @@ var nextGreaterElements = function (nums) {
  * @return {number[]}
  */
 var dailyTemperatures = function (temperatures) {
-  const res = Array(temperatures.length).fill(0)
-  const stack = []
-  for (let i = 0; i < temperatures.length; ++i) {
-    while (stack.length && temperatures[i] > temperatures[stack[stack.length - 1]]) {
-      const lastIndex = stack.pop()
-      res[lastIndex] = i - lastIndex
+    const res = Array(temperatures.length).fill(0)
+    const stack = []
+    for (let i = 0; i < temperatures.length; ++i) {
+        while (stack.length && temperatures[i] > temperatures[stack[stack.length - 1]]) {
+            const lastIndex = stack.pop()
+            res[lastIndex] = i - lastIndex
+        }
+        stack.push(i)
     }
-    stack.push(i)
-  }
-  return res
+    return res
 }
 ```
 
@@ -145,8 +144,8 @@ var dailyTemperatures = function (temperatures) {
 
 ```js
 var StockSpanner = function () {
-  this.arr = []
-  this.monoStack = []
+    this.arr = []
+    this.monoStack = []
 }
 
 /**
@@ -154,15 +153,15 @@ var StockSpanner = function () {
  * @return {number}
  */
 StockSpanner.prototype.next = function (price) {
-  this.arr.push(price)
-  while (this.monoStack.length && price > this.arr[this.monoStack[this.monoStack.length - 1]]) {
-    this.monoStack.pop()
-  }
-  // -1 表示-1 天，用来计算间距
-  let lastIndex = this.monoStack.length ? this.monoStack[this.monoStack.length - 1] : -1
-  const interval = this.arr.length - lastIndex - 1 // (lastIndex...this.arr.length)
-  this.monoStack.push(this.arr.length - 1)
-  return interval
+    this.arr.push(price)
+    while (this.monoStack.length && price > this.arr[this.monoStack[this.monoStack.length - 1]]) {
+        this.monoStack.pop()
+    }
+    // -1 表示-1 天，用来计算间距
+    let lastIndex = this.monoStack.length ? this.monoStack[this.monoStack.length - 1] : -1
+    const interval = this.arr.length - lastIndex - 1 // (lastIndex...this.arr.length)
+    this.monoStack.push(this.arr.length - 1)
+    return interval
 }
 
 /**
@@ -188,32 +187,32 @@ StockSpanner.prototype.next = function (price) {
  * @return {number}
  */
 var largestRectangleArea = function (heights) {
-  const left = []
-  const right = []
+    const left = []
+    const right = []
 
-  const monoStack = []
-  for (let i = 0; i < heights.length; ++i) {
-    // 找到索引 i 左边第一个比 i 的高要小的
-    while (monoStack.length && heights[i] <= heights[monoStack[monoStack.length - 1]]) {
-      monoStack.pop()
+    const monoStack = []
+    for (let i = 0; i < heights.length; ++i) {
+        // 找到索引 i 左边第一个比 i 的高要小的
+        while (monoStack.length && heights[i] <= heights[monoStack[monoStack.length - 1]]) {
+            monoStack.pop()
+        }
+        left[i] = monoStack.length > 0 ? monoStack[monoStack.length - 1] : -1
+        monoStack.push(i)
     }
-    left[i] = monoStack.length > 0 ? monoStack[monoStack.length - 1] : -1
-    monoStack.push(i)
-  }
 
-  monoStack.length = 0
-  for (let i = heights.length - 1; i >= 0; --i) {
-    while (monoStack.length && heights[i] <= heights[monoStack[monoStack.length - 1]]) {
-      monoStack.pop()
+    monoStack.length = 0
+    for (let i = heights.length - 1; i >= 0; --i) {
+        while (monoStack.length && heights[i] <= heights[monoStack[monoStack.length - 1]]) {
+            monoStack.pop()
+        }
+        right[i] = monoStack.length ? monoStack[monoStack.length - 1] : heights.length
+        monoStack.push(i)
     }
-    right[i] = monoStack.length ? monoStack[monoStack.length - 1] : heights.length
-    monoStack.push(i)
-  }
-  let max = 0
-  for (let i = 0; i < heights.length; ++i) {
-    max = Math.max(max, (right[i] - left[i] - 1) * heights[i])
-  }
-  return max
+    let max = 0
+    for (let i = 0; i < heights.length; ++i) {
+        max = Math.max(max, (right[i] - left[i] - 1) * heights[i])
+    }
+    return max
 }
 ```
 
@@ -229,18 +228,18 @@ var largestRectangleArea = function (heights) {
  * @return {number}
  */
 var largestRectangleArea = function (heights) {
-  let max = 0
-  const monoStack = []
-  heights = [0, ...heights, 0]
-  for (let i = 0; i < heights.length; ++i) {
-    while (monoStack.length && heights[i] < heights[monoStack[monoStack.length - 1]]) {
-      const h = heights[monoStack.pop()]
-      const left = monoStack[monoStack.length - 1]
-      max = Math.max(max, (i - left - 1) * h)
+    let max = 0
+    const monoStack = []
+    heights = [0, ...heights, 0]
+    for (let i = 0; i < heights.length; ++i) {
+        while (monoStack.length && heights[i] < heights[monoStack[monoStack.length - 1]]) {
+            const h = heights[monoStack.pop()]
+            const left = monoStack[monoStack.length - 1]
+            max = Math.max(max, (i - left - 1) * h)
+        }
+        monoStack.push(i)
     }
-    monoStack.push(i)
-  }
-  return max
+    return max
 }
 ```
 
@@ -254,21 +253,21 @@ var largestRectangleArea = function (heights) {
  * @return {number}
  */
 var trap = function (height) {
-  let area = 0
-  const monoStack = []
-  for (let i = 0; i < height.length; ++i) {
-    // 找到下一个更大的元素，就能形成 凹 槽
-    while (monoStack.length && height[i] > height[monoStack[monoStack.length - 1]]) {
-      const lowH = height[monoStack.pop()] // 中间的凹槽的高度
-      // 注意这里，对边界做判断
-      if (monoStack.length) {
-        const highH = Math.min(height[monoStack[monoStack.length - 1]], height[i])
-        area += (highH - lowH) * (i - monoStack[monoStack.length - 1] - 1)
-      }
+    let area = 0
+    const monoStack = []
+    for (let i = 0; i < height.length; ++i) {
+        // 找到下一个更大的元素，就能形成 凹 槽
+        while (monoStack.length && height[i] > height[monoStack[monoStack.length - 1]]) {
+            const lowH = height[monoStack.pop()] // 中间的凹槽的高度
+            // 注意这里，对边界做判断
+            if (monoStack.length) {
+                const highH = Math.min(height[monoStack[monoStack.length - 1]], height[i])
+                area += (highH - lowH) * (i - monoStack[monoStack.length - 1] - 1)
+            }
+        }
+        monoStack.push(i)
     }
-    monoStack.push(i)
-  }
-  return area
+    return area
 }
 ```
 
@@ -277,25 +276,25 @@ var trap = function (height) {
 ```js
 // 相比单调栈横向计算面积, 双指针是纵向计算面积的，主要根据两边高度的较小个
 var trap = function (height) {
-  // 每个坐标点能装下的水是 左右最高柱子较小的那一个 减去自身的高度
-  const n = height.length
-  let l = 0,
-    r = n - 1
-  let res = 0
-  let l_max = 0,
-    r_max = 0
-  while (l < r) {
-    l_max = Math.max(l_max, height[l])
-    r_max = Math.max(r_max, height[r])
-    if (l_max < r_max) {
-      res += l_max - height[l]
-      l++
-    } else {
-      res += r_max - height[r]
-      r--
+    // 每个坐标点能装下的水是 左右最高柱子较小的那一个 减去自身的高度
+    const n = height.length
+    let l = 0,
+        r = n - 1
+    let res = 0
+    let l_max = 0,
+        r_max = 0
+    while (l < r) {
+        l_max = Math.max(l_max, height[l])
+        r_max = Math.max(r_max, height[r])
+        if (l_max < r_max) {
+            res += l_max - height[l]
+            l++
+        } else {
+            res += r_max - height[r]
+            r--
+        }
     }
-  }
-  return res
+    return res
 }
 ```
 

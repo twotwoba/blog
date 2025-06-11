@@ -6,18 +6,18 @@ tags: ['data structure', 'algorithm']
 draft: false
 summary: '浅学一下前缀树, 也叫字典树🌲'
 images: []
-layout: PostLayout
 ---
+
 ## 概念及实现
 
 前缀树，也叫字典树，就是一种数据结构，比如有一组字符串 `['abc', 'ab', 'bc', 'bck']`，那么它的前缀树是这样的：
 
-<img src='https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202402131753139.png' className='w-[200px]'/>
+<img src="https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202402131753139.png" className="w-[200px]" />
 
 核心：**字符在树的树枝上，节点上保存着信息** (当然不是这么死，个人习惯，程序怎么实现都是 ok 的)，含义如下：
 
--   p：通过树枝字符的字符串数量. -- 可以查询前缀数量
--   e：以树枝字符结尾的字符串数量. -- 可以查询字符串
+- p：通过树枝字符的字符串数量. -- 可以查询前缀数量
+- e：以树枝字符结尾的字符串数量. -- 可以查询字符串
 
 对应的数据结构如下：
 
@@ -187,7 +187,7 @@ WordDictionary.prototype.addWord = function (word) {
  * @param {string} word
  * @return {boolean}
  */
-    // 注意第二个参数 是后来自己写的时候添加的，因为要寻找 . 之后的
+// 注意第二个参数 是后来自己写的时候添加的，因为要寻找 . 之后的
 WordDictionary.prototype.search = function (word, newRoot) {
     let p = this.root
     if (newRoot) p = newRoot
@@ -200,7 +200,7 @@ WordDictionary.prototype.search = function (word, newRoot) {
             const keys = Object.keys(p.next)
             // 一开始这么写的，缺少了 start，每次都从头开始搜索，这就不对了，那就把 p 带上
             // return keys.some(d => this.search(d + word.slice(i + 1)))
-            return keys.some(d => this.search(d + word.slice(i + 1), p))
+            return keys.some((d) => this.search(d + word.slice(i + 1), p))
         } else {
             if (!p.next[c]) return false
             p = p.next[c]
@@ -228,11 +228,11 @@ WordDictionary.prototype.search = function (word, newRoot) {
  */
 var replaceWords = function (dictionary, sentence) {
     let trie = new Trie()
-    dictionary.forEach(s => trie.insert(s))
+    dictionary.forEach((s) => trie.insert(s))
 
     return sentence
         .split(' ')
-        .map(s => trie.search(s))
+        .map((s) => trie.search(s))
         .join(' ')
 }
 // 读这道题意，很容易想得到 前缀树
@@ -325,11 +325,11 @@ MapSum.prototype.sum = function (prefix) {
     let sum = 0
     /** 第一次做，漏掉了恰好相等的条件 */
     if (p && p.end > 0) sum += p.val
-    const getVal = p => {
+    const getVal = (p) => {
         if (!p) return
         const allKeys = Object.keys(p.next)
         if (!allKeys.length) return
-        allKeys.forEach(c => {
+        allKeys.forEach((c) => {
             let newP = p // 第一次做，这里也忘记处理了。。。
             newP = newP.next[c]
             if (newP && newP.end > 0) sum += newP.val

@@ -6,7 +6,6 @@ tags: ['engineering']
 draft: false
 summary: '从头到尾学一遍 babel, 构建你的知识体系.'
 images: []
-layout: PostLayout
 ---
 
 **本文基于 babel 7**
@@ -21,76 +20,76 @@ layout: PostLayout
 
 1. `parsing` 有两个阶段，词法分析和语法分析，最终得到 AST（抽象语法树）：
 
-   - 词法分析：把源代码转换成 tokens 数组(令牌流)，形式如下：  
-     PS： 旧的`babylon`中解析完是有 tokens 的，新的`@babel/parser`中没了这个字段，如有大佬知道原因，请留言告知，感谢~
+    - 词法分析：把源代码转换成 tokens 数组(令牌流)，形式如下：  
+      PS： 旧的`babylon`中解析完是有 tokens 的，新的`@babel/parser`中没了这个字段，如有大佬知道原因，请留言告知，感谢~
 
-     ```js
-      [
-        { type: { ... }, value: "n", start: 0, end: 1, loc: { ... } },
-        { type: { ... }, value: "*", start: 2, end: 3, loc: { ... } },
-        { type: { ... }, value: "n", start: 4, end: 5, loc: { ... } },
-        ...
-      ]
-     ```
+        ```js
+         [
+           { type: { ... }, value: "n", start: 0, end: 1, loc: { ... } },
+           { type: { ... }, value: "*", start: 2, end: 3, loc: { ... } },
+           { type: { ... }, value: "n", start: 4, end: 5, loc: { ... } },
+           ...
+         ]
+        ```
 
-     每一个 type 有一组属性来描述该令牌：
+        每一个 type 有一组属性来描述该令牌：
 
-     ```js
-      {
-        type: {
-          label: 'name',
-          keyword: undefined,
-          beforeExpr: false,
-          startsExpr: true,
-          rightAssociative: false,
-          isLoop: false,
-          isAssign: false,
-          prefix: false,
-          postfix: false,
-          binop: null,
-          updateContext: null
-        },
-        ...
-      }
-     ```
+        ```js
+         {
+           type: {
+             label: 'name',
+             keyword: undefined,
+             beforeExpr: false,
+             startsExpr: true,
+             rightAssociative: false,
+             isLoop: false,
+             isAssign: false,
+             prefix: false,
+             postfix: false,
+             binop: null,
+             updateContext: null
+           },
+           ...
+         }
+        ```
 
-     词法转换的基本原理就是：tokenizer 函数内部使用指针去循环遍历源码字符串，根据正则等去匹配生成对应的一个个 token 对象。
+        词法转换的基本原理就是：tokenizer 函数内部使用指针去循环遍历源码字符串，根据正则等去匹配生成对应的一个个 token 对象。
 
-   - 语法分析：把词法分析后的 tokens 数组(令牌流)转换成 AST(抽象语法树)，形式如下：
+    - 语法分析：把词法分析后的 tokens 数组(令牌流)转换成 AST(抽象语法树)，形式如下：
 
-     ```js
-      {
-        type: "FunctionDeclaration",
-        id: {
-          type: "Identifier",
-          name: "square"
-        },
-        params: [{
-          type: "Identifier",
-          name: "n"
-        }],
-        body: {
-          type: "BlockStatement",
-          body: [{
-            type: "ReturnStatement",
-            argument: {
-              type: "BinaryExpression",
-              operator: "*",
-              left: {
-                type: "Identifier",
-                name: "n"
-              },
-              right: {
-                type: "Identifier",
-                name: "n"
-              }
-            }
-          }]
-        }
-      }
-     ```
+        ```js
+         {
+           type: "FunctionDeclaration",
+           id: {
+             type: "Identifier",
+             name: "square"
+           },
+           params: [{
+             type: "Identifier",
+             name: "n"
+           }],
+           body: {
+             type: "BlockStatement",
+             body: [{
+               type: "ReturnStatement",
+               argument: {
+                 type: "BinaryExpression",
+                 operator: "*",
+                 left: {
+                   type: "Identifier",
+                   name: "n"
+                 },
+                 right: {
+                   type: "Identifier",
+                   name: "n"
+                 }
+               }
+             }]
+           }
+         }
+        ```
 
-     与 tokenlizer 不同， parser 内部使用的是递归+循环而不仅仅是循环。
+        与 tokenlizer 不同， parser 内部使用的是递归+循环而不仅仅是循环。
 
 2. `Transformation`，该阶段将抽象语法树转换成我们想要的目标抽象语法树，这是最复杂的地方，会使用到 **访问者模式**。  
    这一步重点是需要一个自定义遍历器 `traverser(ast, visitor)`，`visitor` 作用是访问旧 `ast` 每个 `node 节点` 时根据 type 字段配置相应的处理方法，进行添加、更新、移除等操作，最终生成新的 AST。
@@ -184,33 +183,33 @@ visitor 内方法访问的实际上是 `path` ---> `path` 是表示两个节点�
 ### babel runner
 
 - `@babel/cli`，从命令行使用 babel 编译文件
-  ```sh
-  # 全局安装，也可随项目安装
-  npm i @babel/cli -g
-  # 基本使用，可选是否导出到文件 --out-file或-o
-  babel [file] -o [file]
-  ```
+    ```sh
+    # 全局安装，也可随项目安装
+    npm i @babel/cli -g
+    # 基本使用，可选是否导出到文件 --out-file或-o
+    babel [file] -o [file]
+    ```
 - `babel-loader`，前端项目中 `webpack` 更常用的是 `babel-loader`  
    在 webpack 中，loader 本质上就是一个函数：
-  ```js
-  // loader 自身实际上只是识别文件，然后注入参数，真正的编译依赖 @babel/core
-  const core = require('@babel/core')
-  /**
-   * @desc    babel-loader
-   * @param   sourceCode 源代码
-   * @param   options    babel配置参数
-   */
-  function babelLoader (sourceCode,options) {
-    // ..
-    // 通过transform方法编译传入的源代码
-    core.transform(sourceCode, {
-      presets: ['@babel/preset-env'],
-      plugins: [...]
-    });
-    return targetCode
-  }
-  ```
-  > babel-loader 的配置既可以通过 options 参数注入，也可以在 loader 函数内部读取 `.babelrc`/`babel.config.js`/`babel.config.json` 等文件中读取后注入。
+    ```js
+    // loader 自身实际上只是识别文件，然后注入参数，真正的编译依赖 @babel/core
+    const core = require('@babel/core')
+    /**
+     * @desc    babel-loader
+     * @param   sourceCode 源代码
+     * @param   options    babel配置参数
+     */
+    function babelLoader (sourceCode,options) {
+      // ..
+      // 通过transform方法编译传入的源代码
+      core.transform(sourceCode, {
+        presets: ['@babel/preset-env'],
+        plugins: [...]
+      });
+      return targetCode
+    }
+    ```
+    > babel-loader 的配置既可以通过 options 参数注入，也可以在 loader 函数内部读取 `.babelrc`/`babel.config.js`/`babel.config.json` 等文件中读取后注入。
 
 ### @babel/core
 
@@ -314,32 +313,32 @@ const p = new Promise()
 
 - `false`，说简单点就是不使用 polyfill
 - `entry`，全量引入 polyfill，同时需要项目入口文件的头部引入:
-  ```js
-  import "@babel/polyfill"
-  // babel 7.4 后被拆成了 core-js/stable 和 regenerator-runtime/runtime
-  ```
+    ```js
+    import '@babel/polyfill'
+    // babel 7.4 后被拆成了 core-js/stable 和 regenerator-runtime/runtime
+    ```
 - `usage`，按需添加 polyfill，根据配置的浏览器兼容，以及代码中 使用到的 Api 添加，不需要去项目入口文件引入：
 
-  ```js
-  {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "useBuiltIns": "usage",
-          "corejs": 2 // entry和usage都需要这个配置， 默认为 2, 可选 3
-          // 2 - 只支持全局变量Promise和静态属性Array.from(); 3 - 还支持实例属性 [].includes
-        }
+    ```js
+    {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "useBuiltIns": "usage",
+            "corejs": 2 // entry和usage都需要这个配置， 默认为 2, 可选 3
+            // 2 - 只支持全局变量Promise和静态属性Array.from(); 3 - 还支持实例属性 [].includes
+          }
+        ]
       ]
-    ]
-  }
+    }
 
-  // 这套配置的输出会在头部添加如下引用, 这样就支持了 Promise 了
-  require("core-js/modules/es6.object.to-string.js");
-  require("core-js/modules/es6.promise.js");
-  ```
+    // 这套配置的输出会在头部添加如下引用, 这样就支持了 Promise 了
+    require("core-js/modules/es6.object.to-string.js");
+    require("core-js/modules/es6.promise.js");
+    ```
 
-  > entry 全量引入会产生污染全局和的问题，而 usage 按需引入，如果有多个模块，那么也会产生代码冗余，重复引入的问题。
+    > entry 全量引入会产生污染全局和的问题，而 usage 按需引入，如果有多个模块，那么也会产生代码冗余，重复引入的问题。
 
 ---
 
@@ -530,23 +529,23 @@ npm i @babel/traverse -D
 ```
 
 ```js
-import * as babelParser from '@babel/parser';
-import _traverse from '@babel/traverse';
-const traverse = _traverse.default;
+import * as babelParser from '@babel/parser'
+import _traverse from '@babel/traverse'
+const traverse = _traverse.default
 
 const code = `function sum(a, b){
   return a + b
-}`;
+}`
 
-const AST = babelParser.parse(code);
+const AST = babelParser.parse(code)
 
 traverse(AST, {
-  enter(path) {
-    if (path.isIdentifier({ name: 'a' })) {
-      path.node.name = 'c';
+    enter(path) {
+        if (path.isIdentifier({ name: 'a' })) {
+            path.node.name = 'c'
+        }
     }
-  }
-});
+})
 ```
 
 > 注意：官网示例实际上有个 bug：`import traverse from '@babel/traverse';`，ESM 下这样子直接用 `traverse` 会报错，将会在 babel8 修复。
@@ -561,16 +560,16 @@ npm i @babel/types -s
 
 ```js
 // ...
-import * as t from "babel-types";
+import * as t from 'babel-types'
 
 // ...
 traverse(AST, {
-  enter(path) {
-    if (t.isIdentifier(path.node, { name: 'a' })) {
-      path.node.name = 'c';
+    enter(path) {
+        if (t.isIdentifier(path.node, { name: 'a' })) {
+            path.node.name = 'c'
+        }
     }
-  }
-});
+})
 ```
 
 > API 很多，具体见[@babel/types](https://babeljs.io/docs/en/babel-types)
@@ -648,15 +647,15 @@ const hello = () => {}
 // plugin-hello.js，在本地这么写是ok的
 // 但是想要发布为一个包并应用配置则得按照官方插件的样式去写
 export default function ({ types: t }) {
-  return {
-    visitor: {
-      Identifier(path, state) {
-        if (path.node.name === 'hello') {
-          path.replaceWith(t.Identifier('world'));
+    return {
+        visitor: {
+            Identifier(path, state) {
+                if (path.node.name === 'hello') {
+                    path.replaceWith(t.Identifier('world'))
+                }
+            }
         }
-      }
     }
-  };
 }
 
 // 在插件中配置 "plugins": [["./plugin-hello.js"]]，编译后结果:
@@ -670,16 +669,16 @@ export default function ({ types: t }) {
 解释一下：
 
 1. `export default function(api, options, dirname){}`的三个参数：
-   - `api`：就是 babel 对象，可以从中获取 `types(@babel/types)`、`traverse(@babel/traverse)` 等很多实用的方法
-   - `options`：插件入参，即在配置文件中跟随在插件名后面的配置
-   - `dirname`：文件路径
+    - `api`：就是 babel 对象，可以从中获取 `types(@babel/types)`、`traverse(@babel/traverse)` 等很多实用的方法
+    - `options`：插件入参，即在配置文件中跟随在插件名后面的配置
+    - `dirname`：文件路径
 2. 这个函数必须返回一个对象，对象内有一些内置方法和属性：
-   - `name`，babel 插件名字，遵循一定的[命名规则](https://babeljs.io/docs/en/options#name-normalization)
-   - `pre(state)`，在遍历节点之前调用
-   - `visitor`对象，前面说的访问者模式，真正对 AST 动手术的部分，其内部根据各种标识符比如 `"type": "Identifier"`，决定对 AST 使用哪种手术刀 `Identifier(path, state)`，也可以写成带`enter(path,state)`和`exit(path, state)` 方法的对象。`path` 之前讲过是两个节点之间连接的对象，这是一个可操作和访问的巨大可变对象，是动手术的原材料；`state` 则是告知手术进行到了哪一步，因为每个 `visitor` 属性之间互不关联，`state` 可以帮助传递状态
-   - `post(state)`，在遍历节点之后调用
-   - `inherits`，指定继承某个插件，通过 Object.assign 的方式，和当前插件的 options 合并。
-   - `manipulateOptions`：用于修改 options，是在插件里面修改配置的方式，[参考此插件](https://github.com/babel/babel/blob/main/packages/babel-plugin-syntax-explicit-resource-management/src/index.ts)
+    - `name`，babel 插件名字，遵循一定的[命名规则](https://babeljs.io/docs/en/options#name-normalization)
+    - `pre(state)`，在遍历节点之前调用
+    - `visitor`对象，前面说的访问者模式，真正对 AST 动手术的部分，其内部根据各种标识符比如 `"type": "Identifier"`，决定对 AST 使用哪种手术刀 `Identifier(path, state)`，也可以写成带`enter(path,state)`和`exit(path, state)` 方法的对象。`path` 之前讲过是两个节点之间连接的对象，这是一个可操作和访问的巨大可变对象，是动手术的原材料；`state` 则是告知手术进行到了哪一步，因为每个 `visitor` 属性之间互不关联，`state` 可以帮助传递状态
+    - `post(state)`，在遍历节点之后调用
+    - `inherits`，指定继承某个插件，通过 Object.assign 的方式，和当前插件的 options 合并。
+    - `manipulateOptions`：用于修改 options，是在插件里面修改配置的方式，[参考此插件](https://github.com/babel/babel/blob/main/packages/babel-plugin-syntax-explicit-resource-management/src/index.ts)
 
 ### babel-plugin-log-shiny
 
@@ -695,14 +694,14 @@ npm i babel-plugin-log-shiny -D
 
 ```json
 {
-  "plugins": [
-    [
-      "log-shiny",
-      {
-        "prefix": "whatever you want~ like 🔥"
-      }
+    "plugins": [
+        [
+            "log-shiny",
+            {
+                "prefix": "whatever you want~ like 🔥"
+            }
+        ]
     ]
-  ]
 }
 ```
 

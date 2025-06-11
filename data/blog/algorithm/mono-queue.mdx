@@ -6,7 +6,6 @@ tags: ['data structure', 'algorithm']
 draft: false
 summary: '浅学一下单调队列'
 images: []
-layout: PostLayout
 ---
 
 ## 概念及实现
@@ -40,20 +39,20 @@ q.push(num)
  * @return {number[]}
  */
 var maxSlidingWindow = function (nums, k) {
-  let res = []
-  const monoQueue = []
-  for (let i = 0; i < nums.length; ++i) {
-    while (monoQueue.length && nums[i] >= nums[monoQueue[monoQueue.length - 1]]) {
-      monoQueue.pop()
-    }
-    /** 一个重点是存储索引，便于判断窗口的大小 */
-    monoQueue.push(i)
-    if (i - monoQueue[0] + 1 > k) monoQueue.shift()
+    let res = []
+    const monoQueue = []
+    for (let i = 0; i < nums.length; ++i) {
+        while (monoQueue.length && nums[i] >= nums[monoQueue[monoQueue.length - 1]]) {
+            monoQueue.pop()
+        }
+        /** 一个重点是存储索引，便于判断窗口的大小 */
+        monoQueue.push(i)
+        if (i - monoQueue[0] + 1 > k) monoQueue.shift()
 
-    // r - l + 1 == k 所以 l = r - k + 1 保证有意义
-    if (i - k + 1 >= 0) res.push(nums[monoQueue[0]])
-  }
-  return res
+        // r - l + 1 == k 所以 l = r - k + 1 保证有意义
+        if (i - k + 1 >= 0) res.push(nums[monoQueue[0]])
+    }
+    return res
 }
 ```
 
@@ -63,26 +62,27 @@ var maxSlidingWindow = function (nums, k) {
 
 ```js
 var shortestSubarray = function (nums, k) {
-  const n = nums.length
-  const preSumArr = new Array(n + 1).fill(0)
-  for (let i = 0; i < n; i++) {
-    preSumArr[i + 1] = preSumArr[i] + nums[i]
-  }
-  let res = n + 1
-  const queue = []
-  for (let i = 0; i <= n; i++) {
-    const curSum = preSumArr[i]
-    while (queue.length != 0 && curSum - preSumArr[queue[0]] >= k) {
-      res = Math.min(res, i - queue.shift())
+    const n = nums.length
+    const preSumArr = new Array(n + 1).fill(0)
+    for (let i = 0; i < n; i++) {
+        preSumArr[i + 1] = preSumArr[i] + nums[i]
     }
-    while (queue.length != 0 && preSumArr[queue[queue.length - 1]] >= curSum) {
-      queue.pop()
+    let res = n + 1
+    const queue = []
+    for (let i = 0; i <= n; i++) {
+        const curSum = preSumArr[i]
+        while (queue.length != 0 && curSum - preSumArr[queue[0]] >= k) {
+            res = Math.min(res, i - queue.shift())
+        }
+        while (queue.length != 0 && preSumArr[queue[queue.length - 1]] >= curSum) {
+            queue.pop()
+        }
+        queue.push(i)
     }
-    queue.push(i)
-  }
-  return res < n + 1 ? res : -1
+    return res < n + 1 ? res : -1
 }
 ```
+
 {/* 这个答案是copy的😭, 后序细看 */}
 
 ### lc.918 环形子数组的最大和（单调队列）
@@ -95,24 +95,24 @@ var shortestSubarray = function (nums, k) {
  * @return {number}
  */
 var maxSubarraySumCircular = function (nums) {
-  // 这道题是比较综合的一道题，用到了前缀和，循环数组技巧，滑动窗口和单调队列技巧
-  let max = -Infinity
-  const monoQueue = [[0, nums[0]]] // 单调队列存储 【index,preSum】的数据结构
-  const n = nums.length
-  let preSum = nums[0]
-  for (let i = 1; i < 2 * n; ++i) {
-    preSum += nums[i % n]
-    max = Math.max(max, preSum - monoQueue[0][1]) // 子数组和越大，减去的就应该越小
-    while (monoQueue.length && preSum <= monoQueue[monoQueue.length - 1][1]) {
-      monoQueue.pop()
+    // 这道题是比较综合的一道题，用到了前缀和，循环数组技巧，滑动窗口和单调队列技巧
+    let max = -Infinity
+    const monoQueue = [[0, nums[0]]] // 单调队列存储 【index,preSum】的数据结构
+    const n = nums.length
+    let preSum = nums[0]
+    for (let i = 1; i < 2 * n; ++i) {
+        preSum += nums[i % n]
+        max = Math.max(max, preSum - monoQueue[0][1]) // 子数组和越大，减去的就应该越小
+        while (monoQueue.length && preSum <= monoQueue[monoQueue.length - 1][1]) {
+            monoQueue.pop()
+        }
+        monoQueue.push([i, preSum])
+        // 根据索引控制 窗口大小
+        while (monoQueue.length && i - monoQueue[0][0] + 1 > n) {
+            monoQueue.shift()
+        }
     }
-    monoQueue.push([i, preSum])
-    // 根据索引控制 窗口大小
-    while (monoQueue.length && i - monoQueue[0][0] + 1 > n) {
-      monoQueue.shift()
-    }
-  }
-  return max
+    return max
 }
 ```
 

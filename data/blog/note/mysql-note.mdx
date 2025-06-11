@@ -6,7 +6,6 @@ tags: ['note', 'mysql']
 draft: false
 summary: '以前学 Java 的时候对 sql 略有了解, 前端也有一些框架如next.js、nest.js、koa.js等都可以与数据库打交道, 鉴于现在前端有全栈的趋势, 一个合格的前端不能再只局限于写写页面了, 所以再次温习一下吧.'
 images: []
-layout: PostLayout
 ---
 
 ## 安装
@@ -66,7 +65,7 @@ status # 查看mysql的整体信息
 ```
 
 - 字符集默认为 `utf8mb4`
-- 校对规则选择 `utf8mb4_general_ci`, 不区分大小写, 相对的 `utf8mb4_bin` 区分大小写 
+- 校对规则选择 `utf8mb4_general_ci`, 不区分大小写, 相对的 `utf8mb4_bin` 区分大小写
 
 ```sql:数据库备份
 # 备份所有数据库
@@ -74,7 +73,7 @@ mysqldump -u <username> -p -all-databases > <path/xx.sql>
 # 备份多个数据库
 mysqldump -u <username> -p --databases <dbname1> <dbname2> > <path/xx.sql> # -B 也可
 # 备份指定数据库和表
-mysqldump -u <username> -p <dbname> <tablename> ... > <path/xx.sql>  
+mysqldump -u <username> -p <dbname> <tablename> ... > <path/xx.sql>
 
 # 还原
 mysql -u <username> -p [dbname] < xx.sql
@@ -96,7 +95,7 @@ ALTER TABLE <tb_name> ADD (col_name col_type [DEFAULT expr], ...) [AFTER col_nam
 ALTER TABLE <tb_name> DROP (col_name, ...)
 ALTER TABLE <tb_name> MODIFY (col_name col_type [DEFAULT expr], ...)
 ALTER TABLE <tb_name> CHANGE [column] col_name new_col_name new_col_type
-DESC <tb_name> 
+DESC <tb_name>
 # 修改列属性可以用 modify, 但是修改列名只能用 change.
 ```
 
@@ -114,6 +113,7 @@ INSERT INTO <tb_name> SELECT * FROM <tb_name>;
 ```
 
 注意点:
+
 - `insert into` 一整条数据时, 列名可以省略; 无论什么时候, 值和列名一一对应
 - `update` 语句没有指定 `WHERE` 子句，则更新对应列的所有行
 - `delete` 语句没有指定 `WHERE` 子句，则清空整张表
@@ -130,17 +130,20 @@ insert into tb_name values(null, col2, ....);
 # 修改开始值 (默认从1开始)
 alter table tb_name auto_increment = num;
 ```
+
 ---
+
 ```sql:TABLE数据查询
 # 基础
 SELECT [DISTINCT] * | col_name,col_name... FROM <tb_name> [alias_tb_name]  [WHERE condition] [ORDER BY column1 [ASC | DESC]];
 # 分页
 SELECT * FROM <tb_name> LIMIT start,rows; # 从 start+1 行开始, 取 rows 行;  如果看成索引0开始, 表示区间[start, rows)
 ```
+
 - `DISTINCT` 用于对查询结果去重
 - 查询的列也可以为表达式并且可以赋予别名，比如 `select (col1 + col2 + col3) as <alias_name> from <tb_name>`, 别名可用于 `WHERE` 语句分类
 - `WHERE` 语句基础参考 [菜鸟教程](https://www.runoob.com/mysql/mysql-where-clause.html); 模糊查询参考 [like, regexp, in](https://www.cnblogs.com/javahr/p/9780650.html); 聚合查询参考 [GROUP BY 和 HAVING](https://www.cnblogs.com/duanxz/p/5088110.html)
-- 几个关键字顺序 `group by, having, order by, limit` 
+- 几个关键字顺序 `group by, having, order by, limit`
 
 ### **多表查询**
 
@@ -154,6 +157,7 @@ _多表查询是一个非常频繁使用的查询场景, 需熟练掌握._
 # 使用 where 过滤笛卡尔集
 select * from tb_a, tb_b where tb_a.field_1 = tb_b.field_1;
 ```
+
 > 过滤笛卡尔集的 where 筛选条件，`不能少于表的数量-1`，否则还是会出现笛卡尔集.
 
 #### 外连接
@@ -169,6 +173,7 @@ select * from emp left join dept on emp.deptno = dept.deptno;
 ```
 
 #### 合并查询
+
 把两个 select 查询语句通过 `union` 或 `union all` 连接起来. 需要注意的是: **合并查询的列的数量要一致**.
 
 - `union`: 简单的把查询出来的结果合并, 并去重
@@ -195,12 +200,12 @@ from emp worker, emp boss where worker.mgr = boss.id;
 ### mysql 约束
 
 约束, 用于确保数据库的数据满足特定的商业规则. mysql 中有 5 种约束：
+
 - not null
 - unique
 - primary key
 - foreign key
 - check
-
 
 ### 常用查询函数
 
@@ -220,7 +225,7 @@ IFNULL(expr1, expr2)      # expr1 === null ? expr2 : expr1
 SELECT CASE
           WHEN expr1 then expr2
           WHEN expr3 then expr4
-          ELSE expr5 
+          ELSE expr5
         END
 ```
 
@@ -280,7 +285,7 @@ create index index_name on tb_name (tb_col_name);
 - 唯一索引，unique 修饰的列
 - 普通索引，index
 - 全文索引，FULLTEXT，一般不用 mysql 自带的全文索引
-  - 开发中考虑使用全文搜索 solr，或者 ElasticSearch（即 es）
+    - 开发中考虑使用全文搜索 solr，或者 ElasticSearch（即 es）
 
 ### 使用
 
@@ -363,44 +368,44 @@ set session transaction isolation level [read committed |read uncommitted | repe
 
 1. 事务支持：
 
-   - MyISAM：不支持事务，无法实现回滚和提交操作。
-   - InnoDB：支持事务，可以实现回滚和提交操作，确保数据的一致性和完整性。
-   - Memory：不支持事务，数据存储在内存中，不会持久化到磁盘上。
+    - MyISAM：不支持事务，无法实现回滚和提交操作。
+    - InnoDB：支持事务，可以实现回滚和提交操作，确保数据的一致性和完整性。
+    - Memory：不支持事务，数据存储在内存中，不会持久化到磁盘上。
 
 2. 锁机制：
 
-   - MyISAM：采用表级锁，当进行写操作时会锁定整个表，可能导致并发性能下降。
-   - InnoDB：采用行级锁，可以实现更好的并发性能，允许多个事务同时对同一表进行读写操作。
-   - Memory：采用表级锁，类似于 MyISAM，但由于数据存储在内存中，锁的影响相对较小。
+    - MyISAM：采用表级锁，当进行写操作时会锁定整个表，可能导致并发性能下降。
+    - InnoDB：采用行级锁，可以实现更好的并发性能，允许多个事务同时对同一表进行读写操作。
+    - Memory：采用表级锁，类似于 MyISAM，但由于数据存储在内存中，锁的影响相对较小。
 
 3. 外键支持：
 
-   - MyISAM：不支持外键约束，无法实现关系型数据库的完整性。
-   - InnoDB：支持外键约束，可以定义和管理表之间的关系，确保数据的完整性。
-   - Memory：不支持外键约束，适合用于临时数据存储和快速访问，但不适合长期持久化的数据存储。
+    - MyISAM：不支持外键约束，无法实现关系型数据库的完整性。
+    - InnoDB：支持外键约束，可以定义和管理表之间的关系，确保数据的完整性。
+    - Memory：不支持外键约束，适合用于临时数据存储和快速访问，但不适合长期持久化的数据存储。
 
 4. ACID 属性：
 
-   - MyISAM：不满足 ACID（原子性、一致性、隔离性、持久性）属性，无法保证事务的完整性和持久性。
-   - InnoDB：满足 ACID 属性，可以确保事务的原子性、一致性、隔离性和持久性。
-   - Memory：不满足 ACID 属性，适合用于临时数据存储和快速访问，但不适合长期持久化的数据存储。
+    - MyISAM：不满足 ACID（原子性、一致性、隔离性、持久性）属性，无法保证事务的完整性和持久性。
+    - InnoDB：满足 ACID 属性，可以确保事务的原子性、一致性、隔离性和持久性。
+    - Memory：不满足 ACID 属性，适合用于临时数据存储和快速访问，但不适合长期持久化的数据存储。
 
 5. 性能特点：
 
-   - MyISAM：适合于读密集型操作，对于大量的查询操作性能较好。
-   - InnoDB：适合于写密集型操作和事务处理，对于数据的插入、更新和删除操作性能较好。
-   - Memory：适合于对数据的快速访问和临时存储，但不适合长期持久化的数据存储。
+    - MyISAM：适合于读密集型操作，对于大量的查询操作性能较好。
+    - InnoDB：适合于写密集型操作和事务处理，对于数据的插入、更新和删除操作性能较好。
+    - Memory：适合于对数据的快速访问和临时存储，但不适合长期持久化的数据存储。
 
 6. 可靠性：
 
-   - MyISAM：在发生故障时，可能会导致数据损坏，不够可靠。
-   - InnoDB：具有良好的容错性和恢复能力，对数据的完整性和可靠性有较好的保障。
-   - Memory：数据存储在内存中，不具备持久化能力，不够可靠。
+    - MyISAM：在发生故障时，可能会导致数据损坏，不够可靠。
+    - InnoDB：具有良好的容错性和恢复能力，对数据的完整性和可靠性有较好的保障。
+    - Memory：数据存储在内存中，不具备持久化能力，不够可靠。
 
 7. 缓存和索引：
 
-   - MyISAM：采用缓存和索引机制，适合于大量的查询操作。
-   - InnoDB：采用缓存和索引机制，支持更复杂的查询和事务处理。
-   - Memory：数据存储在内存中，具有非常快速的访问速度，适合于临时数据存储和快速访问。
+    - MyISAM：采用缓存和索引机制，适合于大量的查询操作。
+    - InnoDB：采用缓存和索引机制，支持更复杂的查询和事务处理。
+    - Memory：数据存储在内存中，具有非常快速的访问速度，适合于临时数据存储和快速访问。
 
 综上所述，选择合适的存储引擎取决于应用程序的特定需求。如果需要事务支持、数据完整性和可靠性，则 InnoDB 是一个不错的选择。如果对性能要求较高，可以考虑 MyISAM。而 Memory 存储引擎适合于临时数据存储和快速访问的场景，比如用户的在线状态。

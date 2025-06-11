@@ -6,7 +6,6 @@ tags: ['algorithm']
 draft: false
 summary: '学习了一段时间数据结构和算法后总结的一点小知识, 希望能帮到你.'
 images: []
-layout: PostLayout
 ---
 
 本文不是实际意义上的算法基础, 而是我个人学习了一段时间算法后总结出来的一些我认为对于**初学者**来说还算是比较重要的小点.
@@ -57,34 +56,34 @@ for (let i = 2; i < 28; ++i) {}
 ```js
 let count = 0
 let top = 0,
-  left = 0,
-  bottom = m - 1,
-  right = n - 1
+    left = 0,
+    bottom = m - 1,
+    right = n - 1
 while (count < 25) {
-  // 遍历顶部的行 区间 [left, right]
-  for (let i = left; i <= right; ++i) {
-    console.log(Arr[top][i])
-    count++
-  }
-  top++
-  // 遍历右边的列 [top, bottom]
-  for (let i = top; i <= bottom; ++i) {
-    console.log(Arr[i][right])
-    count++
-  }
-  right--
-  // 倒序遍历底部的行 [left, right]
-  for (let i = right; i >= left; --i) {
-    console.log(Arr[bottom][i])
-    count++
-  }
-  bottom--
-  // 倒序遍历左侧的列 [top, bottom]
-  for (let i = bottom; i >= top; --i) {
-    console.log(Arr[i][left])
-    count++
-  }
-  left++
+    // 遍历顶部的行 区间 [left, right]
+    for (let i = left; i <= right; ++i) {
+        console.log(Arr[top][i])
+        count++
+    }
+    top++
+    // 遍历右边的列 [top, bottom]
+    for (let i = top; i <= bottom; ++i) {
+        console.log(Arr[i][right])
+        count++
+    }
+    right--
+    // 倒序遍历底部的行 [left, right]
+    for (let i = right; i >= left; --i) {
+        console.log(Arr[bottom][i])
+        count++
+    }
+    bottom--
+    // 倒序遍历左侧的列 [top, bottom]
+    for (let i = bottom; i >= top; --i) {
+        console.log(Arr[i][left])
+        count++
+    }
+    left++
 }
 ```
 
@@ -174,11 +173,11 @@ funcion go(head) {
  * @return {ListNode}
  */
 var reverseList = function (head) {
-  if (head === null || head.next == null) return head
-  const newHead = reverseList(head.next)
-  head.next.next = head
-  head = null
-  return newHead
+    if (head === null || head.next == null) return head
+    const newHead = reverseList(head.next)
+    head.next.next = head
+    head = null
+    return newHead
 }
 ```
 
@@ -189,9 +188,9 @@ var reverseList = function (head) {
 
 ```js
 const find = () => {
-  for (let i = 0; i < list; ++i) {
-    if (find(list[i].children)) return true
-  }
+    for (let i = 0; i < list; ++i) {
+        if (find(list[i].children)) return true
+    }
 }
 ```
 

@@ -6,12 +6,11 @@ tags: ['react']
 draft: false
 summary: "也是一个 React 使用了 4 年的选手了，想当出自己咬牙啃 React 源码一知半解，后来看了很多大佬的文章颇有收获，忙里偷闲，温故而知新一下下，let's go🧨"
 images: []
-layout: PostLayout
 ---
 
 ## Overview
 
-<TOCInline toc={props.toc} exclude="Overview" toHeading={3} />
+{/* <TOCInline /> */}
 
 ---
 
@@ -24,6 +23,7 @@ layout: PostLayout
 ## 宏观基础概念
 
 四个关键包：
+
 - `react`，对外暴露 API，只提供定义 react 组件的必要函数，如 `ReactElement`
 - `react-dom`，渲染器，承担`启动 react 渲染流程`和`把 reconciler 构造出来的 fiber 树表现出来的`作用（生成 dom 节点(浏览器中), 生成字符串(ssr)）
 - `react-reconciler`，综合协调另外三个包
@@ -34,13 +34,16 @@ layout: PostLayout
 ## 核心抽象理念
 
 - `双缓存`，在 React 中最多同时存在两个 Fiber 🌲
-  - 当前屏幕显示内容对应的 Fiber 树，`current Fiber 树`
-  - 发生更新，正在内存中构建的 Fiber 树，`workInProgress Fiber 树`  
 
-  根 `fiberRootNode` 的 `current` 指针在不同 Fiber 树的 `rootFiber` 之间切换 --- 当 workInProgress Fiber 树构建完成交给渲染器渲染到页面后，current 指针就切换到 workInProgress Fiber 树，它也转变为 current Fiber 树了（长大后我就成了你）~
+    - 当前屏幕显示内容对应的 Fiber 树，`current Fiber 树`
+    - 发生更新，正在内存中构建的 Fiber 树，`workInProgress Fiber 树`
+
+    根 `fiberRootNode` 的 `current` 指针在不同 Fiber 树的 `rootFiber` 之间切换 --- 当 workInProgress Fiber 树构建完成交给渲染器渲染到页面后，current 指针就切换到 workInProgress Fiber 树，它也转变为 current Fiber 树了（长大后我就成了你）~
+
 - `双循环`，
-  - 调度循环
-  - 构建循环
+    - 调度循环
+    - 构建循环
+
 ---
 
 ## 启动过程
@@ -53,7 +56,6 @@ layout: PostLayout
     - `FiberRoot` 主要存储了构建 `Fiber` 过程中的全局状态
     - `HostRootFiber` 是第一个 `Fiber` 节点，`markContainerAsRoot` 将它和 `container` 关联起来了
 - `render`，是 `ReactDOMRoot` 对象原型上的方法，内部调用了 `updateContainer->scheduleUpdateOnFiber` 进入协调流程
-
 
 目前，我们清楚的知道 `react-dom` 包作为**渲染器**初始启动的大体流程。
 
@@ -98,6 +100,7 @@ export function scheduleUpdateOnFiber(
   }
 }
 ```
+
 ```js:ensureRootIsScheduled
 function ensureRootIsScheduled(root: FiberRoot, currentTime: number) {
   // FiberRoot.callbackNode 的是由 Scheduler.scheduleCallback 返回的 Node，代表着下一次将要执行的渲染任务
@@ -113,7 +116,7 @@ function ensureRootIsScheduled(root: FiberRoot, currentTime: number) {
   );
 
   // ...
-  
+
   // 取出 nextLanes 中的最高优先级（lanes & -lanes）
   const newCallbackPriority = getHighestPriorityLane(nextLanes);
 
@@ -204,13 +207,14 @@ function performSyncWorkOnRoot(root) {
   return null;
 }
 ```
+
 ```js:performConcurrentWorkOnRoot
 function performConcurrentWorkOnRoot(root, didTimeout) {
   // ...部分代码省略
   // 当前在 React 事件中可以清除当前事件时间，下一次更新将计算新的事件时间
   currentEventTime = NoTimestamp;
   currentEventTransitionLane = NoLanes;
-  
+
   const originalCallbackNode = root.callbackNode;
   // 处理 passive effect（即触发 useEffect 的创建、销毁函数及其他同步任务）
   const didFlushPassiveEffects = flushPassiveEffects();
@@ -246,7 +250,7 @@ function performConcurrentWorkOnRoot(root, didTimeout) {
   // 检查退出状态
   if (exitStatus !== RootInProgress) {
     // ...根据 exitStatus 做一些异常处理代码省略
-    
+
     // 渲染未完成 挂起
     if (exitStatus === RootDidNotComplete) {
       markRootSuspended(root, lanes);
@@ -337,6 +341,7 @@ function renderRootSync(root: FiberRoot, lanes: Lanes) {
   return workInProgressRootExitStatus
 }
 ```
+
 ```js:renderRootConcurrent
 function renderRootConcurrent(root: FiberRoot, lanes: Lanes) {
   const prevExecutionContext = executionContext
@@ -412,6 +417,7 @@ function workLoopConcurrent() {
   }
 }
 ```
+
 `shouldYield`：`Scheduler.shouldYieldToHost`，该函数会判断当前是否有剩余时间，如果没有剩余时间，就会返回 `true` 表示需要中断当前任务。
 
 ```js:performUnitOfWork
@@ -491,7 +497,7 @@ function unstable_scheduleCallback(priorityLevel, callback, options) {
   }
 
   var expirationTime = startTime + timeout;
-  
+
   // 创建新任务
   var newTask = {
     id: taskIdCounter++,
@@ -522,13 +528,14 @@ function unstable_scheduleCallback(priorityLevel, callback, options) {
   return newTask;
 }
 ```
+
 ```js:requestHostCallback
 function requestHostCallback(callback) {
   scheduledHostCallback = callback;
   if (!isMessageLoopRunning) {
     isMessageLoopRunning = true;
     // 根据环境和兼容性分别使用 setImmediate/MessageChannel/setTimeout 发送消息
-    schedulePerformWorkUntilDeadline(); 
+    schedulePerformWorkUntilDeadline();
   }
 }
 ```
@@ -566,6 +573,7 @@ const performWorkUntilDeadline = () => {
   needsPaint = false;
 };
 ```
+
 ```js:flushWork
 // 省略部分代码
 function flushWork(hasTimeRemaining, initialTime) {
@@ -641,6 +649,7 @@ function workLoop(hasTimeRemaining, initialTime) {
 代码不多，但 `时间切片` 和 `fiber树的可中断渲染` 的精髓，都集中在这个循环内。
 
 `时间切片`，每一次 `while` 循环的退出就是一个时间切片，退出条件有两种情况：
+
 - `taskQueue` 全部执行完退出
 - 任务超时，每轮 `while` 循环开始都会检测任务执行时间是否会超时，如果超时就立即退出，等待下一次调度
 
@@ -660,4 +669,3 @@ function workLoop(hasTimeRemaining, initialTime) {
 - [dan abramov 的博客](https://overreacted.io/)
 - [React 技术揭秘](https://react.iamkasong.com/)
 - [图解 React](https://7km.top/)
-

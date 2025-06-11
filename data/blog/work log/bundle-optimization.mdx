@@ -6,7 +6,6 @@ tags: ['vite', 'vue']
 draft: false
 summary: '记录一下，从十几分钟优化到 1 分钟多的 vite 打包优化。'
 images: []
-layout: PostLayout
 ---
 
 ## 背景
@@ -15,12 +14,11 @@ layout: PostLayout
 
 一切都挺顺利，就是有一点，在提测后经常能听到测试的埋怨：“xxx 前端发布的好慢啊”，一开始我也没在意，后来我上发布平台上看了下历史记录，居然每次发布都要十几分钟，这肯定是不行的。因此我开始着手优化打包速度。
 
-
 ## 分析
 
 在发布平台上可以看到每次发布的时间，因此我首先想到的是分析打包时间，看看是哪一步耗时比较长。
 
-首先我先在本地对项目进行生产环境打包，速度确实很慢，打包时间在 3 分钟左右，因此我决定先从打包时间入手。 
+首先我先在本地对项目进行生产环境打包，速度确实很慢，打包时间在 3 分钟左右，因此我决定先从打包时间入手。
 
 1. 一眼可见项目里有个 `.npmrc` 文件，居然锁了 node 版本到 nodev14，这能不慢吗？在确定了node 升级没有问题的情况下，果断升级到 node 18！
 2. `Vite` 是 v3 版本，相对于最新的 v5 版本，性能同样差了些，果断升级！
@@ -32,18 +30,16 @@ layout: PostLayout
 我一看项目的 build 流程里还是使用的 npm 进行依赖包的管理，果断换 `pnpm` 啊，啥都 2024 年了，还不用 pnpm 或 bun 这类高性能的包管理工具？
 联系了公司运维，把部署脚本的 `npm` 换成了 `pnpm`，这下舒畅了！行云流水，发布时间缩短到了不到 2 分钟！
 
-
 ## 成果
 
-<div className="flex justify-center gap-4"> 
-        <img src='/static/images/optimize/before.png' />
-        <img src='/static/images/optimize/after.png' />
+<div className="flex justify-center gap-4">
+    <img src="/static/images/optimize/before.png" />
+    <img src="/static/images/optimize/after.png" />
 </div>
 <div className="flex justify-center gap-52">
     <span>优化前</span>
     <span>优化后</span>
 </div>
-
 
 ---
 
