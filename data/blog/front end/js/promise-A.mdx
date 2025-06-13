@@ -1,25 +1,20 @@
 ---
 title: '基于 Promise A+ 实现一个 Promise'
-date: '2022-08-08'
-# lastmod: '1900-01-01'
+summary: '前端不能没有 Promise，就像西方不能没有耶路撒冷！Promise 是每一个前端er都必须精通的API，一起来看看PromiseA+的实现吧'
+date: '2022-09-29'
 tags: ['javascript']
-draft: false
-summary: ''
 images: []
 ---
 
-[promise A+ github](https://github.com/promises-aplus/promises-spec) 送上！
+如果你有 CET4 的水平，请一定先看完这个👉 [Promise A+ github](https://github.com/promises-aplus/promises-spec) ，而不是其他杂文（包括这篇 👀）
 
-如果你有 CET4 的水平，或者 google 翻译，请一定先看完这个，而不是其他杂文（包括这篇 0.0）
-
-> 注意：promise A+ 主要专注于可交互的 then 方法
+> 特别提醒：Promise A+ 主要专注于可交互的 then 方法
 
 ## 解读规范
 
 ### promise state
 
-三种状态：` pending`、`fulfilled`、`rejected`。  
-`pending ` 最终转为 `fulfilled`或 `rejected` 且是不可逆的。
+三种状态：` pending`、`fulfilled`、`rejected`。`pending ` 最终转为 `fulfilled`或 `rejected` 且是不可逆的。
 
 ### then
 
@@ -313,7 +308,7 @@ module.exports = _Promise
 
 最后 `npm run test` 测试一下吧.
 
-## 参考
+## 推荐阅读
 
 - [遵循 Promises/A+规范，深入分析 Promise 源码实现(基础篇)](https://developer.aliyun.com/article/904989)
 - [几个常见的 promise 笔试题](https://mp.weixin.qq.com/s/3TDT61hk8JYdDgvQFzSmNA)

@@ -314,9 +314,30 @@ _图床工具，目前用这个上传图片还算方便，但是我给1Capture�
 
 ---
 
-## 前端工具
+## 开发环境
 
-如果你是一个前端开发工程师，👇的两个工具你一定需要！
+下面是常用的部分开发相关工具
+
+### goenv https://github.com/go-nv/goenv
+
+_`gopher` 必备，便于 go 的版本管理_
+
+```sh
+brew install goenv
+```
+
+```sh:安装后执行
+echo 'export GOENV_ROOT="$HOME/.goenv"' >> ~/.zshrc
+echo 'export PATH="$GOENV_ROOT/bin:$PATH"' >> ~/.zshrc
+echo 'eval "$(goenv init -)"' >> ~/.zshrc
+```
+
+```sh:常用命令
+goenv versions         # 查看所有的版本
+goenv install -l       # 查看所有可安装的版本
+goenv global xxx       # 设置全局 go 版本
+goenv local  xxx       # 设置本地 go 版本
+```
 
 ### fnm https://github.com/Schniz/fnm
 
@@ -324,11 +345,13 @@ _放弃 nvm 吧，我用 fnm 让你爽啊！Rust 编写的 fnm 让你打开 term
 
 ```sh
 brew install fnm
-# 安装完成后会有提示, 把下方代码贴进对应shell配置文件 .zshrc
-eval "$(fnm env --use-on-cd)"
 ```
 
-```sh
+```sh:安装后执行
+echo 'eval "$(fnm env --use-on-cd)"' >> ~/.zshrc
+```
+
+```sh:常用命令
 fnm install version # 安装不同版本
 fnm default version # 设置默认版本
 fnm use version     # 设置当前工作空间使用的版本
@@ -337,7 +360,7 @@ fnm ls              # 查看本地已安装 node
 fnm ls-remote       # 查看远程可安装版本
 ```
 
-### nrm
+### nrm https://github.com/Pana/nrm
 
 _npm 镜像源切换工具_
 
