@@ -2,9 +2,208 @@
 title: 'Awesome-vscode'
 summary: '多年 vscode 使用经验，分享一些小技巧，让你敲代码敲的飞起🛫'
 date: '2025-06-12'
-tags: ['awesome tool']
+tags: ['awesome tool', 'vscode']
 images: [https://picsum.photos/id/54/600/400.webp]
-draft: true
 ---
 
-123
+_**提示：本文介绍的工具和技巧主要基于我的个人使用习惯，仅供参考。欢迎大家在评论区分享您的经验和建议！**_
+
+Fork `vscode` 的 `Cursor` 横空出世，让我着实爽了一下，但是现在免费的 cursor 只能使用 gpt4.1 了😭，
+我又换回了 vscode，发现 `copilot` 现在也已经很牛了，免费额度也还行，即使开会员，价格也仅是 cursor 的 1/2，很划算。
+
+`Visual Studio Code` 本身只是一个轻量级的编辑器，但得益于其强大的插件系统，我们可以轻松地将其打造成功能全面的开发利器！
+
+## 推荐插件
+
+### 通用型
+
+1. `advanced-new-file`，通过快捷键快速在当前工具空间创建文件 ✅
+2. `Better Components`，增强注释的展示效果，以!\*?TODO开头 ✅
+3. `Bookmarks`，书签 ✅ 读源码好用
+4. `Code Runner`，便捷执行代码 ✅
+5. `Github Copilot`，官方 AI 集成
+6. `GitLess`，gitlens的前身，更轻量一些 ✅
+7. `Image preview`，图片预览
+8. `Svg preview`，svg 预览
+9. `MDX`，MDX 支持
+10. `Todo Tree`，支持 [TODO] [FIXME] ✅
+11. `Toggle Quotes`，支持引号 " ' ` 之间切换✅
+12. `Monokai Pro`，个人用得最久的主题了，icon比较好看，文件夹与文件分明！
+    ```sh
+    # 网上搜到的 License, 富裕的兄弟还是要支持正版!
+    id@chinapyg.com
+    d055c-36b72-151ce-350f4-a8f69
+    ```
+
+关于颜值，我在👇的配置文件中有做部分配置，简化了界面，改变了侧边栏的位置。
+_实在有很高颜值的需求，可以上youtube搜，大佬们很多，可高度自定义每一个小区域！_
+
+### gopher
+
+1. `go`，官方插件 ✅
+2. `Go Test Explorer`，跑 go 单测的一把好手
+3. `Tooltitude for Go(Golang)`，go 开发的必备插件！✅
+4. `Database Client`，vscode一把梭🚀
+
+### 前端
+
+1. `DotENV`，.env 文件语法支持
+2. `ESLint`，es 语法检查
+3. `Stylelint`，css 语法检查
+4. `open in browser`，快捷打开网页
+5. `Tailwind CSS IntelliSense`，tailwindcss 语法支持和提示
+6. `Vue-Official`，vue 插件
+7. `Prettier-Code formatter`，代码美化插件
+
+## 推荐快捷键设置
+
+> 建议先看一下这篇文章中 F19 的配置 https://www.twotwoba.site/blog/awesome-mac
+
+```txt:纯个人便好，看看就好
+Ctrl + K  ===> show all commands
+Ctrl + U  ===> delete line
+F19 + N   ===> advance-new-file 插件的快捷键
+F19 + F   ===> format
+F19 + S   ===> save all
+F19 + -   ===> Go Back
+F19 + =   ===> Go Forward
+
+清空 workbench.action.focusSceondEditorGroup ~ focusEighthEditorGroup 的全部绑定
+改为：
+cmd + 1   ---> show expolor
+cmd + 2   ---> show changes
+cmd + 3   ---> show todos
+cmd + 4   ---> show bookmarks
+...
+```
+
+## 贴一下个人配置文件
+
+```json:按需修改
+{
+    /* ============== workbench ============== */
+    // 禁止启动欢迎页
+    "workbench.startupEditor": "none",
+    // 侧边栏tree错落感
+    "workbench.tree.indent": 20,
+    // 主题和图标，选择亮色减少办公室的反光🤦
+    "workbench.colorTheme": "Monokai Pro Light",
+    "workbench.iconTheme": "Monokai Pro Light Icons",
+    // 亮色主题下，黑色光标更明显
+    "workbench.colorCustomizations": {
+        "editorCursor.foreground": "#000000" // 亮色
+        // "editorCursor.foreground": "#01fd66"
+    },
+    // 侧边栏放到下方
+    "workbench.activityBar.location": "bottom",
+
+    /* ============== editor ============== */
+    // 光标闪烁形式
+    "editor.cursorBlinking": "expand",
+    // 全局默认格式化方式
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "prettier.tabWidth": 4, // 默认 4 缩进
+    // 字体，下方两个都是等宽字体
+    "editor.fontFamily": "inconsolata, MapleMono-NF-CN-ExtraLightItalic",
+    "editor.fontSize": 14, // inconsolata 设置 14 正正好
+    // "editor.fontLigatures": true, // 启用连字 MapleMono 太花哨了，不太适应
+    // terminal 字体
+    "terminal.integrated.fontFamily": "MapleMono-NF-CN-ExtraLightItalic",
+    // false，不然在vscode的terminal中会有一些奇怪的字符
+    "terminal.integrated.shellIntegration.enabled": false,
+    // 字符分割规则
+    "editor.wordSeparators": "`~!@$%^&*()=+{}\\|;:'\",.<>/?，。；：！（）[]",
+    // 渲染尾部的空白
+    "editor.renderWhitespace": "trailing",
+    // 联动编辑，比如标签
+    "editor.linkedEditing": true,
+    // 屏幕阅读优化 - 关闭，不然老是咚咚的响
+    "editor.accessibilitySupport": "off",
+    // 关闭 minimap
+    "editor.minimap.enabled": false,
+
+    "editor.autoClosingComments": "always", // 这个好像没啥用
+
+    // 建议插入模式
+    "editor.suggest.insertMode": "replace",
+    "editor.suggestSelection": "recentlyUsed",
+    "editor.quickSuggestions": {
+        "comments": "off",
+        "strings": "off",
+        "other": "on"
+    },
+    // 禁止拖拽选中的代码，防止误触
+    "editor.dragAndDrop": false,
+    // 代码片段，保留了光标
+    "emmet.showSuggestionsAsSnippets": true,
+
+    // 保存格式化配置，跟随项目走吧～，便于多人协作的时候统一(PS: 有些历史老项目真不敢格式化啊...)
+    // "editor.formatOnSave": true,
+    // "editor.codeActionsOnSave": {
+    //     "source.fixAll.eslint": "explicit",
+    //     "source.fixAll.stylelint": "explicit"
+    // },
+
+    /* ============== others ============== */
+    // 删除、粘贴就别提示了～快快快
+    "explorer.confirmDelete": false,
+    "explorer.confirmPasteNative": false,
+
+    // snippets 的格式化
+    "[snippets]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    // go 的格式化
+    "[go]": {
+        "editor.defaultFormatter": "golang.go"
+    },
+
+    // 文件自动保存
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 20000,
+    // 自动猜测字符集
+    "files.autoGuessEncoding": true,
+    // 不需要监控的工作区文件
+    "files.watcherExclude": {
+        "**/.git/**": true,
+        "**/node_modules/**": true,
+        "**/tmp/**": true,
+        "**/dist/**": true
+    },
+    // 不需要搜索的文件夹
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/dist": true,
+        "**/build": true,
+        "**/static": true
+    },
+    // 手动更新
+    "update.mode": "manual",
+
+    /* ============== 插件类配置 ============== */
+
+    // 忽略三方依赖包中的 TODO
+    "todo-tree.filtering.excludeGlobs": ["**/node_modules/**/**"],
+    // go 的辅助插件 move 提示关闭
+    "tooltitude.codeLens.move.decl": false,
+    // 只检查工作区的TODO，避免深入到依赖包中
+    "todo-tree.tree.scanMode": "workspace only",
+    /** tailwindCSS 在 clsx 中使用也有提示，这样可以提取到变量中 一般还需要结合 twMerge 来解决覆盖问题 */
+    "tailwindCSS.experimental.classRegex": [
+        ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+        ["\\/\\* tw \\*\\/\\s+`([^`]*)"]
+    ],
+    // vue 的配置
+    "vue.autoInsert.dotValue": true,
+    "vue.complete.casing.tags": "autoKebab",
+    "vue.format.template.initialIndent": false,
+    /* ============== 自动添加的 ============== */
+    "database-client.autoSync": true,
+    "database-client.telemetry.usesOnlineServices": false,
+    "typescript.updateImportsOnFileMove.enabled": "always"
+}
+```
+
+---
+
+vscode 之所以能成为开发者的主力编辑器，离不开其强大的插件生态和高度的可定制性。希望本文分享的插件、快捷键和配置技巧，能帮助你进一步提升开发效率，打造属于自己的高效工作流。如果你有更多好用的插件或经验，欢迎在评论区留言交流！
