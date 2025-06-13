@@ -1,12 +1,12 @@
 ---
 title: 'React 源码调试技巧'
-date: '2024-07-30 19:23:18'
-tags: ['react', 'vite']
 summary: '可能是最简单最优雅的基于 Vite 的 React 调试源码技巧了，保姆级教程不看看？👻'
+date: '2024-07-30 19:23:18'
+tags: ['react']
 images: []
 ---
 
-为什么写这篇文章，因为我不想用基于 `cra` 创建的项目而是基于 `vite` 创建的项目去调试 React 源码，网上没搜到这种组合的，自己开干，结果就踩坑了，这不得记录一下，万一帮到了其他人呢😄。
+_嘿，写这篇文章的原因很简单：我不想再用 `⁠cra` 调试 React 源码啦！想用 `⁠vite` 试试水，结果发现网上根本没教程，只能自己硬着头皮上。一路下来，坑踩了不少，不记录一下实在说不过去。说不定还能帮到其他小伙伴，岂不美哉？😄_
 
 ## 下载源码
 
@@ -141,6 +141,6 @@ pnpm link -g react react-dom
 说了这么多，我踩的坑呢🐶？坑在这篇文章 - [全网最优雅的 React 源码调试方式](https://juejin.cn/post/7126501202866470949)，如果是基于 Vite 的项目，直接把编译后的源文件放到项目里，是行不通的，会出现各种报错，
 我想是因为React编译出来 `cjs` 模块和 `vite` 的预构建产生了这些问题吧。但是这篇文章里关于 sourcemap 如何定位到 vscode 里的源码文件的原理点醒了我，于是才有了我写的这篇文章，还是得感谢各路大佬的分享，瑞思拜👮🏻！
 
-[^1]: `cloneb` 是配置的别名，其他 git 操作参考这篇文章 [Git manual book (自用)](https://www.twotwoba.site/blog/git-manual-book)
+[^1]: `cloneb` 是配置的别名，其他 git 操作参考这篇文章 [Awesome Git](https://www.twotwoba.site/blog/awesome-git)
 
 [^2]: 一个可以简单快速生成基于 `vite、react、ts、tailwindcss、zustand` 的脚手架：[@twotwoba/mk-app-cli](https://github.com/twotwoba/mk-app-cli)
