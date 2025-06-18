@@ -29,49 +29,57 @@ layout: PostBanner
 echo "alias g=git" >> ~/.zshrc
 ```
 
+```sh
+# config 的别名，便于配置和设置
+git config --global alias.c config
+git config --global alias.cg 'config --global'
+git config --global alias.clg 'config --list --global'
+git config --global alias.cll 'config --list --local'
+```
+
 ```sh:自定义别名，复制到terminal跑一下即可
 # 只 clone 某个分支/tag, 对于大型仓库很实用 g cloneb <brName/tagName> <url>
-git config alias.cloneb 'clone --single-branch --branch'
+g cg alias.cloneb 'clone --single-branch --branch'
 
 # 常规操作
-git config alias.st status
-git config alias.ad 'add -A'
-git config alias.cm 'commit -m'
-git config alias.ps push
-git config alias.pl pull
+g cg alias.st status
+g cg alias.ad 'add -A'
+g cg alias.cm 'commit -m'
+g cg alias.ps push
+g cg alias.pl pull
 
 # ✅高频使用
 # 当最新 commit 还未推到远程仓库前的三种常用操作:
 # 1. 修改本次 commit message
-git config alias.cam 'commit --amend -m'
+g cg alias.cam 'commit --amend -m'
 # 2. 在本次 commit 上追加变动，比如刚commit完，发现有个东西还没改
-git config alias.can 'commit --amend --no-edit'
+g cg alias.can 'commit --amend --no-edit'
 # 3. 本次 commit 有些许问题, 放弃提交并将修改回退到工作区
-git config alias.back 'reset --soft HEAD^'
+g cg alias.back 'reset --soft HEAD^'
 
 # ✅分支管理，也是高频使用的
 # 如果能意识到【分支名/Tag名】只是一个特殊的commit指针而已，那你的 git 水平应该不会太差
 # ⭐️ checkout 作用就是带着 HEAD 指针到处跑~（g ck - 快速切至上一个分支，同理 g merge -）
-git config alias.ck checkout                # 动起来～
-git config alias.cb 'checkout -b'           # 增
-git config alias.db 'branch -d'             # 删 本地
-git config alias.fdb 'branch -D'            # 删 本地(强制)
-git config alias.drb 'push origin --delete' # 删 远程
-git config alias.rb 'branch -m'             # 改
-git config alias.br branch                  # 查
+g cg alias.ck checkout                # 动起来～
+g cg alias.cb 'checkout -b'           # 增
+g cg alias.db 'branch -d'             # 删 本地
+g cg alias.fdb 'branch -D'            # 删 本地(强制)
+g cg alias.drb 'push origin --delete' # 删 远程
+g cg alias.rb 'branch -m'             # 改
+g cg alias.br branch                  # 查
 
 # ✅回退管理
 # 粗暴 工作区/暂存区全部重置
-git config alias.rs 'reset --soft'
+g cg alias.rs 'reset --soft'
 # 温柔 工作区/暂存区全部保留
-git config alias.rh 'reset --hard'
+g cg alias.rh 'reset --hard'
 # ⚠️ 注意，已经提交的commit，回退后需要 g ps -f 强制推送，团队成员要提前沟通好
 # 或者可以使用 revert 来产生一个镜像的新 commit 来达到回退的目的
-git config alias.rv 'revert'
+g cg alias.rv 'revert'
 
 # 临时存储，适合开发过程中去修紧急bug‼️
-git config alias.sh stash
-git config alias.shp 'stash pop'
+g cg alias.sh stash
+g cg alias.shp 'stash pop'
 
 # 标签管理
 # g tag <name>        # 增 一般都通过 npm version major|minor|patch 等命令自动生成标签
@@ -82,25 +90,19 @@ git config alias.shp 'stash pop'
 # 🔨高级用法
 # 1. 时光机: reflog & cherry-pick 结合使用
 # 🐮reflog 能查看HEAD指针所有行走的轨迹,包括因reset舍弃的commit，这样，cherry-pick 就可以让你有后悔药了~
-git config alias.cp cherry-pick       # g cp <commit/branch-name>
+g cg alias.cp cherry-pick       # g cp <commit/branch-name>
 # cp 区间 g cp  commitA..commitB  把区间 (A, B] 的 commit 都合进来，A 早于 B 的
 # cp 区间 g cp  commitA^..commitB 把区间 [A, B] 的 commit 都合进来
 # 如果是分支名则是把该分支最新commit合并(再次验证分支名本质也就是一个指针~)
 # 2. 手术刀: rebase -i，可以实现 pick,drop,squash✅ 等操作
-git config alias.ri 'rebase -i'
+g cg alias.ri 'rebase -i'
 
 # ✅log 美化
-git config alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+g cg alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 # 根据 commit 内容查找 commit
-git config alias.find "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --grep"
+g cg alias.find "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --grep"
 # 根据 commit 用户查找 commit
-git config alias.findby "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --author"
-
-# config 的别名，便于配置和设置
-git config alias.c config
-git config alias.cg 'config --global'
-git config alias.clg 'config --list --global'
-git config alias.cll 'config --list --local'
+g cg alias.findby "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --author"
 
 # 上述命令是平时高频使用的，还有很多命令没有记录，请自行查阅文档。
 ```

@@ -14,11 +14,9 @@ _**提示：本文介绍的工具和技巧主要基于我的个人使用习惯�
 - 触控板**必做**的设置是**三指拖移**，功能和鼠标左键按住一致。`设置-辅助功能-触控板选项-拖移样式-选择三指拖移`。这样就可以用三根手指拖动窗口、选中文本等，操作起来非常顺手。
 - 键盘**必做**的设置有5️⃣：
 
-    1. **Caps Lock 键改为 Ctrl 键**，这样可以更方便地使用快捷键。`系统偏好设置-键盘-键盘快捷键-修饰键`，将大写锁定键设置为 Ctrl 键，这是和 HHKB 的布局一致，使用 Ctrl 组合键时就不用把小拇指歪过去了，更符合人体工学。
-    2. **Vim下的方向组合件**，Vim 的方向控制是 `hjkl`，但我习惯了mac的快捷键 `Ctrl + p/n/b/f/a/e`（对应英文很好记），好在可以通过修改配置来解决。(`Ctrl + h|d` 是向前/后删除一位)
+    1. **Vim下的方向组合件**，Vim 的方向控制是 `hjkl`，但我习惯了mac的快捷键 `Ctrl + p/n/b/f/a/e`（对应英文很好记），好在可以通过修改配置来解决。(`Ctrl + h|d` 是向前/后删除一位)
 
-```sh
-# vim ~/.vimrc
+```sh:vim ~/.vimrc
 "设置插入模式快捷键"
 inoremap <C-f> <Right>
 inoremap <C-b> <Left>
@@ -37,111 +35,44 @@ set autoindent "回车缩进跟随上一行"
 set showmatch  "高亮显示匹配的括号([{和}])"
 ```
 
+    2. **Caps Lock 键改为 Ctrl 键**，这样可以更方便地使用快捷键。`系统偏好设置-键盘-键盘快捷键-修饰键`，将大写锁定键设置为 Ctrl 键，这是和 HHKB 的布局一致，使用 Ctrl 组合键时就不用把小拇指歪过去了，更符合人体工学。(也可以借助 Karabiner Elements 软件配置)
     3. **右 command 键改为 F19**，右 cmd 键平时用的不多，可以用来丰富快捷键操作，在 `Raycast` 等其他软件中，可以很好的配合使用。
     4. **左 shift 键改为右 option + space**，用来切换输入法（这是我使用sougo输入法的后遗症），**注意**需要同步修改 mac 切换输入法的快捷键 `系统偏好设置-键盘-键盘快捷键-输入法`，因为默认的 `Ctrl + Space` 是不少编辑器的触发提示快捷键，比如 VsCode。
     5. **交换单双引号的输入方式**，因为双引号使用的更加频繁，js 还好，尤其是 go 语言、json 之类的。
 
-```sh
-# 以上3个改键，都需要借助 Karabiner Elements 这个软件,
-# 下载地址：https://karabiner-elements.pqrs.org/
-# Karabiner Elements 有很多现成可用的规则仓库，可以直接导入，
-# 仓库地址：https://ke-complex-modifications.pqrs.org
-# 这里我把👆三个规则的配置记录了下来，直接copy即可
-{
-    "description": "F19, right_command key to command+control+option+shift.",
-    "manipulators": [
-        {
-            "from": {
-                "key_code": "right_command",
-                "modifiers": {
-                    "optional": ["any"]
-                }
-            },
-            "to": [
-                {
-                    "key_code": "left_shift",
-                    "modifiers": ["left_command", "left_control", "left_option"]
-                }
-            ],
-            "to_if_alone": [
-                {
-                    "key_code": "f19"
-                }
-            ],
-            "type": "basic"
-        }
-    ]
-}
-######################################################
-{
-    "description": "left Shift to RightOption+Space if alone",
-    "manipulators": [
-        {
-            "from": {
-                "key_code": "left_shift",
-                "modifiers": {
-                    "optional": ["any"]
-                }
-            },
-            "to": [
-                {
-                    "key_code": "left_shift",
-                    "lazy": true
-                }
-            ],
-            "to_if_alone": [
-                {
-                    "key_code": "spacebar",
-                    "modifiers": ["right_option"]
-                }
-            ],
-            "type": "basic"
-        }
-    ]
-}
-######################################################
-{
-    "description": "Exchange single and double quote",
-    "manipulators": [
-        {
-            "from": {
-                "key_code": "quote",
-                "modifiers": {
-                    "optional": ["caps_lock"]
-                }
-            },
-            "to": [
-                {
-                    "key_code": "quote",
-                    "modifiers": ["left_shift"]
-                }
-            ],
-            "type": "basic"
-        },
-        {
-            "from": {
-                "key_code": "quote",
-                "modifiers": {
-                    "mandatory": ["shift"],
-                    "optional": ["caps_lock"]
-                }
-            },
-            "to": [
-                {
-                    "key_code": "quote"
-                }
-            ],
-            "type": "basic"
-        }
-    ]
-}
-```
+        ```sh
+        # 以上4个改键，都可以借助 Karabiner Elements 这个软件,
+        # 下载地址：https://karabiner-elements.pqrs.org/
+
+        # Karabiner Elements 有很多现成可用的规则仓库，可以直接导入，
+        # 仓库地址：https://ke-complex-modifications.pqrs.org
+        ```
+        ⬆️规则的配置可直接点击下载后导入即可 👉 <a target='_blank' download href="/static/file/karabiner.json"> karabiner.json </a>
 
 ---
 
 ## 🧰 软件
 
 > 以下是我日常使用的 Mac 软件清单，旨在分享一些实用配置和建议。对于软件的具体功能，建议参考各软件官网，这里只重点介绍我认为重要的配置或推荐。
+
+### oh-my-zsh https://ohmyz.sh/
+
+```sh:vim ~/.zshrc
+# 主题
+ZSH_THEME="miloshadzic"
+# 让 terminal 标题干净
+DISABLE_AUTO_TITLE="true"
+# 必备插件，还有很多很多插件见官网，按需配置
+plugins=(
+  # 语法高亮
+  # ✅ https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md#oh-my-zsh
+  zsh-syntax-highlighting
+  # 输入命令的时候给出历史提示，存在则直接 ctrl + e, 就能补全命令(非常实用)
+  # ✅ https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md#oh-my-zsh
+  zsh-autosuggestions
+)
+# 编辑完成后记得 source ~/.zshrc，文章后续部分不再提示
+```
 
 ### Homebrew https://brew.sh/
 
@@ -160,27 +91,6 @@ git remote set-url origin https://mirrors.cloud.tencent.com/homebrew/homebrew-co
 ```sh
 # 根据提示一步步做即可
 /bin/zsh -c "$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)"
-```
-
-### oh-my-zsh https://ohmyz.sh/
-
-```sh
-# vim ~/.zshrc
-
-# 主题
-ZSH_THEME="miloshadzic"
-# 让 terminal 标题干净
-DISABLE_AUTO_TITLE="true"
-# 必备插件，还有很多很多插件见官网，按需配置
-plugins=(
-  # 语法高亮
-  # ✅ https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md#oh-my-zsh
-  zsh-syntax-highlighting
-  # 输入命令的时候给出历史提示，存在则直接 ctrl + e, 就能补全命令(非常实用)
-  # ✅ https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md#oh-my-zsh
-  zsh-autosuggestions
-)
-# 编辑完成后记得 source ~/.zshrc，文章后续部分不再提示
 ```
 
 ### 巨实用命令行小工具🔧 全部基于Rust，性能飞起
