@@ -41,9 +41,10 @@ _实在有很高颜值的需求，可以上youtube搜，大佬们很多，可高
 ### gopher
 
 1. `go`，官方插件 ✅
-2. `Go Test Explorer`，跑 go 单测的一把好手
-3. `Tooltitude for Go(Golang)`，go 开发的必备插件！✅
-4. `Database Client`，vscode一把梭🚀
+2. `Go struct tag`，struct tag的智能补充提示
+3. `Go Test Explorer`，跑 go 单测的一把好手
+4. `Tooltitude for Go(Golang)`，go 开发的必备插件！✅
+5. `Database Client`，vscode一把梭🚀
 
 ### 前端
 
@@ -62,11 +63,20 @@ _实在有很高颜值的需求，可以上youtube搜，大佬们很多，可高
 ```txt:纯个人便好，看看就好
 Ctrl + K  ===> show all commands
 Ctrl + U  ===> delete line
-F19 + N   ===> advance-new-file 插件的快捷键
+Ctrl + O  ===>.Go to Symbol in File (原 Cmd + shift + O)
+Ctrl + I  ===> Go to Symbol in workspace (原 Cmd + T, 这两种是为了方便我下一步 Ctrl + n/p 来进行选择，就不用松开 Ctrl 键了)
+Cmd  + N  ===> advance-new-file 插件的快捷键 (原Cmd+N解除绑定)
 F19 + F   ===> format
 F19 + S   ===> save all
+
+// 鉴于我的m1 mbp 使用F系列快捷键没那么方便，我都改成自己比较顺手的debug了
+// 这样我一只手就能管的过来，方便debug的时候集中注意力⚠️
 F19 + -   ===> Go Back
 F19 + =   ===> Go Forward
+F19 + 0   ===> Debug continue (代替F5)
+F19 + -   ===> Debug StepOver (代替F10)
+F19 + =   ===> Step in        (代替F11)
+F19 + 9   ===> Step Out       (代替F11+shift)
 
 清空 workbench.action.focusSceondEditorGroup ~ focusEighthEditorGroup 的全部绑定
 改为：
