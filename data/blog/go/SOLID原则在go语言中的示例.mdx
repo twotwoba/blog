@@ -1,0 +1,39 @@
+---
+title: 'SOLID原则在go语言中的体现'
+summary: '以前做纯前端的时候，对SOLID原则的感受其实是没有那么深刻的，go语言让我对其进行了彻底的感悟🍺'
+date: '2025-06-20'
+tags: ['go', 'design concept']
+draft: true
+---
+
+> _一个爱折腾的前端er转型go之路_
+
+---
+
+## SOLID
+
+- 单一职责原则 (SRP - Single Responsibility Principle)
+- 开放封闭原则 (OCP - Open/Closed Principle)
+- 里氏替换原则 (LSP - Liskov Substitution Principle)
+- 接口隔离原则 (ISP - Interface Segregation Principle)
+- 依赖倒置原则 (DIP - Dependency Inversion Principle)
+
+### SRP
+
+**核心：`一个类或模块只应该有一个引起它变化的原因`**
+
+顾名思义，专业的人干专业的事儿。之前写前端的时候类似思想就是一个函数/类就只干好那一件事儿；到了go语言这里呢，万变不离其宗，在后端常见架构中更是运用的淋漓尽致。
+
+凡是从前端转后端的开发人员，应该都有过这个疑惑吧 --- 为什么后端非要分那么多层(Controller,Service,Dao)？在一个方法里都做掉不行吗？其实就是为了严格遵循 `SRP`，职责分离，让代码更加健壮和可维护。
+
+```go
+// TODO 以一个 User 的例子来阐述
+```
+
+### OCP
+
+**核心：`对拓展开放，对修改封闭`**
+
+```go
+// TODO 以一个商品的例子阐述
+```
