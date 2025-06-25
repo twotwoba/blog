@@ -21,14 +21,16 @@ Fork `vscode` 的 `Cursor` 横空出世，让我着实爽了一下，但是现�
 2. `Better Components`，增强注释的展示效果，以!\*?TODO开头 ✅
 3. `Bookmarks`，书签 ✅ 读源码好用
 4. `Code Runner`，便捷执行代码 ✅
-5. `Github Copilot`，官方 AI 集成
-6. `GitLess`，gitlens的前身，更轻量一些 ✅
-7. `Image preview`，图片预览
-8. `Svg preview`，svg 预览
-9. `MDX`，MDX 支持
-10. `Todo Tree`，支持 [TODO] [FIXME] ✅
-11. `Toggle Quotes`，支持引号 " ' ` 之间切换✅
-12. `Monokai Pro`，个人用得最久的主题了，icon比较好看，文件夹与文件分明！
+5. `Github Copilot`，官方 AI 集成，免费额度自动补全有点不够用
+6. `Augment`，个人感觉，可以与 Cursor 媲美的的 AIcoding 插件✅
+7. `GitLess`，gitlens的前身，更轻量一些 ✅
+8. `Image preview`，图片预览
+9. `Svg preview`，svg 预览
+10. `MDX`，MDX 支持
+11. `Todo Tree`，支持 [TODO] [FIXME] ✅
+12. `Toggle Quotes`，支持引号 " ' ` 之间切换✅
+13. `React Theme`，现在在用的主题，主题界面比较喜欢
+14. `Monokai Pro`，个人用得最久的主题了，icon比较好看，文件夹与文件分明！拒绝花里胡哨～
     ```sh
     # 网上搜到的 License, 富裕的兄弟还是要支持正版!
     id@chinapyg.com
@@ -61,13 +63,21 @@ _实在有很高颜值的需求，可以上youtube搜，大佬们很多，可高
 > 建议先看一下这篇文章中 F19 的配置 https://www.twotwoba.site/blog/awesome-mac
 
 ```txt:纯个人便好，看看就好
+//  Ctrl的部分配置原则是：弹出提示框之后，直接用 Ctrl + n/p 来进行选择，就不用松开 Ctrl 键了
 Ctrl + K  ===> show all commands
 Ctrl + U  ===> delete line
-Ctrl + O  ===>.Go to Symbol in File (原 Cmd + shift + O)
-Ctrl + I  ===> Go to Symbol in workspace (原 Cmd + T, 这两种是为了方便我下一步 Ctrl + n/p 来进行选择，就不用松开 Ctrl 键了)
-Cmd  + N  ===> advance-new-file 插件的快捷键 (原Cmd+N解除绑定)
-F19 + F   ===> format
-F19 + S   ===> save all
+Ctrl + O  ===> Go to Symbol in File (原键位解除)
+Ctrl + J  ===> Go to Symbol in workspace （原键位解除）
+Ctrl + I  ===> 跨文件搜索，与cmd+shift+f 略有不同
+// (这个功能截止目前，不能在vscode里找到对应的配置，需要手动编辑keybing.json)
+{
+    "key": "ctrl+i", // whatever you want
+    "command": "workbench.action.quickOpen",
+    "args": "%"
+},
+Cmd  + N  ===> advance-new-file 插件的快捷键 (原键位解除)
+F19  + F  ===> format
+F19  + S  ===> save all
 
 // 鉴于我的m1 mbp 使用F系列快捷键没那么方便，我都改成自己比较顺手的debug了
 // 这样我一只手就能管的过来，方便debug的时候集中注意力⚠️
