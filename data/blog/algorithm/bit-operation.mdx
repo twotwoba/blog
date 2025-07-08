@@ -1,5 +1,5 @@
 ---
-title: '位运算'
+title: 'JS的位运算'
 date: '2022-09-28'
 tags: ['algorithm', 'bit']
 draft: false
@@ -73,23 +73,21 @@ function findOnlyOne(arr) {
 
 在一些源码中, 常常利用二进制来进行一些常量定义, 使用位运算去进行处理:
 
-```js
+```go
 const A = 1 << 0 // 0b00000001
 const B = 1 << 1 // 0b00000010
 const C = 1 << 2 // 0b00000100
 
 const ABC = A | B | C // 0b00000111 增加属性
-const AB = ABC & ~C // 0b00000011 删除属性
-;((AB & B) ===
-    B(
-        // true, 意味着 AB 包含 B
-        AB & C
-    )) ===
-    0 // true，意味着 AB 不包含 C
+const AB = ABC &^ C   // 0b00000011 删除属性  也叫清位运算，在js中没有运算符 `&^` 使用 A & ~B 替代
+
+
+_ := AB&B == B // true, 意味着 AB 包含 B
+_ := AB&C == 0 // true，意味着 AB 不包含 C
 ```
 
 ### 推荐阅读
 
 - [Bit Twiddling Hacks](https://graphics.stanford.edu/~seander/bithacks.html)
 
-[^1]: 向 0 取整, 就是整数向下取整, 负数向上取整, 从数轴上来看, 就是 0 的两边朝向 0 取整.
+[^1]: 向 0 取整, 就是整数向下取整, 负数向上取整, 从数轴上来看, 就是从 0 的两边朝向 0 取整.
