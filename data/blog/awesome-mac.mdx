@@ -112,7 +112,18 @@ export TLDR_CACHE_ENABLE=1
 alias how=tldr # 所有的命令别名都可以在 zshrc 中配置，文章后续涉及到别名不再赘述
 ```
 
-#### 2. bat https://github.com/sharkdp/bat
+#### 2. zoxide https://github.com/ajeetdsouza/zoxide
+
+_替代 `cd` 命令，智能跳转到常用目录，非常好用，可以记住常用的目录不管在哪，只要部分文字匹配上即可跳转_
+
+```sh
+# 1. 安装 zoxide
+brew install zoxide
+# 2. 配置 zshrc
+echo 'eval "$(zoxide init zsh)"' >> ~/.zshrc
+```
+
+#### 3. bat https://github.com/sharkdp/bat
 
 _替代 cat 命令，性能强且自带语法高亮_
 
@@ -120,12 +131,20 @@ _替代 cat 命令，性能强且自带语法高亮_
 brew install bat
 ```
 
-#### 3. fd https://github.com/sharkdp/fd
+#### 4. fd https://github.com/sharkdp/fd
 
 _替代 find 命令，性能强劲且可用正则匹配_
 
 ```sh
 brew install fd
+```
+
+#### 5. trippy https://github.com/fujiapple852/trippy
+
+_融合了`ping`和`traceroute`且带有可视化效果的网络工具_
+
+```sh
+brew install trippy
 ```
 
 ### Input source pro https://inputsource.pro/
