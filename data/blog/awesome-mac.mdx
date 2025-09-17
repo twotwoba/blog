@@ -147,7 +147,26 @@ _融合了`ping`和`traceroute`且带有可视化效果的网络工具_
 brew install trippy
 ```
 
+### Update: 鼠须管(雾凇拼音+小鹤双拼) & 删除自带ABC
+
+https://github.com/rime/squirrel
+
+前端时间在 v2ex 看到有人推荐鼠须管和双拼，试用了一下，发现还不错，尤其是雾凇拼音，词库还算丰富，且支持icloud同步，隐私性强。其他特性比如高度可自定义、支持多种皮肤等，感兴趣的可以自行研究。
+另外，在某个程序中切换了中英文输入模式后，鼠须管会将该程序的输入状态信息记录在配置文件中，下次再进入该程序时，就会根据之前记录的状态自动切换到相应的中文或英文输入模式，所以就不太需要input source pro 了。
+
+```sh
+# 删除自带的ABC输入法
+sudo open ~/Library/Preferences/com.apple.HIToolbox.plist
+# 点开 Root​​​/​​AppleEnabledInputSources，找到 KeyboardLayout 为 ABC 的那一项，将整个 item 删掉
+# 关键 ⚠️
+open ~/Library/Preferences
+# 右键 com.apple.HIToolbox.plist 选择显示简介
+# 勾选“锁定”，防止被系统自动还原
+```
+
 ### Input source pro https://inputsource.pro/
+
+PS: 如果你使用鼠须管，完全可以跳过这款软件
 
 _输入法自动切换神器！可根据场景自定义切换到各个应用的默认输入法语言_
 
@@ -160,6 +179,7 @@ brew install --cask input-source-pro
 # 关闭 macos 自带的切换输入法提示体验更佳！
 sudo defaults write /Library/Preferences/FeatureFlags/Domain/UIKit.plist redesigned_text_cursor -dict-add Enabled -bool NO
 ```
+
 
 ### 🐮 Raycast https://www.raycast.com/
 
