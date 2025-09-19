@@ -1,0 +1,64 @@
+---
+title: '开发了2款 Chrome 插件-awesome-find & sync-storage'
+summary: '业余之时，开发了2款 Chrome 插件-awesome-find & sync-storage，其中一个是从 v2ex 论坛中的帖子衍生而来，另一个则是为了解决工作中的痛点'
+date: '2025-09-19'
+tags: ['work log']
+---
+
+业余之时，开发了2款 Chrome 插件：awesome-find & sync-storage，其中前者是从 v2ex 论坛中的帖子衍生而来，后者则是为了解决工作中的痛点。
+
+先甩上地址吧：
+
+github:
+    - [awesome-find](https://github.com/twotwoba/awesome-find)
+    - [sync-storage](https://github.com/twotwoba/sync-storage)
+
+chrome web store:
+    - [awesome-find](https://chromewebstore.google.com/detail/nbohadbfcmoadmhjhkhfonjjbpmlaooi?utm_source=item-share-cb)
+    - [sync-storage](https://chromewebstore.google.com/detail/aoecjckdghagpdepipoojdcppilgnngg?utm_source=item-share-cb)
+
+本文最后也会介绍一下个人开发的 [vv-cli](https://github.com/twotwoba/vv-cli)， 快速的开发vue3/react19以及谷歌插件。
+
+---
+
+## awesome-find
+
+在地铁上看到了 v2ex 论坛中的一个帖子，[[chrome 扩展程序] 一个可以使用正则表达式的高亮查找工具，支持实时监测 DOM 变化](https://www.v2ex.com/t/1116646)。作为前端，我被它的高颜值所吸引。
+
+后来和作者在 GitHub 上联系， 给他的项目[findwhatever](https://github.com/ImSwordTooth/findwhatever)提了 pr 和一些建议及bug反馈。
+
+由于findwhatever的代码风格和一些存在的问题，再结合我个人的使用习惯，我决定开发一个简版的搜索文本插件，最终如下图。
+
+![awesome-find](/static/blog-img/awesome-find.png)
+
+对比 findwhatever，awesome-find 完全从头实现，阉割了部分功能，如：不支持实时监测 DOM 变化。以下是一些不同的地方。
+
+- 把一键复制功能挪到了正则匹配模式下，因为我觉得这才有意义。在正则模式下，过滤掉了一些范围过大的正则比如 `.*` 等，避免性能问题。
+- 把固定列表直接放到了插件表面，让常用的快速搜索更方便。
+- 历史记录的按钮触发动画更漂亮
+
+如果你使用了呢，希望能给我一些意见或者提 PR 呐~
+
+## sync-storage
+
+开发这个插件的原因是在工作中，需要把公司统一登录门户的一些认证信息同步到本地开发环境。在我刚刚进入这个公司的时，交接工作给我的同事叫我直接打开浏览器 devtools 手动拷贝关键 key 的值到本地开发环境。
+
+我寻思这也太 low 了吧! 于是我自作聪明的写了2个 js 代码片段，每次打开 devtools 后，一个负责快捷粘贴代码片段并执行，把关键信息拷贝到剪贴板， 一个负责把剪贴板的信息注入到目标开发环境。
+
+后来在开发 awesome-find 的时候，我就想不如也开发一个 chrome 插件来实现同步的这个功能，于是 sync-storage 就诞生了。
+
+![sync-storage](/static/blog-img/sync-storage.png)
+
+- source - 数据来源网站
+- target - 需要同步的目标网站
+- keys： 要同步的 key 列表，多个 key 换行即可
+
+当点击 `sync` 按钮后，插件会根据配置，把 source 网站的 `localStorage/cookie` key 对应的值同步到 target 网站的 localStorage/cookie 中。
+如果 source/target 标签页没有打开，点击 `sync` 时，也会自动打开的。
+
+
+## vv-cli
+
+https://github.com/twotwoba/vv-cli
+
+这是我长期维护的一个自用的 cli 开发工具， 支持快速创建 vue3/react19 以及 chrome 插件项目。
