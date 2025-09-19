@@ -28,7 +28,7 @@ const HomePage = () => {
 						/>
 						<div className="pt-4 text-2xl font-bold">EricYuan</div>
 						<div className="text-gray-500 dark:text-gray-400">{"Full Stack Developer"}</div>
-						<div className="text-gray-500 dark:text-gray-400">{"海管家"}</div>
+						{/* <div className="text-gray-500 dark:text-gray-400">{"公司"}</div> */}
 						<div className="flex scale-75 gap-4 pt-6">
 							<SocialIcon kind="mail" href="mailto:twotwoba@126.com" />
 							<SocialIcon kind="github" href="https://github.com/twotwoba" />
